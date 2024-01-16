@@ -10,7 +10,7 @@ copyright: "&copy; 2024 Nouman Noor"
 # Configuration
 theme:
   name: material
-  #custom_dir: material/overrides
+  custom_dir: material/overrides
   features:
     - content.code.annotate
     - content.code.copy
@@ -30,15 +30,15 @@ theme:
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: deep purple
+      accent: deep purple
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black
-      accent: indigo
+      accent: deep purple
       toggle:
         icon: material/weather-night
         name: Switch to system preference

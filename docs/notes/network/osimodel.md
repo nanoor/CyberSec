@@ -7,7 +7,7 @@ The Open Systems Interconnection Model (OSI model) is a fundamental model used i
 
 The OSI model consists of seven layers as illustrated below. The following sections will briefly discuss each layer in the OSI model and its function. TCP/IP model is shown as a comparison however, this model will not be discussed here.
 
-![OSI Model](../assets/images/network/osi_model/OSI.png)
+![OSI Model](../../assets/images/network/osi_model/OSI.png)
 
 ## Layer 7 - Application
 The application layer of the OSI model is the layer most people are familiar with. The application layer ensures that an application can effectively communicate with other applications and acts as a user interface responsible for displaying received information to the end-user. Data input and output typically takes place at this level.
