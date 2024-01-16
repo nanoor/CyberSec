@@ -93,4 +93,4 @@ nav:
   - Knowledge Base:
     - Network: 
       - DNS: notes/network/dns.md
-      #- OSI Model: notes/network/osimodel.md
+      - OSI Model: notes/network/osimodel.md
