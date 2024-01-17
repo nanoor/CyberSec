@@ -47,7 +47,7 @@ theme:
     code: Roboto Mono
   #favicon: assets/favicon.png
   icon:
-    logo: logo
+    logo: simple/gnubash
 
 # Plugins
 plugins:
