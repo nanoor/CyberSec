@@ -12,21 +12,99 @@
       position: initial;
     }
 
-    /* Remove spacing, as we cannot hide it completely */
-    .md-main__inner {
-      margin: 0;
+    /* Hide main for now */
+    .md-main {
+        display: none;
     }
-
+    
     /* Hide main content for now */
     .md-content {
       display: none;
     }
 
+    .md-main__inner {
+        display: flex;
+        height: 100%;
+    }
+
+    /* .md-grid {
+        max-width: 98%;
+    } */
+
+    .tx-container {
+        padding-top: 0rem;
+        background: linear-gradient(to bottom, var(--md-primary-fg-color),  hsla(291, 98%, 25%, 1));
+    }
+
+    .tx-hero {
+        margin: 32px 2.8rem;
+        color: var(--md-primary-bg-color);
+        justify-content: center;
+    }
+
+    .tx-hero h1 {
+        margin-bottom: 1rem;
+        color: currentColor;
+        font-weight: 700;
+    }
+
+    .tx-hero__content {
+        padding-bottom: 1rem;
+        margin: 0 auto;
+    }
+
+    .tx-hero__image{
+        width:50%;
+        height:50%;
+        order:1;
+        padding-right: 2.5rem;
+    }
+
+    .tx-hero .md-button {
+        margin-top: .5rem;
+        margin-right: .5rem;
+        color: var(--md-primary-bg-color);
+    }
+
+    .tx-hero .md-button--primary {
+        background-color: var(--md-primary-bg-color);
+        color: hsla(291, 98%, 25%, 1);
+        border-color: var(--md-primary-bg-color);
+    }
+
+    .tx-hero .md-button:focus,
+    .tx-hero .md-button:hover {
+        background-color: var(--md-accent-fg-color);
+        color: var(--md-default-bg-color);
+        border-color: var(--md-accent-fg-color);
+    }
+
+    @media screen and (max-width:30em) {
+        .tx-hero h1 {
+            font-size: 1.4rem;
+        }
+    }
+
     /* Hide table of contents */
-    @media screen and (min-width: 60em) {
+    @media screen and (min-width: 60em) {    
       .md-sidebar--secondary {
         display: none;
       }
+
+      .tx-hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tx-hero__content {
+            max-width: 22rem;
+            margin-top: 3.5rem;
+            margin-bottom: 3.5rem;
+            margin-left: 1.0rem;
+            margin-right: 4.0rem;
+            align-items: center;
+        }
     }
 
     /* Hide navigation */
@@ -35,47 +113,46 @@
         display: none;
       }
     }
+
   </style>
 
   <!-- Hero for landing page -->
-  <section class="mdx-container">
+  <section class="tx-container">
     <div class="md-grid md-typeset">
-      <div class="mdx-hero">
+      <div class="tx-hero">
 
         <!-- Hero image -->
-        <div class="mdx-hero__image">
+        <div class="tx-hero__image">
           <img
             src="assets/images/home.png"
-            alt=""
-            width="1659"
-            height="1200"
             draggable="false"
           >
         </div>
 
         <!-- Hero content -->
-        <div class="mdx-hero__content">
-          <h1>Technical documentation that just works</h1>
-          <p>{{ config.site_description }}. Set up in 5 minutes.</p>
+        <div class="tx-hero__content">
+          <h1>CyberSec</h1>
+          <p>{{ config.site_description }}</p>
           <a
             href="{{ page.next_page.url | url }}"
             title="{{ page.next_page.title | e }}"
             class="md-button md-button--primary"
           >
-            Quick start
+            Get Started
           </a>
-          <a
-            href="{{ 'insiders/' | url }}"
-            title="Material for MkDocs Insiders"
+          <!-- <a
+            href="{{ '/' | url }}"
+            title="Home"
             class="md-button"
           >
-            Get Insiders
-          </a>
+            Home
+          </a> -->
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Footer  Section -->
   <footer class="md-footer">
     <!-- Add bottom navigation panel -->
     <!-- <nav class="md-footer__inner md-grid" aria-label="Footer">
@@ -116,8 +193,7 @@
       </div>
     </div>
   </footer>
-
-  {% endblock %}
+{% endblock %}
 
 <!-- Content -->
 {% block content %}{% endblock %}
