@@ -1,6 +1,6 @@
 # Project information
-site_name: My Docs
-site_description: 'Collection of notes and writeups from my journey through cyber security concepts.'
+site_name: CyberSec
+site_description: 'A collection of notes and writeups from my journey through cyber security concepts.'
 site_url: https://nanoor.github.io/CyberSec/
 site_author: Nouman Noor
 
@@ -52,6 +52,7 @@ theme:
 # Plugins
 plugins:
   #- blog
+  - git-revision-date-localized
   - search:
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
 
