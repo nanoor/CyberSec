@@ -1,6 +1,6 @@
 ---
 template: home.html
-title: Material for MkDocs
+title: CyberSec
 ---
 
 Welcome to Material for MkDocs.

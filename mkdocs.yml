@@ -62,8 +62,8 @@ extra:
       link: https://github.com/nanoor
     - icon: fontawesome/brands/linkedin
       link: https://ca.linkedin.com/in/nouman-noor-60193727
-  status:
-    new: Recently added
+  # status:
+  #   new: Recently added
 
 # Extensions
 markdown_extensions:
