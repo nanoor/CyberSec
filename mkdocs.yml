@@ -94,7 +94,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Notes:
-    - Introduction: notes/index.md
     - Misc:
       - Shell Stabilisation: notes/misc/shellstabilisation.md
     - Network: 
