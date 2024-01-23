@@ -6,7 +6,7 @@ The following method can be used to stabilise a simple reverse shell received fr
 
 !!! warning
 
-    This method requires that the target machine have Python installed.
+    This method requires Python to be installed on the target machine.
 
 ## TL;DR
 1. Import `pty` and spawn bash shell.
@@ -17,7 +17,7 @@ The following method can be used to stabilise a simple reverse shell received fr
 
 2. Press ++ctrl+z++ to background the process and get back to your host machine.
 
-3. Use `stty` to set terminal line settings and foreground back to the target terminal.
+3. Use `stty` to set terminal line settings and foreground back to the target machine.
 
     ```sh
     stty raw -echo; fg
@@ -35,12 +35,12 @@ When attempting to stabilise a reverse shell from a target, we first need to ens
 ```sh
 which python && which python3
 ```
-Once we have established if Python is installed on the target machine or not, we can begin stabilising the shell by importing Pythong's `pty` module to spawn a bash shell. The `pty` module allows us to start another process while giving us the ability to read and wrtie from its controlling terminal programmatically.
+Once we have established that Python is installed on the target machine, we can begin stabilising the shell by importing Python's `pty` module to spawn a bash shell. The `pty` module allows us to start another process while giving us the ability to read and write from its controlling terminal programmatically.
 
 ```python
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
-In the above command, `pty.spawn` spawns the defined process and connects its controlling terminal with the current process's standard I/O.
+In the above command, `pty.spawn` spawns the defined process `/bin/bash` and connects its controlling terminal with the current process's standard I/O.
 
 Once our process has been spawned, we can press ++ctrl+z++ to background the process and get back to the host machine.
 
@@ -49,7 +49,7 @@ Using the `stty` tool, we can set the input and output line settings for the ter
 ```sh
 stty raw -echo; fg
 ```
-Here `stty raw` simply activates raw mode where characters are read one at a time (instead of reading the whole line). Additionally, with `stty raw` ++ctrl+c++ can't be used to end a process. This is desired as it will stop our shell from dying in the event we use ++ctrl+c++ to terminate a process on the target machine.
+`stty raw` simply activates raw mode where characters are read one at a time (instead of reading the whole line at once). Additionally, with `stty raw` ++ctrl+c++ can't be used to end a process. This is desirable as it will stop our shell from dying in the event we use ++ctrl+c++ to terminate a process on the target machine.
 
 The use of `-echo` disables the the echoing back of our typing. `fg` simply foregrounds our backgrounded process from earlier thus allowing us to interact with the target machine's terminal once again.
 
