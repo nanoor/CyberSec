@@ -94,6 +94,9 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Notes:
+    - Misc:
+      - Shell Stabilisation: notes/misc/shellstabilisation.md
     - Network: 
       - DNS: notes/network/dns.md
       - OSI Model: notes/network/osimodel.md
+    
