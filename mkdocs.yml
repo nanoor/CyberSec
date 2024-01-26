@@ -99,4 +99,9 @@ nav:
     - Network: 
       - DNS: notes/network/dns.md
       - OSI Model: notes/network/osimodel.md
-    
+    - Privilege Escalation (Linux):
+      - Cron Jobs: notes/privesc_linux/crontab.md
+      - Passwd/Shadow File: notes/privesc_linux/passwdshadow.md
+      - Path Variable: notes/privesc_linux/pathvariable.md
+      - SUID: notes/privesc_linux/suid.md
+     
