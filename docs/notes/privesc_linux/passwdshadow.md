@@ -42,7 +42,7 @@ The fields are defined as follows:
 
 Let's look at a practical example. We can break down the record for *user3* to better understand the file format based on the information provided above.
 
-```console
+```text
 user3:x:1002:1002:user3,,,:/home/user3:/bin/bash
 ```
 The entry above contains information related to *user3*:
@@ -82,7 +82,7 @@ The fields are defined as follows:
 
 With this information in mind, let's look at a practical example. 
 
-```console
+```text
 user3:$6$/X1sAdOR$uA/H.A4A2TSP.VG6InA3lzsU1xev1sPyn9qiyuwD5p5GG9JUCZo3ww25qTsjLciORvimu2Yd0jfTaCxqhHI0h/:18323:0:99999:7:::
 ```
 The entry above contains information related to *user3*:
@@ -104,7 +104,7 @@ If you remember from our discussion on the `/etc/passwd` file format, modern Lin
 #### OpenSSL
 OpenSSL comes pre-installed on most Linux distributions. The `passwd` command can be used to generate a new password hash with the following syntax:
 
-```console
+```text
 openssl passwd -1 -salt [salt value] [password]
 ```
 ![OpenSSL Password Hash](../../assets/images/passwd/04%20-%20openssl%20hash.png)
@@ -112,7 +112,7 @@ openssl passwd -1 -salt [salt value] [password]
 #### mkpasswd
 The `mkpasswd` command is an over-featured front end to the crypt(3) libc function and can be used to generate password hashes with the following syntax:
 
-```console
+```text
 mkpasswd -m [encryption algorithm] [password] -S [salt value]
 ```
 ![mkpasswd Password Hash](../../assets/images/passwd/05%20-%20mkpasswd%20hash.png)
@@ -137,7 +137,7 @@ Let's start by generating a password hash using OpenSSL.
 
 Append the following line to the the `/etc/passwd file`:
 
-```console
+```text
 testuser:$1$testuser$61VaLhqTLFOznqUAe/Erk1:0:0:testuser:/root:/bin/bash
 ```
 Note that with the above syntax, we are adding a new user named *testuser* with *UID = 0* and *GID = 0* (ie: root privileges). We can append the line using one of the several command line editors such as `nano` or `vi` however the most universal method would be to simply use the `echo` command. Also note that we will need to escape the `$` characters by using the `\` escape character when using the `echo` command.

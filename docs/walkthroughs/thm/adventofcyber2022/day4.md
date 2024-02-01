@@ -11,7 +11,7 @@ Target IP = 10.10.241.147 ($IP) <br>
 Username = ubuntu <br>
 Password = S@nta2022
 
-```console
+```text
 ┌──(siachen㉿kali)-[~]
 └─$ smbclient -L //$IP                     
 Password for [WORKGROUP\siachen]:

@@ -65,7 +65,7 @@ Analyze the `.eml` file `Urgent:.eml` using `SublimeText` on the THM `AttackBox`
 
 The base64-decoded value of Message-ID field can be found using following command:
 
-```console
+```text
 ┌──(siachen㉿kali)-[~]
 └─$ echo QW9DMjAyMl9FbWFpbF9BbmFseXNpcw== | base64 -d
 AoC2022_Email_Analysis
@@ -73,7 +73,7 @@ AoC2022_Email_Analysis
 
 `emlAnalyzer` can be used to extract the attachment from `Urgent:.eml`.
 
-```console
+```text
 ubuntu@ip-10-10-164-34:~/Desktop$ emlAnalyzer --extract-all -i Urgent\:.eml 
  =================
  ||  Structure  ||
@@ -106,7 +106,7 @@ ubuntu@ip-10-10-164-34:~/Desktop$ emlAnalyzer --extract-all -i Urgent\:.eml
 
 Sha256 hash sum can be found for the extracted attachment using:
 
-```console
+```text
 ubuntu@ip-10-10-164-34:~/Desktop/eml_attachments$ sha256sum Division_of_labour-Load_share_plan.doc 
 0827bb9a2e7c0628b82256759f0f888ca1abd6a2d903acdb8e44aca6a1a03467  Division_of_labour-Load_share_plan.doc
 ```

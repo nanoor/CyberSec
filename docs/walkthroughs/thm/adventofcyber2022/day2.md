@@ -39,7 +39,7 @@ Some important log files are presented below:
 ## CTF Questions
 The name of the important list that the attacker stole from Santa was discovered using:
 
-```console
+```text
 elfmcblue@day-2-log-analysis:~$ grep -i "wget" webserver.log 
 10.10.249.191 - - [18/Nov/2022:12:28:18 +0000] "GET /ipwget HTTP/1.1" 404 437 "-"
 10.10.249.191 - - [18/Nov/2022:12:28:18 +0000] "GET /wget HTTP/1.1" 404 437 "-" "
@@ -50,7 +50,7 @@ elfmcblue@day-2-log-analysis:~$ grep -i "wget" webserver.log
 
 The final flag was discovered using:
 
-```console
+```text
 elfmcblue@day-2-log-analysis:~$ grep -r "THM{" .
 ./SSHD.log:THM{STOLENSANTASLIST}
 ```

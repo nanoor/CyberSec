@@ -45,7 +45,7 @@ Analyzing the `GET` packet for `favicon[.]ico` file, we can see that the user-ag
 
 Let's further analyze the files. Export the files using `File --> Export Object --> HTTP` and select `Save All` option. We can calculate the SHA256 sum of `mysterygift[.]exe` and search for more information on `virustotal.com`.
 
-```console
+```text
 $ sha256 mystergift.exe
 0ce160a54d10f8e81448d0360af5c2948ff6a4dbb493fe4be756fc3e2c3f900f
 ```

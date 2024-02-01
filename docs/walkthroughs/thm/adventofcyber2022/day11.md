@@ -21,7 +21,7 @@ Volatility is an open-source memory forensics toolkit written in Python. Volatil
 
 Begin by confirming the operating system of the device from which the memory dump was captured from.
 
-```console
+```text
 elfmcblue@aoc2022-day-11:~/volatility3$ python3 vol.py -f workstation.vmem windows.info
 Volatility 3 Framework 2.4.1
 Progress:  100.00PDB scanning finished                        
@@ -53,7 +53,7 @@ The above result confirms that the memory dump is from a `Windows 10` machine.
 
 Let's lists all of the processes that were running at the time of the memory capture.
 
-```console
+```text
 elfmcblue@aoc2022-day-11:~/volatility3$ python3 vol.py -f workstation.vmem windows.pslist          
 Volatility 3 Framework 2.4.1
 Progress:  100.00   PDB scanning finished
@@ -89,7 +89,7 @@ PID PPID  ImageFileName Offset(V) Threads Handles SessionId Wow64 CreateTime  Ex
 
 Let's analyze the process further.
 
-```console
+```text
 elfmcblue@aoc2022-day-11:~/volatility3$ python3 vol.py -f workstation.vmem windows.psscan --pid 2040
 Volatility 3 Framework 2.4.1
 Progress:  100.00   PDB scanning finished
@@ -100,7 +100,7 @@ PID PPID  ImageFileName Offset(V) Threads Handles SessionId Wow64 CreateTime  Ex
 
 Let's use `windows.dumpfile` to export process `2040` for further analysis.
 
-```console
+```text
 elfmcblue@aoc2022-day-11:~/volatility3$ python3 vol.py -f workstation.vmem windows.dumpfiles --pid 2040
 ```
 

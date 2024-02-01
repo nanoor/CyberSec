@@ -123,3 +123,15 @@ nav:
         - Day 13 - Packet Analysis: walkthroughs/thm/adventofcyber2022/day13.md
         - Day 14 - Web Applications: walkthroughs/thm/adventofcyber2022/day14.md
         - Day 15 - Secure Coding (Securing File Upload): walkthroughs/thm/adventofcyber2022/day15.md
+        - Day 16 - Secure Coding (SQLi): walkthroughs/thm/adventofcyber2022/day16.md
+        - Day 17 - Secure Coding (Regular Expressions): walkthroughs/thm/adventofcyber2022/day17.md
+        - Day 18 - Sigma: walkthroughs/thm/adventofcyber2022/day18.md
+        - Day 19 - Hardware Hacking: walkthroughs/thm/adventofcyber2022/day19.md
+        - Day 20 - Firmware Reverse Engineering: walkthroughs/thm/adventofcyber2022/day20.md
+        - Day 21 - MQTT: walkthroughs/thm/adventofcyber2022/day21.md
+      - Authentication Bypass: walkthroughs/thm/authenticationbypass.md
+      - Basic Pentesting: walkthroughs/thm/basicpentesting.md
+      - Blue: walkthroughs/thm/blue.md
+      - Command Injection: walkthroughs/thm/commandinjection.md
+      - Common Linux Privesc: walkthroughs/thm/commonlinuxprivesc.md
+      

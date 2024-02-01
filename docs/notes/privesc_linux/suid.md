@@ -55,7 +55,7 @@ SUID (Set User Identification) and SGID (Set Group Identification) are permissio
 ### Manually Finding SUID Binaries
 The following command can be used to identify binaries which have SUID permissions assigned to them:
 
-```console
+```text
 $ find / -perm -u=s -type f 2>/dev/null
 ```
 Here:
@@ -68,15 +68,15 @@ Here:
 
 We can also use the following command which searches for files with permissions `-4000/-2000/-6000`.
 
-```console
+```text
 $ find / -perm -4000 -o- -perm -2000 -o- -perm -6000
 ```
 Alternatively, we can use one of the following commands which search for all files with the SUID and SGID bit set.
 
-```console
+```text
 find / -perm /u=s,g=s -type f -exec ls -la {} \; 2>/dev/null
 ```
-```console
+```text
 find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 ```
 
@@ -134,7 +134,7 @@ We need to create a copy of the `/etc/passwd` file which we can modify to add th
 
 We can now modify the copied file by appending the following line to the file.
 
-```console
+```text
 newuser:$1$newuser$CrQin45KYNZnptM8rhDV/0:0:0:root:/root:/bin/bash
 ```
 The values of fields, in the order from left to right are:

