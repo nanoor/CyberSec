@@ -7,7 +7,7 @@ The *PATH* environmental variable is a colon-delimited list of directories that 
 
 We print the current value of *PATH* variable as follows:
 
-```sh
+```console
 echo $PATH
 
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
@@ -16,12 +16,12 @@ When a command is executed, the shell will traverse the colon-separated paths fr
 
 We can add a new path to the *PATH* variable using the `export` command. To prepend a new path, we reassign our new *PATH* variable with our new desired path at the beginning of the existing *PATH* variable (indicated by `$PATH`).
 
-```sh
+```console
 export PATH=/new_path:$PATH
 ```
 To append a new path, the *PATH* variable is reassigned with the new path at the end.
 
-```sh
+```console
 export PATH=$PATH:/new_path
 ```
 Note that new paths added using the `export` command are non-persistent between shell sessions. When closing and opening a new shell session, the added path will be lost.
@@ -66,7 +66,7 @@ SUID are permissions that allow users to execute a binary with the permissions o
 
 Let's see this in action. We begin off by searching the system for any files with the SUID (or 4000) permission using the `find` command.
 
-```sh
+```console
 $ find / -perm -u=s -type f 2>/dev/null
 ```
 ![Find SUID Binaries](../../assets/images/path/06-findsuid.png)

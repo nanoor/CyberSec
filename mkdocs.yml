@@ -104,4 +104,22 @@ nav:
       - Passwd/Shadow File: notes/privesc_linux/passwdshadow.md
       - Path Variable: notes/privesc_linux/pathvariable.md
       - SUID: notes/privesc_linux/suid.md
-     
+  - Walkthroughs: 
+    - THM: 
+      - Active Directory Basics: walkthroughs/thm/activedirectorybasics.md
+      - Advent of Cyber 2022:
+        - Day 1 - Frameworks: walkthroughs/thm/adventofcyber2022/day1.md
+        - Day 2 - Log Analysis: walkthroughs/thm/adventofcyber2022/day2.md
+        - Day 3 - OSINT: walkthroughs/thm/adventofcyber2022/day3.md
+        - Day 4 - Scanning: walkthroughs/thm/adventofcyber2022/day4.md
+        - Day 5 - Brute Force: walkthroughs/thm/adventofcyber2022/day5.md
+        - Day 6 - Email Analysis: walkthroughs/thm/adventofcyber2022/day6.md
+        - Day 7 - Cyber Chef: walkthroughs/thm/adventofcyber2022/day7.md
+        - Day 8 - Smart Contracts: walkthroughs/thm/adventofcyber2022/day8.md
+        - Day 9 - Pivoting: walkthroughs/thm/adventofcyber2022/day9.md
+        - Day 10 - Hack a Game: walkthroughs/thm/adventofcyber2022/day10.md
+        - Day 11 - Memory Forensics: walkthroughs/thm/adventofcyber2022/day11.md
+        - Day 12 - Malware Analysis: walkthroughs/thm/adventofcyber2022/day12.md
+        - Day 13 - Packet Analysis: walkthroughs/thm/adventofcyber2022/day13.md
+        - Day 14 - Web Applications: walkthroughs/thm/adventofcyber2022/day14.md
+        - Day 15 - Secure Coding (Securing File Upload): walkthroughs/thm/adventofcyber2022/day15.md
