@@ -134,4 +134,10 @@ nav:
       - Blue: walkthroughs/thm/blue.md
       - Command Injection: walkthroughs/thm/commandinjection.md
       - Common Linux Privesc: walkthroughs/thm/commonlinuxprivesc.md
+      - Cross-site Scripting: walkthroughs/thm/crosssitescripting.md
+      - File Inclusion: walkthroughs/thm/fileinclusion.md
+      - Hydra: walkthroughs/thm/hydra.md
+      - IDOR: walkthroughs/thm/idor.md
+      - John the Ripper: walkthroughs/thm/johntheripper.md
+      - Kenobi: walkthroughs/thm/kenobi.md
       
