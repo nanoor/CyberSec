@@ -80,7 +80,7 @@ Theoretically, we can access an display any readable file on the server from the
 http://webapp.thm/index.php?lang=/etc/passwd
 ```
 
-This words because in the PHP code above, there isn't a directory specified in the `include` function and no input validation is implemented. So what happens if the developer decides to specify a directory from where the files are accessed. The PHP code would look something like the following:
+This works because in the PHP code above, there isn't a directory specified in the `include` function and no input validation is implemented. So what happens if the developer decides to specify a directory from where the files are accessed. The PHP code would look something like the following:
 
 ```php
 <?PHP
