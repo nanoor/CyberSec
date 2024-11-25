@@ -140,4 +140,5 @@ nav:
       - IDOR: walkthroughs/thm/idor.md
       - John the Ripper: walkthroughs/thm/johntheripper.md
       - Kenobi: walkthroughs/thm/kenobi.md
+      - Linux PrivEsc: walkthroughs/thm/linuxprivesc.md
       
