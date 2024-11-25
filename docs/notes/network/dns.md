@@ -10,7 +10,7 @@ The Domain Name System (DNS) resolves domain names of internet sites with their 
 
 ```mermaid
 graph LR;
-    www.example.com-->A[DNS Server];
+    "www.example.com"-->A[DNS Server];
     A[DNS Server]--> IPV4/IPV6;
 ```
 
