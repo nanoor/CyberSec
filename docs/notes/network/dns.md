@@ -81,14 +81,14 @@ Authoritative nameservers are split into two types: a master server or primary n
 
 ```mermaid
 graph LR;
-    A[Client]---->|1 - www.example.com| B[DNS Resolver];
-    B---->|2 - www.example.com| C[DNS Root Nameserver];
+    A[Client]---->|1 - example.com| B[DNS Resolver];
+    B---->|2 - example.com"| C[DNS Root Nameserver];
     C---->|3 - IP Address for .com TLD| B;
-    B---->|4 - www.example.com| D[.com TLD Nameserver];
+    B---->|4 - example.com| D[.com TLD Nameserver];
     D---->|5 - IP Address for Authoritative Nameserver| B;
-    B---->|6 - www.example.com| E[Authoritative Nameserver];
-    E---->|7 - IP Address for www.example.com| B;
-    B---->|8 - IP Address for www.example.com| A;
+    B---->|6 - example.com| E[Authoritative Nameserver];
+    E---->|7 - IP Address for example.com| B;
+    B---->|8 - IP Address for example.com| A;
 ```
 ## Types of DNS Queries
 During the DNS lookup process, there are three types of DNS queries: recursive query, iterative query, and non-recursive query. Note that an uncached DNS lookup will involve both recursive and iterative queries.
