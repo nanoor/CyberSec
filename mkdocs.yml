@@ -143,4 +143,6 @@ nav:
       - Linux PrivEsc: walkthroughs/thm/linuxprivesc.md
       - Metasploit - Exploitation: walkthroughs/thm/metasploitexploitation.md
       - Metasploit - Meterpreter: walkthroughs/thm/metasploitmeterpreter.md
+      - Mother's Secret: walkthroughs/thm/motherssecret.md
+      - OWASP Juice Shop: walkthroughs/thm/owaspjuiceshop.md
       
