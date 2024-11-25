@@ -82,7 +82,7 @@ Authoritative nameservers are split into two types: a master server or primary n
 ```mermaid
 graph LR;
     A[Client]---->|1 - example.com| B[DNS Resolver];
-    B---->|2 - example.com"| C[DNS Root Nameserver];
+    B---->|2 - example.com| C[DNS Root Nameserver];
     C---->|3 - IP Address for .com TLD| B;
     B---->|4 - example.com| D[.com TLD Nameserver];
     D---->|5 - IP Address for Authoritative Nameserver| B;
