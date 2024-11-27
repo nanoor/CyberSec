@@ -148,4 +148,11 @@ nav:
       - OWASP Top 10 - 2021: walkthroughs/thm/owasptop10_2021.md
       - Pickle Rick: walkthroughs/thm/picklerick.md
       - SQL Injection: walkthroughs/thm/sqlinjection.md
-      
+      - SQL Injection Lab: walkthroughs/thm/sqlinjectionlab.md
+      - SSRF: walkthroughs/thm/ssrf.md
+      - Steel Mountain: walkthroughs/thm/steelmountain.md
+      - Subdomain Enumeration: walkthroughs/thm/subdomainenumeration.md
+      - Traverse: walkthroughs/thm/traverse.md
+      - Upload Vulnerabilities: walkthroughs/thm/uploadvulnerabilities.md
+      - Vulnversity: walkthroughs/thm/vulnversity.md
+      - What the Shell?: walkthroughs/thm/whattheshell.md
