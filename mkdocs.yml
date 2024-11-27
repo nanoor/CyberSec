@@ -145,4 +145,7 @@ nav:
       - Metasploit - Meterpreter: walkthroughs/thm/metasploitmeterpreter.md
       - Mother's Secret: walkthroughs/thm/motherssecret.md
       - OWASP Juice Shop: walkthroughs/thm/owaspjuiceshop.md
+      - OWASP Top 10 - 2021: walkthroughs/thm/owasptop10_2021.md
+      - Pickle Rick: walkthroughs/thm/picklerick.md
+      - SQL Injection: walkthroughs/thm/sqlinjection.md
       
